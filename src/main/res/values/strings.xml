@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Coffee Matters</string>
+    <string name="hint_user">Username</string>
+    <string name="hint_pass">Password</string>
+    <string name="button_login">Log in</string>
+    <string name="button_logout">Log out</string>
+    <string name="title_enter_post">Title</string>
+    <string name="hint_title">Hint</string>
+    <string name="hint_body">Hint Body</string>
+    <string name="action_submit">Submit</string>
+
+</resources>
