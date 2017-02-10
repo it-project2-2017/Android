@@ -3,10 +3,6 @@ package slu.com.pandora.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by vince on 2/11/2017.
- */
-
 public class ProductResponse {
 
     @SerializedName("product")
