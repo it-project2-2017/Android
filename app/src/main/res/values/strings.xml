@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CoffeeMatters</string>
+    <string name="app_name">Pandora</string>
     <string name="username_hint_text">Username</string>
     <string name="password_hint_text">Password</string>
     <string name="login_btn_text">Sign In</string>
