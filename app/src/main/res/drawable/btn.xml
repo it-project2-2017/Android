@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/air_battles"/>
+    <item android:drawable="@drawable/air_fields"/>
+    <item android:drawable="@drawable/battles_fields"/>
+    <item android:drawable="@drawable/brunch"/>
+    <item android:drawable="@drawable/bullet_catchers"/>
+    <item android:drawable="@drawable/flight_lines"/>
+    <item android:drawable="@drawable/pastry"/>
+    <item android:drawable="@drawable/rice_toppings"/>
+    <item android:drawable="@drawable/sandwiches_and_pasta"/>
+    <item android:drawable="@drawable/sides"/>
+    <item android:drawable="@drawable/very_berry"/>
+    <item android:drawable="@drawable/log_out"/>
+    <item android:drawable="@drawable/start_transaction"/>
+
+</selector>
