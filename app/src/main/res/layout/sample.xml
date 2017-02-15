@@ -102,64 +102,15 @@
         android:layout_marginLeft="8dp">
 
         <GridView
-            android:layout_width="match_parent"
+            android:stretchMode="columnWidth"
+            android:columnWidth="100dp"
+            android:verticalSpacing="5dp"
+            android:horizontalSpacing="5dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:numColumns="auto_fit"
             android:id="@+id/productGV" />
     </GridLayout>
-
-    <ScrollView
-        android:layout_width="416dp"
-        android:layout_height="431dp"
-        tools:layout_editor_absoluteX="8dp"
-        android:id="@+id/scrollView3"
-        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
-        android:layout_marginBottom="8dp">
-
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:rowCount="1"
-            android:columnCount="4"
-            android:id="@+id/orders_layout">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView22"
-                android:layout_row="0"
-                android:layout_column="2"
-                android:layout_columnWeight="1"/>
-
-            <NumberPicker
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/numberPicker2"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_columnWeight="1"
-                android:gravity="top|left" />
-
-            <TextView
-                android:text="Burger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView21"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:layout_columnWeight="1" />
-
-            <TextView
-                android:text="50"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView23"
-                android:layout_row="0"
-                android:layout_column="3"
-                android:layout_columnWeight="1" />
-        </GridLayout>
-    </ScrollView>
 
     <GridLayout
         android:layout_width="584dp"
@@ -233,5 +184,58 @@
             android:layout_rowWeight="1"/>
 
     </GridLayout>
+
+    <ScrollView
+        android:layout_width="416dp"
+        android:layout_height="431dp"
+        tools:layout_editor_absoluteX="8dp"
+        android:id="@+id/scrollView3"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        android:layout_marginBottom="8dp">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="1"
+            android:columnCount="4"
+            android:id="@+id/orders_layout">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView22"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:layout_columnWeight="1"/>
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/numberPicker2"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:gravity="top|left" />
+
+            <TextView
+                android:text="Burger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView21"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_columnWeight="1" />
+
+            <TextView
+                android:text="50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView23"
+                android:layout_row="0"
+                android:layout_column="3"
+                android:layout_columnWeight="1" />
+        </GridLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
