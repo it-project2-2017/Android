@@ -8,9 +8,62 @@
 
     <GridLayout
         android:layout_width="416dp"
+        android:layout_height="53dp"
+        tools:layout_editor_absoluteY="8dp"
+        android:rowCount="1"
+        android:columnCount="4"
+        android:id="@+id/order_header"
+        app:layout_constraintRight_toRightOf="@+id/scrollView3">
+
+        <TextView
+            android:text="@string/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView16"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView19"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
+
+        <TextView
+            android:text="@string/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView17"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
+
+        <TextView
+            android:text="@string/Price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView18"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="416dp"
         android:layout_height="115dp"
-        tools:layout_editor_absoluteY="508dp"
-        tools:layout_editor_absoluteX="8dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/scrollView3"
+        android:id="@+id/gridLayout"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent">
 
 
         <Button
@@ -36,129 +89,15 @@
             android:layout_column="2" />
     </GridLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="584dp"
-        android:layout_height="150dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="432dp"
-        android:id="@+id/categories_menu">
-
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:rowCount="2"
-            android:columnCount="4"
-
-            >
-
-            <Button
-                android:text="@string/categories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button18"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"/>
-
-            <Button
-                android:text="@string/categories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button20"
-                android:layout_row="0"
-                android:layout_column="2"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"/>
-
-            <Button
-                android:text="@string/categories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button21"
-                android:layout_row="0"
-                android:layout_column="3"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                />
-
-            <Button
-                android:text="@string/categories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button19"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                />
-
-            <Button
-                android:text="@string/categories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button1"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
-
-            <Button
-                android:text="@string/categories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button2"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"/>
-
-
-        </GridLayout>
-    </LinearLayout>
-
     <GridLayout
         android:layout_width="584dp"
         android:layout_height="457dp"
-        tools:layout_editor_absoluteY="166dp"
-        tools:layout_editor_absoluteX="432dp"
         android:id="@+id/display_menu"
         android:rowCount="3"
         android:columnCount="4"
-        >
-
-        <FrameLayout
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_width="144dp"
-            android:layout_height="140dp"
-
-            >
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/burger"
-                android:id="@+id/imageButton103"
-                android:layout_gravity="center" />
-
-            <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView4"
-                android:foregroundGravity="fill_vertical"
-                android:layout_gravity="top|left|center" />
-
-            <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView5"
-                android:layout_gravity="bottom|center" />
-
-        </FrameLayout>
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/gridLayout"
+        app:layout_constraintLeft_toRightOf="@+id/order_header">
 
         <FrameLayout
             android:layout_row="0"
@@ -188,6 +127,16 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView6"
                 android:layout_gravity="bottom|center" />
+
+            <GridLayout
+                android:layout_width="10dp"
+                android:layout_height="200dp"
+                android:rowCount="2"
+                android:columnCount="4"
+
+                >
+
+            </GridLayout>
 
         </FrameLayout>
 
@@ -229,13 +178,6 @@
             android:layout_height="140dp"
             >
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/burger"
-                android:id="@+id/imageButton106"
-                android:layout_gravity="center" />
-
             <TextView
                 android:text="TextView"
                 android:layout_width="wrap_content"
@@ -250,6 +192,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView11"
                 android:layout_gravity="bottom|center" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/burger"
+                android:id="@+id/imageButton106"
+                android:layout_gravity="center" />
 
         </FrameLayout>
 
@@ -314,62 +263,47 @@
                 android:layout_gravity="bottom|center" />
 
         </FrameLayout>
-    </GridLayout>
 
-    <GridLayout
-        android:layout_width="416dp"
-        android:layout_height="53dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp"
-        android:rowCount="1"
-        android:columnCount="4"
-        android:id="@+id/order_header">
-
-        <TextView
-            android:text="@string/quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView16"
+        <FrameLayout
             android:layout_row="0"
             android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
+            android:layout_width="144dp"
+            android:layout_height="140dp"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView19"
-            android:layout_row="0"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
+            >
 
-        <TextView
-            android:text="@string/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView17"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/burger"
+                android:id="@+id/imageButton103"
+                android:layout_gravity="center" />
 
-        <TextView
-            android:text="@string/Price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView18"
-            android:layout_row="0"
-            android:layout_column="3"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"/>
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                android:foregroundGravity="fill_vertical"
+                android:layout_gravity="top|left|center" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView5"
+                android:layout_gravity="bottom|center" />
+
+        </FrameLayout>
     </GridLayout>
 
     <ScrollView
         android:layout_width="416dp"
         android:layout_height="431dp"
-        tools:layout_editor_absoluteY="69dp"
-        tools:layout_editor_absoluteX="8dp">
+        tools:layout_editor_absoluteX="8dp"
+        android:id="@+id/scrollView3"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
+        android:layout_marginBottom="8dp">
 
         <GridLayout
             android:layout_width="match_parent"
@@ -415,5 +349,78 @@
                 android:layout_columnWeight="1" />
         </GridLayout>
     </ScrollView>
+
+    <GridLayout
+        android:layout_width="584dp"
+        android:layout_height="151dp"
+        android:rowCount="2"
+        android:columnCount="4"
+
+        tools:layout_editor_absoluteY="8dp"
+        app:layout_constraintRight_toRightOf="@+id/display_menu">
+
+        <Button
+            android:text="@string/categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button18"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
+
+        <Button
+            android:text="@string/categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button20"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
+
+        <Button
+            android:text="@string/categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button21"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            />
+
+        <Button
+            android:text="@string/categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button19"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            />
+
+        <Button
+            android:text="@string/categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button1"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1" />
+
+        <Button
+            android:text="@string/categories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button2"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
+
+    </GridLayout>
 
 </android.support.constraint.ConstraintLayout>
