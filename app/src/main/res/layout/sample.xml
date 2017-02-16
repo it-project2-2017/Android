@@ -369,7 +369,8 @@
         android:layout_width="416dp"
         android:layout_height="431dp"
         tools:layout_editor_absoluteY="69dp"
-        tools:layout_editor_absoluteX="8dp">
+        tools:layout_editor_absoluteX="8dp"
+        tools:ignore="MissingConstraints">
 
         <GridLayout
             android:layout_width="match_parent"
