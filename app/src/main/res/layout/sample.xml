@@ -67,27 +67,64 @@
         android:layout_marginLeft="16dp">
 
 
-        <Button
-            android:text="Button"
+        <TextView
+            android:text="@string/blank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button11" />
-
-        <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button9"
+            android:id="@+id/textView27"
             android:layout_row="0"
-            android:layout_column="1" />
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
+
+        <TextView
+            android:text="@string/blank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView26"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
+
+        <TextView
+            android:text="@string/totalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView25"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
+
+        <TextView
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView24"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"/>
 
         <Button
-            android:text="Button"
+            android:text="@string/cancleOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button7"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:layout_columnWeight="1"/>
+
+        <Button
+            android:text="@string/sendOrder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button"
-            android:layout_row="0"
-            android:layout_column="2" />
+            android:layout_row="1"
+            android:layout_column="3"
+            android:layout_columnWeight="1"/>
+
     </GridLayout>
 
     <GridLayout

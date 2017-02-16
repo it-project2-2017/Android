@@ -8,4 +8,8 @@
     <string name="quantity">Quantity</string>
     <string name="name">Name</string>
     <string name="Price">Price</string>
+    <string name="blank"></string>
+    <string name="totalPrice">Total:</string>
+    <string name="sendOrder">Send Order</string>
+    <string name="cancleOrder">Cancle Order</string>
 </resources>
