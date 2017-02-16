@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "slu.com.pandora"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -35,10 +35,10 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     //UI
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
 
     //Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
 
 
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
 }
