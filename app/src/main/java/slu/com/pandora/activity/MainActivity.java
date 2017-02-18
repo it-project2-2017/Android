@@ -7,7 +7,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,7 +17,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
+import slu.com.pandora.adapter.OrderAdapter;
 import slu.com.pandora.adapter.ProductAdapter;
+import slu.com.pandora.model.Product;
 import slu.com.pandora.model.ProductResponse;
 import slu.com.pandora.model.UserResponse;
 import slu.com.pandora.rest.ApiClient;
@@ -73,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getProduct(){
+        final List<Product> orders = new ArrayList<Product>();
+
         ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
 
         Call<List<ProductResponse>> call = webServiceInterface.getProducts();
@@ -89,7 +93,13 @@ public class MainActivity extends AppCompatActivity {
                     homeGV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            //to do...
+
+                            orders.add(response.body().get(i).getProduct());
+
+                            ListView listView = (ListView)findViewById(R.id.orderLV);
+                            OrderAdapter adapter = new OrderAdapter(MainActivity.this, R.layout.order_list_view_row, orders);
+                            listView.setAdapter(adapter);
+
                         }
 
                     });
@@ -104,5 +114,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 }
