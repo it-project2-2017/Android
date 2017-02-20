@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +18,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
+import slu.com.pandora.adapter.OrderAdapter;
 import slu.com.pandora.adapter.ProductAdapter;
-import slu.com.pandora.model.ProductResponse;
+import slu.com.pandora.model.Product;
 import slu.com.pandora.model.UserResponse;
 import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
@@ -28,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sample_v1);
-        //getProduct();
+        setContentView(R.layout.sample);
+        getProduct();
     }
 
     public void userLogin(){
@@ -72,24 +74,59 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*public void getProduct(){
+    public void getProduct(){
+
+        final ArrayList<Product> orders = new ArrayList<Product>();
+
         ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        Call<List<ProductResponse>> call = webServiceInterface.getProducts();
-        call.enqueue(new Callback<List<ProductResponse>>() {
+        Call<List<Product>> call = webServiceInterface.getProducts();
+        call.enqueue(new Callback<List<Product>>() {
             @Override
-            public void onResponse(Call<List<ProductResponse>> call, final Response<List<ProductResponse>> response) {
+            public void onResponse(Call<List<Product>> call, final Response<List<Product>> response) {
                 if (response.isSuccessful()){
 
                     GridView homeGV = (GridView)findViewById(R.id.productGV);
-                    List<ProductResponse> product = response.body();
+                    final List<Product> product = response.body();
                     ProductAdapter adapter = new ProductAdapter(MainActivity.this, R.layout.product_grid_row, product);
                     homeGV.setAdapter(adapter);
 
                     homeGV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            //to do...
+
+                            final Product product = new Product();
+
+                            product.setId(response.body().get(i).getId());
+                            product.setName(response.body().get(i).getName());
+                            product.setDescription(response.body().get(i).getDescription());
+                            product.setPrice(response.body().get(i).getPrice());
+                            product.setQty(response.body().get(i).getQty());
+                            product.setEmpid(response.body().get(i).getEmpid());
+
+                            if (!orders.contains(product)) {
+                                orders.add(product);
+                                product.setQty(1);
+                            } else {
+                                for (int z = 0; z < orders.size(); z++) {
+                                    if (orders.get(z).getId() == product.getId()) {
+                                        orders.get(z).setQty(orders.get(z).getQty() + 1);
+                                    }
+                                }
+                            }
+
+                            ListView listView = (ListView) findViewById(R.id.orderLV);
+                            final OrderAdapter adapter = new OrderAdapter(MainActivity.this, R.layout.order_list_view_row, orders);
+                            listView.setAdapter(adapter);
+
+                            //for total price
+                            TextView orderTotalPrice = (TextView) findViewById(R.id.orderTotalPriceTV);
+                            orderTotalPrice.setText("");
+
+                            //for testing
+                            TextView test = (TextView) findViewById(R.id.test);
+                            test.setText(orders + "");
+
                         }
 
                     });
@@ -99,10 +136,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<ProductResponse>> call, Throwable t) {
+            public void onFailure(Call<List<Product>> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage() + " Failed to Connect !", Toast.LENGTH_LONG).show();
             }
         });
-    }*/
+    }
+
+    public static int sum (List<Double> list) {
+        int sum = 0;
+        for (Double i: list) {
+            sum += i;
+        }
+        return sum;
+    }
 
 }

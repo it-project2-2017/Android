@@ -8,7 +8,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import slu.com.pandora.model.ProductResponse;
+import slu.com.pandora.model.Product;
 import slu.com.pandora.model.UserResponse;
 
 /**
@@ -26,5 +26,5 @@ public interface ApiInterface {
     Call<UserResponse> login(@Field("name") String name, @Field("password") String password);
 
     @GET("products")
-    Call<List<ProductResponse>> getProducts();
+    Call<List<Product>> getProducts();
 }

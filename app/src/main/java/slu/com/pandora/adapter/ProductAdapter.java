@@ -13,19 +13,19 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import slu.com.pandora.R;
-import slu.com.pandora.model.ProductResponse;
+import slu.com.pandora.model.Product;
 
 /**
  * Created by vince on 2/15/2017.
  */
 
-public class ProductAdapter extends ArrayAdapter<ProductResponse> {
+public class ProductAdapter extends ArrayAdapter<Product> {
 
     String url = "http://10.0.3.2:8080/imagetest/img/";
     private Context context;
-    private List<ProductResponse> productRes;
+    private List<Product> productRes;
 
-    public ProductAdapter(Context context, int resource, List<ProductResponse> productRes) {
+    public ProductAdapter(Context context, int resource, List<Product> productRes) {
         super(context, resource, productRes);
         this.context = context;
         this.productRes = productRes;
@@ -43,10 +43,8 @@ public class ProductAdapter extends ArrayAdapter<ProductResponse> {
 
             holder = new ViewHolder();
 
-            //ProductResponse productResponse = productRes.get(position);
             holder.productImageIV = (ImageView) view.findViewById(R.id.productIV);
             holder.productNameTV = (TextView) view.findViewById(R.id.productNameTV);
-            //holder.productDescTV = (TextView) view.findViewById(R.id.productDescTV);
             holder.productPriceTV = (TextView) view.findViewById(R.id.productPriceTV);
 
             view.setTag(holder);
@@ -54,12 +52,10 @@ public class ProductAdapter extends ArrayAdapter<ProductResponse> {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        ProductResponse productResponse = productRes.get(position);
-        Picasso.with(getContext()).load(url).resize(100,100).into(holder.productImageIV);
-        holder.productNameTV.setText(productResponse.getProduct().getName());
-        //holder.productDescTV.setText(productResponse.getProduct().getDescription());
-        holder.productPriceTV.setText(productResponse.getProduct().getPrice().toString());
-
+        Product product = productRes.get(position);
+        Picasso.with(getContext()).load(url).resize(150,150).into(holder.productImageIV);
+        holder.productNameTV.setText(product.getName());
+        holder.productPriceTV.setText(product.getPrice().toString());
 
         return view;
     }
@@ -67,10 +63,7 @@ public class ProductAdapter extends ArrayAdapter<ProductResponse> {
     static class ViewHolder{
         ImageView productImageIV;
         TextView productNameTV;
-        //TextView productDescTV;
         TextView productPriceTV;
-
     }
-
 
 }

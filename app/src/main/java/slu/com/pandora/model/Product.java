@@ -17,6 +17,21 @@ public class Product {
     @SerializedName("price")
     @Expose
     private Integer price;
+    @SerializedName("qty")
+    @Expose
+    private Integer qty;
+    @SerializedName("empid")
+    @Expose
+    private Integer empid;
+
+    public Product() {
+    }
+
+    public Product(Integer id, String name, String description, Integer price, Integer qty, Integer empid) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 
     public Integer getId() {
         return id;
@@ -50,6 +65,22 @@ public class Product {
         this.price = price;
     }
 
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
+    }
+
+    public Integer getEmpid() {
+        return empid;
+    }
+
+    public void setEmpid(Integer empid) {
+        this.empid = empid;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -57,6 +88,35 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
+                ", qty=" + qty +
+                ", empid=" + empid +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+
+        Product product = (Product) o;
+
+        if (!id.equals(product.id)) return false;
+        if (!name.equals(product.name)) return false;
+        if (!description.equals(product.description)) return false;
+        if (!price.equals(product.price)) return false;
+        //if (!qty.equals(product.qty)) return false;
+        return empid.equals(product.empid);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + price.hashCode();
+        //result = 31 * result + qty.hashCode();
+        result = 31 * result + empid.hashCode();
+        return result;
     }
 }
