@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.display_order1);
+        setContentView(R.layout.sample_v1);
         //getProduct();
     }
 
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void getProduct(){
+    /*public void getProduct(){
         ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
 
         Call<List<ProductResponse>> call = webServiceInterface.getProducts();
@@ -103,6 +103,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, t.getMessage() + " Failed to Connect !", Toast.LENGTH_LONG).show();
             }
         });
-    }
+    }*/
 
 }
