@@ -1,5 +1,6 @@
 package slu.com.pandora.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +31,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sample_v1);
         //getProduct();
+    }
+
+
+    public void orderup(View view){
+        Intent intent = new Intent(this,sampleXML.class);
+        startActivity(intent);
     }
 
     public void userLogin(){
