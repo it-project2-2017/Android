@@ -74,12 +74,11 @@ public class OrderAdapter extends ArrayAdapter<Product> {
         return view;
     }
 
-    static class ViewHolder{
+    private class ViewHolder{
         TextView productNameTV;
         TextView productPriceTV;
         TextView productQtyTV;
         Button deleteBtn;
-
     }
 
 }

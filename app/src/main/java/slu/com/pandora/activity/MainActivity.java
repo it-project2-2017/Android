@@ -33,15 +33,11 @@ import slu.com.pandora.rest.ApiInterface;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Product> orders = new ArrayList<Product>();
 
-    PopupWindow popupWindow;
-    RelativeLayout relativeLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sample);
         getProduct();
-
     }
 
     public void userLogin(){
@@ -88,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
 
+
         Call<List<Product>> call = webServiceInterface.getProducts();
         call.enqueue(new Callback<List<Product>>() {
             @Override
@@ -96,12 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
                     GridView homeGV = (GridView)findViewById(R.id.productGV);
                     final List<Product> product = response.body();
-                    ProductAdapter adapter = new ProductAdapter(MainActivity.this, R.layout.product_grid_row, product);
+                    final ProductAdapter adapter = new ProductAdapter(MainActivity.this, R.layout.product_grid_row, product);
                     homeGV.setAdapter(adapter);
 
                     homeGV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        public void onItemClick(final AdapterView<?> adapterView, View view, final int i, long l) {
 
                             final Product product = new Product();
 
@@ -123,23 +120,32 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
 
-                            ListView popUp = (ListView)findViewById(R.id.orderLV);
-                            OrderAdapter adapter = new OrderAdapter(MainActivity.this, R.layout.order_list_view_row, orders);
-                            popUp.setAdapter(adapter);
+                            ListView listView = (ListView)findViewById(R.id.orderLV);
+                            final OrderAdapter adapter = new OrderAdapter(MainActivity.this, R.layout.order_list_view_row, orders);
+                            listView.setAdapter(adapter);
 
                             //for total price
-                            TextView orderTotalPrice = (TextView)findViewById(R.id.orderTotalPriceTV);
-                            orderTotalPrice.setText(sum(orders) + "");
-                            orderTotalPrice.invalidate();
+                            //TextView orderTotalPrice = (TextView)findViewById(R.id.test);
+                            //orderTotalPrice.setText(sum(orders) + "");
 
                             //for testing
-                            TextView test = (TextView) findViewById(R.id.test);
+                            /*TextView test = (TextView) findViewById(R.id.test);
                             test.setText(orders + "");
-                            test.invalidate();
+                            test.invalidate();*/
 
-                            relativeLayout = (RelativeLayout)findViewById(R.id.rl);
+                            //RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.rl);
+
+                            Button clear = (Button)findViewById(R.id.clearOrderBtn);
+
+                            clear.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    orders.clear();
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
+
                             Button sendOrder = (Button)findViewById(R.id.sendOrderBtn);
-
                             sendOrder.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -166,13 +172,14 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View customView = inflater.inflate(R.layout.popup_send_order, null);
 
-        popupWindow = new PopupWindow(customView);
+        final PopupWindow popupWindow = new PopupWindow(customView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT, true);
         popupWindow.setHeight(1200);
         popupWindow.setWidth(900);
+        popupWindow.setOutsideTouchable(false);
 
-        ListView listView = (ListView) customView.findViewById(R.id.confirmOrderLV);
+        ListView popUpList = (ListView) customView.findViewById(R.id.confirmOrderLV);
         ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(MainActivity.this, R.layout.confirm_order_list_view_row, orders);
-        listView.setAdapter(adapter);
+        popUpList.setAdapter(adapter);
 
         TextView orderTotalPrice = (TextView)customView.findViewById(R.id.totalTV);
         orderTotalPrice.setText(sum(orders) + "");
@@ -194,10 +201,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         popupWindow.showAtLocation(customView.findViewById(R.id.confirmOrderLV), Gravity.CENTER, 0,0);
-
     }
 
-    private static int sum (List<Product> list) {
+    public static int sum (List<Product> list) {
         int sum = 0;
         for (int i = 0; i < list.size(); i++){
             sum += list.get(i).getPrice() * list.get(i).getQty();

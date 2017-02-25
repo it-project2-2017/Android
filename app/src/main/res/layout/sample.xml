@@ -208,65 +208,48 @@
             android:background="@drawable/layout_bg_white"
             android:layout_margin="5dp">
 
-            <TextView
-                android:text="@string/blank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView27"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"/>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:text="@string/blank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView26"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"/>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
 
-            <TextView
-                android:text="@string/totalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView25"
-                android:layout_row="0"
-                android:layout_column="2"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:textSize="18sp" />
+                    <Button
+                        android:text="Clear Orders"
+                        android:layout_width="134dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/clearOrderBtn"
+                        android:layout_row="1"
+                        android:layout_column="2" />
+                </TableRow>
 
-            <TextView
-                android:text="0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/orderTotalPriceTV"
-                android:layout_row="0"
-                android:layout_column="3"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:textSize="18sp" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
 
-            <Button
-                android:text="@string/cancleOrder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/button7"
-                android:layout_row="1"
-                android:layout_column="2"
-                android:layout_columnWeight="1" />
+                    <Button
+                        android:text="Back"
+                        android:layout_width="134dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button7"
+                        android:layout_row="1"
+                        android:layout_column="1"
+                        android:layout_columnWeight="1" />
 
-            <Button
-                android:text="@string/sendOrder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/sendOrderBtn"
-                android:layout_row="1"
-                android:layout_column="3"
-                android:layout_columnWeight="1" />
+                    <Button
+                        android:text="@string/sendOrder"
+                        android:layout_width="134dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sendOrderBtn"
+                        android:layout_row="1"
+                        android:layout_column="3"
+                        android:layout_columnWeight="1" />
+
+                </TableRow>
+            </TableLayout>
+
         </GridLayout>
 
     </GridLayout>
