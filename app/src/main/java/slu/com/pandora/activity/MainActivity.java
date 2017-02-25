@@ -2,12 +2,16 @@ package slu.com.pandora.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
+import slu.com.pandora.adapter.ConfirmOrderAdapter;
 import slu.com.pandora.adapter.OrderAdapter;
 import slu.com.pandora.adapter.ProductAdapter;
 import slu.com.pandora.model.Product;
@@ -26,12 +31,17 @@ import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
 
 public class MainActivity extends AppCompatActivity {
+    private ArrayList<Product> orders = new ArrayList<Product>();
+
+    PopupWindow popupWindow;
+    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sample);
         getProduct();
+
     }
 
     public void userLogin(){
@@ -76,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void getProduct(){
 
-        final ArrayList<Product> orders = new ArrayList<Product>();
-
         ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
 
         Call<List<Product>> call = webServiceInterface.getProducts();
@@ -115,17 +123,29 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
 
-                            ListView listView = (ListView) findViewById(R.id.orderLV);
-                            final OrderAdapter adapter = new OrderAdapter(MainActivity.this, R.layout.order_list_view_row, orders);
-                            listView.setAdapter(adapter);
+                            ListView popUp = (ListView)findViewById(R.id.orderLV);
+                            OrderAdapter adapter = new OrderAdapter(MainActivity.this, R.layout.order_list_view_row, orders);
+                            popUp.setAdapter(adapter);
 
                             //for total price
-                            TextView orderTotalPrice = (TextView) findViewById(R.id.orderTotalPriceTV);
-                            orderTotalPrice.setText("");
+                            TextView orderTotalPrice = (TextView)findViewById(R.id.orderTotalPriceTV);
+                            orderTotalPrice.setText(sum(orders) + "");
+                            orderTotalPrice.invalidate();
 
                             //for testing
                             TextView test = (TextView) findViewById(R.id.test);
                             test.setText(orders + "");
+                            test.invalidate();
+
+                            relativeLayout = (RelativeLayout)findViewById(R.id.rl);
+                            Button sendOrder = (Button)findViewById(R.id.sendOrderBtn);
+
+                            sendOrder.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    popUpConfirmOrder();
+                                }
+                            });
 
                         }
 
@@ -142,10 +162,45 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static int sum (List<Double> list) {
+    private void popUpConfirmOrder(){
+        LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.popup_send_order, null);
+
+        popupWindow = new PopupWindow(customView);
+        popupWindow.setHeight(1200);
+        popupWindow.setWidth(900);
+
+        ListView listView = (ListView) customView.findViewById(R.id.confirmOrderLV);
+        ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(MainActivity.this, R.layout.confirm_order_list_view_row, orders);
+        listView.setAdapter(adapter);
+
+        TextView orderTotalPrice = (TextView)customView.findViewById(R.id.totalTV);
+        orderTotalPrice.setText(sum(orders) + "");
+
+        Button confirmOrder = (Button)customView.findViewById(R.id.confirmOrderBtn);
+        confirmOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //to do
+            }
+        });
+
+        Button cancelOrder = (Button)customView.findViewById(R.id.cancelOrderBtn);
+        cancelOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+
+        popupWindow.showAtLocation(customView.findViewById(R.id.confirmOrderLV), Gravity.CENTER, 0,0);
+
+    }
+
+    private static int sum (List<Product> list) {
         int sum = 0;
-        for (Double i: list) {
-            sum += i;
+        for (int i = 0; i < list.size(); i++){
+            sum += list.get(i).getPrice() * list.get(i).getQty();
         }
         return sum;
     }

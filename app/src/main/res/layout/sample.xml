@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/confirmOrderCL">
 
     <GridLayout
         android:layout_width="416dp"
@@ -156,6 +157,10 @@
                 android:layout_columnWeight="1"
                 android:layout_rowWeight="1" />
 
+            <TextView
+                android:text="Sample Test"
+                android:id="@+id/test"/>
+
         </GridLayout>
 
     </GridLayout>
@@ -197,6 +202,7 @@
 
 
         <GridLayout
+            android:id="@+id/sendOrderGV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/layout_bg_white"
@@ -257,7 +263,7 @@
                 android:text="@string/sendOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/button"
+                android:id="@+id/sendOrderBtn"
                 android:layout_row="1"
                 android:layout_column="3"
                 android:layout_columnWeight="1" />

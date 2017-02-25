@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,12 +16,12 @@ import slu.com.pandora.model.Product;
  * Created by vince on 2/5/2017.
  */
 
-public class OrderAdapter extends ArrayAdapter<Product> {
+public class ConfirmOrderAdapter extends ArrayAdapter<Product> {
 
     private Context context;
     private List<Product> productOrder;
 
-    public OrderAdapter(Context context, int resource, List<Product> productOrder) {
+    public ConfirmOrderAdapter(Context context, int resource, List<Product> productOrder) {
         super(context, resource, productOrder);
         this.context = context;
         this.productOrder = productOrder;
@@ -36,14 +35,13 @@ public class OrderAdapter extends ArrayAdapter<Product> {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.order_list_view_row, parent, false);
+            view = inflater.inflate(R.layout.confirm_order_list_view_row, parent, false);
 
             holder = new ViewHolder();
 
             holder.productNameTV = (TextView) view.findViewById(R.id.orderName);
             holder.productPriceTV = (TextView) view.findViewById(R.id.orderPrice);
             holder.productQtyTV = (TextView) view.findViewById(R.id.orderQty);
-            holder.deleteBtn = (Button)view.findViewById(R.id.deleteBtn);
 
             view.setTag(holder);
 
@@ -55,22 +53,6 @@ public class OrderAdapter extends ArrayAdapter<Product> {
         holder.productPriceTV.setText(order.getPrice() * order.getQty() + "");
         holder.productQtyTV.setText(order.getQty().toString());
 
-        holder.deleteBtn.setTag(position);
-        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (productOrder.get(position).getQty() == 1) {
-                    productOrder.remove(position);
-                    notifyDataSetChanged();
-                } else if (productOrder.get(position).getQty() > 0){
-                    order.setQty(order.getQty() - 1);
-                    notifyDataSetChanged();
-                }
-
-            }
-        });
-
         return view;
     }
 
@@ -78,8 +60,6 @@ public class OrderAdapter extends ArrayAdapter<Product> {
         TextView productNameTV;
         TextView productPriceTV;
         TextView productQtyTV;
-        Button deleteBtn;
-
     }
 
 }
