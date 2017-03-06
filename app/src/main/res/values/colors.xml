@@ -10,6 +10,9 @@
     <color name="violet">#64237D</color>
     <color name="lighterviolet">#783C8F</color>
 
+    <color name="button">#01A2A9</color>
+    <color name="clicked_button">#40E0D0</color>
+
     <color name="textColorPrimary">#ffffff</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
