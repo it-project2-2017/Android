@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import java.util.List;
 
 import slu.com.pandora.R;
 import slu.com.pandora.adapter.RecyclerViewAdapter;
+import slu.com.pandora.adapter.ViewPager_Adapter;
 import slu.com.pandora.model.ItemObject;
 
 public class MainActivity extends AppCompatActivity{
@@ -47,7 +49,8 @@ public class MainActivity extends AppCompatActivity{
         //setContentView(R.layout.login);
 
         //OrderLayout
-        setContentView(R.layout.order_layout);
+        //setContentView(R.layout.order_layout);
+
         //AppBar
         /*Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -61,9 +64,8 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);*/
 
-        //Queue and finished
-        /*
-        setContentView(R.layout.finished_order);
+        //Finished Order
+        /*setContentView(R.layout.finished_order);
         setTitle("Finished Orders");
         //AppBar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -71,6 +73,48 @@ public class MainActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //Objects
         List<ItemObject> rowListItem = getAllItemList();
+        lLayout = new LinearLayoutManager(this);
+
+        //Recycle View Main Display
+        RecyclerView rView = (RecyclerView)findViewById(R.id.recycler_view);
+        rView.setLayoutManager(lLayout);
+
+        //puting the cardview inside the recyle view
+        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(this, rowListItem);
+        rView.setAdapter(rcAdapter);*/
+
+        //Queue Order
+       /* setContentView(R.layout.queue_orders);
+        setTitle("Queue Orders");
+        //AppBar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //Objects
+        List<ItemObject> rowListItem = getAllItemList();
+        lLayout = new LinearLayoutManager(this);
+
+        //Recycle View Main Display
+        RecyclerView rView = (RecyclerView)findViewById(R.id.recycler_view);
+        rView.setLayoutManager(lLayout);
+
+        //puting the cardview inside the recyle view
+        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(this, rowListItem);
+        rView.setAdapter(rcAdapter);*/
+
+        //trial for viewpager
+        setContentView(R.layout.trial_viewpager);
+        setTitle("Current Order");
+        //AppBar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //ViewPager
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new ViewPager_Adapter(this));
+
+        /*List<ItemObject> rowListItem = getAllItemList();
         lLayout = new LinearLayoutManager(this);
 
         //Recycle View Main Display
