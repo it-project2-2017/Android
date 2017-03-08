@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import slu.com.pandora.R;
 
-public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class RecyclerViewHolders extends RecyclerView.ViewHolder{
 
     public TextView tablenum;
     public TextView prod_id;
@@ -21,7 +21,6 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View
 
     public RecyclerViewHolders(View itemView){
         super(itemView);
-        itemView.setOnClickListener(this);
         tablenum = (TextView)itemView.findViewById(R.id.table_no);
         prod_id = (TextView)itemView.findViewById(R.id.ID);
         prodName = (TextView)itemView.findViewById(R.id.product_name);
@@ -29,8 +28,5 @@ public class RecyclerViewHolders extends RecyclerView.ViewHolder implements View
 
     }
 
-    @Override
-    public void onClick(View view) {
-        Toast.makeText(view.getContext(), "Clicked Country Position = " + getPosition(), Toast.LENGTH_SHORT).show();
-    }
+
 }

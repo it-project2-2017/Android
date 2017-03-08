@@ -1,5 +1,8 @@
 package slu.com.pandora.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import slu.com.pandora.R;
 
 /**
@@ -27,5 +30,7 @@ public enum ViewPagerObject {
     public int getLayoutResId() {
         return mLayoutResId;
     }
+
+
 
 }
