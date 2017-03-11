@@ -1,5 +1,7 @@
 package slu.com.pandora.activity;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +25,7 @@ import slu.com.pandora.model.ItemObject;
 import slu.com.pandora.adapter.RecyclerViewAdapter;*/
 
 import slu.com.pandora.R;
+import slu.com.pandora.adapter.OrderPageAdapter;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -33,11 +36,11 @@ public class MainActivity extends AppCompatActivity{
         //setContentView(R.layout.login);
 
         //OrderLayout
-        setContentView(R.layout.order_layout);
+        /*setContentView(R.layout.order_layout);
         //AppBar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
 
         //Current Order
         /*setContentView(R.layout.current_order);
@@ -86,8 +89,7 @@ public class MainActivity extends AppCompatActivity{
         rView.setAdapter(rcAdapter);*/
 
         //trial for viewpager
-        /*setContentView(R.layout.viewpager_adapter);
-        setTitle("Pandora");
+        setContentView(R.layout.viewpager_adapter);
         //AppBar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity{
         for(int ctrl = 0; ctrl < tabLayout.getTabCount(); ctrl++ ){
             TabLayout.Tab tab = tabLayout.getTabAt(ctrl);
             tab.setCustomView(pagerAdapter.getTabView(ctrl));
-        }*/
+        }
     }
 
     @Override
