@@ -42,7 +42,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username_hint_text" />
+                android:hint="@string/username_hint_text"
+                android:textColor="?android:attr/colorEdgeEffect" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -55,7 +56,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password_hint_text"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="?android:attr/textColorSecondary" />
 
         </android.support.design.widget.TextInputLayout>
 
