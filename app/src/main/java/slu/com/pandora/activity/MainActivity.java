@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import slu.com.pandora.model.ItemObject;
-import slu.com.pandora.adapter.RecyclerViewAdapter;*/
+import slu.com.pandora.adapter.IndividualRecyclerViewAdapter;*/
 
 import slu.com.pandora.R;
 import slu.com.pandora.adapter.OrderPageAdapter;
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity{
         rView.setLayoutManager(lLayout);
 
         //puting the cardview inside the recyle view
-        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(this, rowListItem);
+        IndividualRecyclerViewAdapter rcAdapter = new IndividualRecyclerViewAdapter(this, rowListItem);
         rView.setAdapter(rcAdapter);*/
 
         //Queue Order
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity{
         rView.setLayoutManager(lLayout);
 
         //puting the cardview inside the recyle view
-        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(this, rowListItem);
+        IndividualRecyclerViewAdapter rcAdapter = new IndividualRecyclerViewAdapter(this, rowListItem);
         rView.setAdapter(rcAdapter);*/
 
         //trial for viewpager

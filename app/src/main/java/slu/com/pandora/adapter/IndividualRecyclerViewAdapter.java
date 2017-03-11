@@ -16,12 +16,12 @@ import slu.com.pandora.R;
 import slu.com.pandora.holder.RecyclerViewHolders;
 import slu.com.pandora.model.ItemObject;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolders> {
+public class IndividualRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolders> {
 
     private List<ItemObject> itemList;
     private Context context;
 
-    public RecyclerViewAdapter(Context context, List<ItemObject> itemList){
+    public IndividualRecyclerViewAdapter(Context context, List<ItemObject> itemList){
         this.itemList = itemList;
         this.context = context;
     }
