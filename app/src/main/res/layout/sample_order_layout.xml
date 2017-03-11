@@ -138,7 +138,7 @@
                 android:textSize="18sp" />
 
             <Button
-                android:text="@string/cancleOrder"
+                android:text="@string/cancelOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/button7"

@@ -8,7 +8,12 @@
     <color name="blue">#0B3CB7</color>
     <color name="darkviolet">#4e1265</color>
     <color name="violet">#64237D</color>
-    <color name="lighterviolet">#783C8F</color>
+    <color name="lighterviolet">#783c8f</color>
+
+    <color name="headingOrderList">#e5e6fa</color>
+    <color name="centerOfOrderList">#9561a9</color>
+    <color name="bottomOfOrderList">#8174ba</color>
+    <color name="fontOrderList">#4b406b</color>
 
     <color name="button">#01A2A9</color>
     <color name="clicked_button">#40E0D0</color>
