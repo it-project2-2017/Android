@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl"
+    android:padding="20dp"
+    android:background="#fff">
+
+    <Button
+        android:text="Confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/confirmOrderBtn"
+        android:layout_marginRight="36dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="29dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancelOrderBtn"
+        android:layout_marginRight="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_below="@+id/totalTV"
+        android:layout_toLeftOf="@+id/confirmOrderBtn"
+        android:layout_toStartOf="@+id/confirmOrderBtn" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/totalTextTV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="17dp">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:id="@+id/confirmOrderLV"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="11dp"
+            android:layout_marginStart="11dp" />
+    </GridLayout>
+
+    <TextView
+        android:text="Total:"
+        android:layout_width="wrap_content"
+        android:id="@+id/totalTextTV"
+        android:layout_height="50dp"
+        android:gravity="center_horizontal"
+        android:layout_alignBaseline="@+id/totalTV"
+        android:layout_alignBottom="@+id/totalTV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="161dp"
+        android:layout_marginStart="161dp" />
+
+    <TextView
+        android:id="@+id/totalTV"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_above="@+id/confirmOrderBtn"
+        android:layout_alignLeft="@+id/amountRen"
+        android:layout_alignStart="@+id/amountRen"
+        android:layout_marginBottom="94dp"
+        android:gravity="center_horizontal"
+        android:text="00.00" />
+
+</RelativeLayout>

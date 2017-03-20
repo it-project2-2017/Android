@@ -5,22 +5,22 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProductResponse {
 
-    @SerializedName("product")
+    @SerializedName("productList")
     @Expose
-    private Product product;
+    private ProductList productList;
 
-    public Product getProduct() {
-        return product;
+    public ProductList getProductList() {
+        return productList;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+    public void setProductList(ProductList productList) {
+    this.productList = productList;
+}
 
     @Override
     public String toString() {
         return "ProductResponse{" +
-                "product=" + product +
+                "productList=" + productList +
                 '}';
     }
 }

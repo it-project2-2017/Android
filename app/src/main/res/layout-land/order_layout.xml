@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/my_toolbar"
+        android:id="@+id/categoriesTab"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/foodButton"
+            android:background="@drawable/food" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/beverageButton"
+            android:background="@drawable/bvrg" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/archeryButton"
+            android:background="@drawable/arch" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_toEndOf="@id/categoriesTab"
+        android:layout_toStartOf="@+id/summaryTab"
+        android:id="@+id/ordersTab"
+        android:background="@drawable/border"
+        android:layout_margin="10dp">
+
+        <GridView
+            android:stretchMode="columnWidth"
+            android:numColumns="4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/productListGV" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/summaryTab"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_margin="10dp">
+
+        <Button
+            android:text="@string/orderListHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/orderList"
+            android:textSize="36sp"
+            android:background="@color/headingOrderList"
+            android:textColor="@color/fontOrderList"
+            android:textStyle="normal|bold"
+            android:paddingLeft="90dp"
+            android:paddingRight="90dp"
+            android:clickable="false"
+            android:textAllCaps="false" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/subSummaryTab">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="342dp"
+                android:layout_height="match_parent"
+                android:id="@+id/productTab"
+                android:background="@color/centerOfOrderList">
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/orderListLV" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/archeryTab"
+                android:background="@color/bottomOfOrderList"
+                android:layout_marginTop="5dp"></LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSummaryTab">
+
+            <Button
+                android:text="@string/cancelOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/clearOrderBtn"
+                android:layout_weight="1"
+                tools:text="Clear" />
+
+            <Button
+                android:text="@string/sendOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sendOrderBtn"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

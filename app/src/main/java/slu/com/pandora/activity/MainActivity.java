@@ -1,26 +1,65 @@
 package slu.com.pandora.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+//para sa finished products
+/*import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import slu.com.pandora.model.ItemObject;
+import slu.com.pandora.adapter.RecyclerViewAdapter;*/
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
+import slu.com.pandora.fragment.CurrentOrdersFragment;
+import slu.com.pandora.fragment.FinishedOrdersFragment;
+import slu.com.pandora.fragment.QueueOrdersFragment;
+import slu.com.pandora.model.ItemObject;
+import slu.com.pandora.model.Order;
 import slu.com.pandora.model.UserResponse;
 import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
+    LinearLayoutManager lLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.login);
+        goToKitchenActivity();
     }
 
     public void userLogin(){
@@ -43,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         if (response.isSuccessful()){
                             if (response.body().getUser().getId() == 1) {
                                 Toast.makeText(MainActivity.this, " Welcome " + response.body().getUser().getName() + "!", Toast.LENGTH_LONG).show();
-                                //homeActivity();
+                                goToOrderActivity();
                             } else {
                                 Toast.makeText(MainActivity.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
                             }
@@ -57,9 +96,22 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, t.getMessage() + " Failed to connect !", Toast.LENGTH_LONG).show();
                     }
                 });
-
             }
         });
+    }
 
+    public void goToOrder(View view){
+        Intent intent = new Intent(this, OrderActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToOrderActivity() {
+        Intent intent = new Intent(this, OrderActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToKitchenActivity() {
+        Intent intent = new Intent(this, KitchenActivity.class);
+        startActivity(intent);
     }
 }

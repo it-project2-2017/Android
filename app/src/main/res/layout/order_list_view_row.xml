@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:id="@+id/order_RL">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:gravity="center"
+                android:text="TextView"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/orderQty"
+                android:layout_weight="1" />
+
+            <TextView
+                android:gravity="center"
+                android:text="TextView"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/orderName"
+                android:layout_weight="1" />
+
+            <TextView
+                android:gravity="center"
+                android:text="TextView"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/orderPrice"
+                android:layout_weight="1" />
+
+            <Button
+                android:gravity="center"
+                android:text="Delete"
+                android:id="@+id/deleteBtn"
+                android:textAppearance="@style/TextAppearance.AppCompat.Notification.Info"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>
