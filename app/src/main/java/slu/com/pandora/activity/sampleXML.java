@@ -7,9 +7,6 @@ package slu.com.pandora.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,7 +28,7 @@ public class sampleXML extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sample_view_orders_layout);
+        setContentView(R.layout.order_transaction_list_adapter);
         Intent intent = getIntent();
 
         prodName = (TextView) findViewById(R.id.sampleProdName);
