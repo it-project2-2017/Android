@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.login);
-        goToKitchenActivity();
+        goToTestView();
+        //goToOrderActivity();
     }
 
     public void userLogin(){
@@ -102,6 +103,11 @@ public class MainActivity extends AppCompatActivity{
 
     public void goToOrder(View view){
         Intent intent = new Intent(this, OrderActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToTestView(){
+        Intent intent = new Intent(this, sampleXML.class);
         startActivity(intent);
     }
 
