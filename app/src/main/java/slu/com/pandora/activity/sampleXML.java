@@ -52,7 +52,7 @@ public class sampleXML extends AppCompatActivity {
                 List = .get(position) eto ung isang order transaction.
                 ProdList = getProdlist();*/
 
-                List<ProdList> prodList = response.body().getOrderList().getList().get(1).getProdlist();
+                List<ProdList> prodList = response.body().getOrderList().getListOrder().get(0).getProdlist();
                 //prodList.get(position).getKey() eto ung pagkuha nang isang order.
                 prodName.setText(prodList.get(1).getKey().toString());
                 quantity.setText(prodList.get(1).getValue().toString());
