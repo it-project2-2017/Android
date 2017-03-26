@@ -8,15 +8,19 @@ import java.util.List;
 
 public class ListOrder {
 
+    //@SerializedName("prodlist")
+    @SerializedName("list")
+    @Expose
+    private List<ProdList> prodlist = null;
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("prodlist")
-    @Expose
-    private List<ProdList> prodlist = null;
     @SerializedName("total")
     @Expose
     private Double total;
+    @SerializedName("tablenum")
+    @Expose
+    private int tablenum;
 
     public Integer getId() {
         return id;
@@ -40,6 +44,14 @@ public class ListOrder {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public int getTablenum() {
+        return tablenum;
+    }
+
+    public void setTablenum(int tablenum) {
+        this.tablenum = tablenum;
     }
 
 }

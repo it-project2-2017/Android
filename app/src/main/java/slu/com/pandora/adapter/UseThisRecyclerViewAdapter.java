@@ -17,14 +17,16 @@ import java.util.List;
 import slu.com.pandora.R;
 import slu.com.pandora.holder.RecyclerViewHolders;
 import slu.com.pandora.model.ItemObject;
+import slu.com.pandora.model.ListOrder;
 
 public class UseThisRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolders> {
-    private List<ItemObject> itemList;
-    ArrayAdapter arrayAdapter;
+    private List<ListOrder> listOrder;
+    private List<ItemObject> rowOrder;
 
     //Provide a suitable constructor
-    public UseThisRecyclerViewAdapter(List<ItemObject> itemList){
-        this.itemList = itemList;
+    public UseThisRecyclerViewAdapter(List<ListOrder> listOrder){
+        this.listOrder = listOrder;
+        //this.rowOrder = rowOrder;
     }
 
 
@@ -33,7 +35,6 @@ public class UseThisRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public RecyclerViewHolders onCreateViewHolder(ViewGroup parent, int viewType){
         //create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_adapter, parent, false);
-        arrayAdapter = new ArrayAdapter<ItemObject>(parent.getContext(),R.layout.sample_listview,itemList);
         //set the view's size, margins, paddings and layout parameters
         RecyclerViewHolders vh = new RecyclerViewHolders(v);
 
@@ -43,15 +44,23 @@ public class UseThisRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(RecyclerViewHolders holder, int position){
-        holder.tablenum.setText(itemList.get(position).getTableNo());
-        holder.prodName.setText(itemList.get(position).getName());
-        holder.qty.setText(itemList.get(position).getQty());
+        /*holder.tablenum.setText("Table No. "+String.valueOf(listOrder.get(position).getTablenum()));
+        holder.prodName.setText(listOrder.get(position).getProdlist().get(0).getKey().toString());
+        holder.qty.setText(listOrder.get(position).getProdlist().get(0).getValue().toString());*/
+
+        holder.tablenum.setText("Table No. "+String.valueOf(listOrder.get(position).getTablenum()));
+        holder.prodName.setText("Product Name");
+        holder.qty.setText("Quantity");
+
+        /*holder.tablenum.setText(rowOrder.get(position).getTableNo());
+        holder.prodName.setText(rowOrder.get(position).getName());
+        holder.qty.setText(rowOrder.get(position).getQty());*/
         //;holder.products.setAdapter(arrayAdapter.getItem(position));
     }
 
     @Override
     public int getItemCount(){
-        return this.itemList.size();
+        return  listOrder.size();
     }
 
 

@@ -8,10 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import slu.com.pandora.R;
 import slu.com.pandora.fragment.CurrentOrdersFragment;
 import slu.com.pandora.fragment.FinishedOrdersFragment;
 import slu.com.pandora.fragment.QueueOrdersFragment;
+import slu.com.pandora.model.ListOrder;
+import slu.com.pandora.model.Orders;
+import slu.com.pandora.rest.ApiClient;
+import slu.com.pandora.rest.ApiInterface;
 
 /**
  * Created by Pro Game on 3/11/2017.
@@ -21,6 +30,9 @@ public class OrderPageAdapter extends FragmentPagerAdapter {
     //Name of fragments
     String tabTitles[] = new String[]{"Queue Orders", "Current Orders", "Finished Orders"};
     Context context;
+
+    private List<ListOrder> listOrders;
+    private String orderStatus;
 
     public OrderPageAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);
@@ -36,7 +48,8 @@ public class OrderPageAdapter extends FragmentPagerAdapter {
             case 1:
                 return new CurrentOrdersFragment();
             case 2:
-                return new FinishedOrdersFragment();
+                return new QueueOrdersFragment();
+                //return new FinishedOrdersFragment();
         }
 
         return null;
@@ -59,4 +72,6 @@ public class OrderPageAdapter extends FragmentPagerAdapter {
         tv.setText(tabTitles[position]);
         return tab;
     }
+
+
 }

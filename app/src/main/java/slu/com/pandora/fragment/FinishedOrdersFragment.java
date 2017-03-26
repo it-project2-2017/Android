@@ -15,12 +15,20 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import slu.com.pandora.R;
 import slu.com.pandora.adapter.UseThisRecyclerViewAdapter;
 import slu.com.pandora.model.ItemObject;
+import slu.com.pandora.model.ListOrder;
+import slu.com.pandora.model.Orders;
+import slu.com.pandora.rest.ApiClient;
+import slu.com.pandora.rest.ApiInterface;
 
 public class FinishedOrdersFragment extends Fragment {
-
+    private final static String orderStatus = "finished";
+    List<ListOrder> listOrders;
     public FinishedOrdersFragment() {
 
     }
@@ -39,9 +47,12 @@ public class FinishedOrdersFragment extends Fragment {
 
         RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
         rv.setHasFixedSize(true);
-        List<ItemObject> rowListItem = getAllItemList();
-        UseThisRecyclerViewAdapter adapter = new UseThisRecyclerViewAdapter(rowListItem);
-        rv.setAdapter(adapter);
+
+        //List<ItemObject> rowListItem = getAllItemList();
+        getUnpaidOrders();
+        //UseThisRecyclerViewAdapter adapter = new UseThisRecyclerViewAdapter(listOrders);
+
+        //rv.setAdapter(adapter);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
@@ -57,5 +68,21 @@ public class FinishedOrdersFragment extends Fragment {
         allItems.add(new ItemObject("Table No.4","Product Name","Quantity"));
 
         return allItems;
+    }
+
+    private void getUnpaidOrders(){
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<Orders> call = apiService.getOrders(orderStatus);
+        call.enqueue(new Callback<Orders>() {
+            @Override
+            public void onResponse(Call<Orders> call, Response<Orders> response) {
+                listOrders = response.body().getOrderList().getListOrder();
+            }
+
+            @Override
+            public void onFailure(Call<Orders> call, Throwable t) {
+
+            }
+        });
     }
 }

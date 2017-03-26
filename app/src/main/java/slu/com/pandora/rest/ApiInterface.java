@@ -1,11 +1,5 @@
 package slu.com.pandora.rest;
 
-import android.support.annotation.RawRes;
-import android.util.TypedValue;
-
-import java.util.List;
-
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,11 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import slu.com.pandora.model.AndroidOrderResponse;
-import slu.com.pandora.model.Order;
-import slu.com.pandora.model.OrderResponse;
 import slu.com.pandora.model.Orders;
-import slu.com.pandora.model.Product;
 import slu.com.pandora.model.ProductResponse;
 import slu.com.pandora.model.Try;
 import slu.com.pandora.model.UserResponse;
