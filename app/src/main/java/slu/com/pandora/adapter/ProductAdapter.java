@@ -23,8 +23,7 @@ import slu.com.pandora.model.ProductResponse;
 public class ProductAdapter extends ArrayAdapter<Product> {
 
     //change url to your url.
-    String url = "http://192.168.1.5:8010/PanBox/img/";
-    //String url = "http://172.20.10.5:28080/PanBox/img/";
+    String url = "http://10.0.3.2:8080/PanBox/img/";
     private Context context;
     private List<Product> productRes;
 
@@ -56,7 +55,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             holder = (ViewHolder) view.getTag();
         }
         Product product = productRes.get(position);
-        Picasso.with(getContext()).load(url).resize(150,150).into(holder.productImageIV);
+        Picasso.with(getContext()).load(url + product.getId()).resize(150,150).into(holder.productImageIV);
         holder.productNameTV.setText(product.getName().toString());
         holder.productPriceTV.setText(product.getPrice().toString());
 

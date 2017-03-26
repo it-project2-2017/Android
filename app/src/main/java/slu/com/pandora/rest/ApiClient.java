@@ -13,8 +13,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClient {
 
-    public static final String BASE_URL = "http://192.168.1.5:8010/PanBox-1.0/webresources/panbox/";
+    //public static final String BASE_URL = "http://192.168.1.5:8010/PanBox-1.0/webresources/panbox/";
     //public static final String BASE_URL = "http://172.20.10.5:28080/PanBox/webresources/panbox/";
+    public static final String BASE_URL = "http://10.0.3.2:8080/PanBox/webresources/panbox/";
     private static Retrofit retrofit = null;
 
 

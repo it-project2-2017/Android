@@ -3,7 +3,6 @@ package slu.com.pandora.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,16 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,17 +28,11 @@ import slu.com.pandora.R;
 import slu.com.pandora.adapter.ConfirmOrderAdapter;
 import slu.com.pandora.adapter.OrderAdapter;
 import slu.com.pandora.adapter.ProductAdapter;
-import slu.com.pandora.model.AndroidOrder;
-import slu.com.pandora.model.AndroidOrderResponse;
 import slu.com.pandora.model.Order;
 import slu.com.pandora.model.OrderProdList;
 import slu.com.pandora.model.OrderResponse;
-import slu.com.pandora.model.Pl;
 import slu.com.pandora.model.Product;
-import slu.com.pandora.model.ProductList;
 import slu.com.pandora.model.ProductResponse;
-import slu.com.pandora.model.Try;
-import slu.com.pandora.model.UserResponse;
 import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
 
@@ -57,7 +43,6 @@ import slu.com.pandora.rest.ApiInterface;
 public class OrderActivity extends AppCompatActivity{
 
     ArrayList<Product> orders = new ArrayList<Product>();
-    ArrayList<Pl> plorders = new ArrayList<Pl>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,16 +58,21 @@ public class OrderActivity extends AppCompatActivity{
 
     }
 
+    private String getCategory(String category) {
+        String cat = "";
+
+        
+        return cat;
+    }
+
     public void getOrder(){
         ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        Call<ProductResponse> call = webServiceInterface.getProducts();
+        Call<ProductResponse> call = webServiceInterface .getProducts("food");
         call.enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(Call<ProductResponse> call, final Response<ProductResponse> response) {
                 if (response.isSuccessful()){
-
-                    //Toast.makeText(OrderActivity.this, response.body().getProductList().getList().toString(), Toast.LENGTH_LONG).show();
 
                     GridView productListGV = (GridView)findViewById(R.id.productListGV);
                     List<Product> product = response.body().getProductList().getList();
@@ -101,13 +91,6 @@ public class OrderActivity extends AppCompatActivity{
                             product.setQty(response.body().getProductList().getList().get(i).getQty());
                             product.setEmpid(response.body().getProductList().getList().get(i).getEmpid());
 
-                            final Pl pl = new Pl();
-
-                            pl.setId(response.body().getProductList().getList().get(i).getId());
-                            pl.setName(response.body().getProductList().getList().get(i).getName());
-                            pl.setPrice(response.body().getProductList().getList().get(i).getPrice());
-                            pl.setQty(response.body().getProductList().getList().get(i).getQty());
-                            pl.setEmpid(response.body().getProductList().getList().get(i).getEmpid());
 
                             if (!orders.contains(product)) {
                                 orders.add(product);
@@ -120,16 +103,6 @@ public class OrderActivity extends AppCompatActivity{
                                 }
                             }
 
-                            if (!plorders.contains(pl)) {
-                                plorders.add(pl);
-                                product.setQty(1);
-                            } else {
-                                for (int z = 0; z < plorders.size(); z++) {
-                                    if (plorders.get(z).getId() == product.getId()) {
-                                        plorders.get(z).setQty(plorders.get(z).getQty() + 1);
-                                    }
-                                }
-                            }
 
                             ListView orderListLV = (ListView) findViewById(R.id.orderListLV);
                             final OrderAdapter adapter = new OrderAdapter(OrderActivity.this, R.layout.order_list_view_row, orders);
@@ -222,93 +195,26 @@ public class OrderActivity extends AppCompatActivity{
     public void sendOrders(){
 
         ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
-
-        //HashMap<String, Integer> hp = new HashMap<String, Integer>();
         OrderResponse orderResponse = new OrderResponse();
         List<OrderProdList> orderProdListList = new ArrayList<OrderProdList>();
 
         for (Product product : orders){
             OrderProdList orderProdList = new OrderProdList();
-           // hp.put(product.getName(), product.getQty());
             orderProdList.setKey(product.getName());
             orderProdList.setValue(product.getQty());
-
             orderProdListList.add(orderProdList);
         }
 
-
         Order order = new Order();
         order.setOrderProdList(orderProdListList);
-        //order.setTotal((int) sum(orders));
-        //Try ti = new Try();
         orderResponse.setOrder(order);
-        System.out.println(orderResponse);
 
-
-
-        /*Try trys = new Try();
-        trys.setTotal(sum(orders));
-        trys.setProdlist(hp);
-        System.out.println(trys);*/
-        //order.setOrderProdList();
-
-
-        /*for (Product product : orders){
-            OrderProdList orderProdList = new OrderProdList();
-            orderProdList.setKey(product.getName());
-            orderProdList.setValue(product.getQty());
-            productLists.add(orderProdList);
-        }
-
-        Order order = new Order();
-        int total = sum(orders);
-
-        order.setOrderProdList(productLists);
-        order.setTotal(total);
-
-        OrderResponse orderResponse = new OrderResponse();
-        orderResponse.setOrder(order);
-        Toast.makeText(OrderActivity.this, orderResponse.getOrder().toString(), Toast.LENGTH_LONG).show();*/
-       // System.out.println(orderResponse.toString());
-
-        /*AndroidOrderResponse androidOrderResponse = new AndroidOrderResponse();
-        AndroidOrder androidOrder = new AndroidOrder();
-        androidOrder.setPl(plorders);
-
-        androidOrderResponse.setAndroidOrder(androidOrder);*/
-
-       /* List<Pl> plList = new ArrayList<Pl>();
-        Pl pl = new Pl();
-        AndroidOrder androidOrder = new AndroidOrder();
-        AndroidOrderResponse androidOrderResponse = new AndroidOrderResponse();
-
-        pl.setName("Bacon Roast (Pixie Enchanted Pizza)");
-        pl.setQty(0);
-        pl.setEmpid(0);
-        pl.setId(22);
-        pl.setPrice(198);
-        plList.add(pl);
-
-        pl.setName("Aloha Wave (Pixie Enchanted Pizza)");
-        pl.setQty(0);
-        pl.setEmpid(0);
-        pl.setId(23);
-        pl.setPrice(198);
-
-
-        plList.add(pl);
-        androidOrder.setPl(plList);
-        androidOrderResponse.setAndroidOrder(androidOrder);
-        System.out.println(androidOrderResponse);
-        */
-
-        Try ti = new Try();
-        Call<ResponseBody> call = webServiceInterface.sendOrder(ti);
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<String> call = webServiceInterface.sendOrder(orderResponse);
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(OrderActivity.this, " Welcome " + response.raw(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(OrderActivity.this, " Welcome " + response.toString(), Toast.LENGTH_LONG).show();
                     System.out.println(response.toString());
                 } else {
                     Toast.makeText(OrderActivity.this, " Woah mali " + response.message() + response.errorBody().toString(), Toast.LENGTH_LONG).show();
@@ -316,11 +222,10 @@ public class OrderActivity extends AppCompatActivity{
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(OrderActivity.this, t.getMessage() + " Failed to connect !", Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     //Adds res/menu/appbar_menu
