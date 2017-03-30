@@ -28,8 +28,8 @@ import slu.com.pandora.rest.ApiInterface;
 
 public class OrderPageAdapter extends FragmentPagerAdapter {
     //Name of fragments
-    String tabTitles[] = new String[]{"Queue Orders", "Current Orders", "Finished Orders"};
-    Context context;
+    private String tabTitles[] = new String[]{"Queue Orders", "Current Orders", "Finished Orders"};
+    private Context context;
 
     private List<ListOrder> listOrders;
     private String orderStatus;
@@ -41,6 +41,7 @@ public class OrderPageAdapter extends FragmentPagerAdapter {
 
     //Fragments to be fetch
     @Override
+    //Fragments are the tabs used.
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
@@ -48,8 +49,7 @@ public class OrderPageAdapter extends FragmentPagerAdapter {
             case 1:
                 return new CurrentOrdersFragment();
             case 2:
-                return new QueueOrdersFragment();
-                //return new FinishedOrdersFragment();
+                return new FinishedOrdersFragment();
         }
 
         return null;

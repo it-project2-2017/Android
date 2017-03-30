@@ -4,9 +4,12 @@
 
 package slu.com.pandora.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,6 +18,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
+import slu.com.pandora.adapter.SaycoOrderAdapter;
+import slu.com.pandora.model.ListOrder;
 import slu.com.pandora.model.Orders;
 import slu.com.pandora.model.ProdList;
 import slu.com.pandora.rest.ApiClient;
@@ -24,19 +29,27 @@ public class sampleXML extends AppCompatActivity {
     private final static String orderStatus = "unpaid";
     TextView prodName;
     TextView quantity;
+    RecyclerView recyclerView;
+
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.order_transaction_list_adapter);
-        Intent intent = getIntent();
-
+        //for testing connection
+        /*setContentView(R.layout.order_transaction_list_adapter);
         prodName = (TextView) findViewById(R.id.sampleProdName);
         quantity = (TextView) findViewById(R.id.sampleQuantity);
-        prodName.setText("POG BA AKO?");
-        quantity.setText("Pogi ako");
+        createConnection();*/
 
-        createConnection();
+        //for testing view
+        setContentView(R.layout.order_transaction_adapter);
+        recyclerView = (RecyclerView) findViewById(R.id.order_transaction_RecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //context = this;
+        //
+        createSampleConnection();
     }
 
     private void createConnection(){
@@ -49,7 +62,7 @@ public class sampleXML extends AppCompatActivity {
                /* heirarchy
                 Orders = .getOrderList()
                 OrderList = .getList()
-                List = .get(position) eto ung isang order transaction.
+                ListOrders = .get(position) eto ung isang order transaction.
                 ProdList = getProdlist();*/
 
                 List<ProdList> prodList = response.body().getOrderList().getListOrder().get(0).getProdlist();
@@ -57,6 +70,23 @@ public class sampleXML extends AppCompatActivity {
                 prodName.setText(prodList.get(1).getKey().toString());
                 quantity.setText(prodList.get(1).getValue().toString());
 
+            }
+
+            @Override
+            public void onFailure(Call<Orders> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void createSampleConnection(){
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<Orders> call = apiService.getOrders(orderStatus);
+        call.enqueue(new Callback<Orders>() {
+            @Override
+            public void onResponse(Call<Orders> call, Response<Orders> response) {
+                List<ListOrder> listOrders = response.body().getOrderList().getListOrder();
+                recyclerView.setAdapter( new SaycoOrderAdapter(listOrders,context));
             }
 
             @Override

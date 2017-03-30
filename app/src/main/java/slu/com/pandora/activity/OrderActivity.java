@@ -3,7 +3,6 @@ package slu.com.pandora.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,15 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,17 +29,13 @@ import slu.com.pandora.R;
 import slu.com.pandora.adapter.ConfirmOrderAdapter;
 import slu.com.pandora.adapter.OrderAdapter;
 import slu.com.pandora.adapter.ProductAdapter;
-import slu.com.pandora.model.AndroidOrder;
-import slu.com.pandora.model.AndroidOrderResponse;
 import slu.com.pandora.model.Order;
 import slu.com.pandora.model.OrderProdList;
 import slu.com.pandora.model.OrderResponse;
 import slu.com.pandora.model.Pl;
 import slu.com.pandora.model.Product;
-import slu.com.pandora.model.ProductList;
 import slu.com.pandora.model.ProductResponse;
 import slu.com.pandora.model.Try;
-import slu.com.pandora.model.UserResponse;
 import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
 

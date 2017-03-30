@@ -1,5 +1,4 @@
 package slu.com.pandora.fragment;
-
 /**
  * Created by Pro Game on 3/8/2017.
  */
@@ -12,15 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
-import slu.com.pandora.adapter.UseThisRecyclerViewAdapter;
-import slu.com.pandora.model.ItemObject;
+import slu.com.pandora.adapter.SaycoDynamicRecyclerAdapter;
 import slu.com.pandora.model.ListOrder;
 import slu.com.pandora.model.Orders;
 import slu.com.pandora.rest.ApiClient;
@@ -45,29 +42,26 @@ public class FinishedOrdersFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
 
-        RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+        final RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<Orders> call = apiService.getOrders(orderStatus);
+        call.enqueue(new Callback<Orders>() {
+            @Override
+            public void onResponse(Call<Orders> call, Response<Orders> response) {
+                List<ListOrder> listOrder = response.body().getOrderList().getListOrder();
+                rv.setAdapter(new SaycoDynamicRecyclerAdapter(listOrder));
+                LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+                rv.setLayoutManager(llm);
+            }
+
+            @Override
+            public void onFailure(Call<Orders> call, Throwable t) {
+
+            }
+        });
         rv.setHasFixedSize(true);
-
-        //List<ItemObject> rowListItem = getAllItemList();
-        getUnpaidOrders();
-        //UseThisRecyclerViewAdapter adapter = new UseThisRecyclerViewAdapter(listOrders);
-
-        //rv.setAdapter(adapter);
-
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(llm);
-
         return rootView;
-    }
-    //Change according to the webservice
-    private List<ItemObject> getAllItemList(){
-        List<ItemObject> allItems = new ArrayList<ItemObject>();
-        allItems.add(new ItemObject("Table No.1","Product Name","Quantity"));
-        allItems.add(new ItemObject("Table No.2","Product Name","Quantity"));
-        allItems.add(new ItemObject("Table No.3","Product Name","Quantity"));
-        allItems.add(new ItemObject("Table No.4","Product Name","Quantity"));
-
-        return allItems;
     }
 
     private void getUnpaidOrders(){
