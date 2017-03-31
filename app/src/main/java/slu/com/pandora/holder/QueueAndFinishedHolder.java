@@ -16,12 +16,12 @@ import slu.com.pandora.model.ListOrder;
  * Created by matt on 3/27/2017.
  */
 
-public class ViewHolder extends RecyclerView.ViewHolder {
+public class QueueAndFinishedHolder extends RecyclerView.ViewHolder {
     private TextView prodName;
     private TextView qty;
     private TextView tableNo;
 
-    public ViewHolder(View itemView) {
+    public QueueAndFinishedHolder(View itemView) {
         super(itemView);
 
         prodName = (TextView) itemView.findViewById(R.id.sample_product);

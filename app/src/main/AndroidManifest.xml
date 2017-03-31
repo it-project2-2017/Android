@@ -26,7 +26,6 @@
         <activity
             android:name=".activity.OrderActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".activity.sampleXML" />
         <activity android:name=".activity.KitchenActivity"/>
 
     </application>

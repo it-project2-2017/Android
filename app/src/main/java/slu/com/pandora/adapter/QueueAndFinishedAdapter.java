@@ -10,57 +10,54 @@ import java.util.List;
 import java.util.Set;
 
 import slu.com.pandora.R;
-import slu.com.pandora.holder.ViewHolder;
+import slu.com.pandora.holder.QueueAndFinishedHolder;
 import slu.com.pandora.model.ListOrder;
-import slu.com.pandora.model.ProdList;
 
 /**
  * Created by Pro Game on 3/27/2017.
  */
 
-public class SaycoDynamicRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class QueueAndFinishedAdapter extends RecyclerView.Adapter<QueueAndFinishedHolder> {
     private List<ListOrder> listOrder;
-    private List<ProdList> prodLists;
-    //private List<Integer> headerPosition =new ArrayList<Integer>();
     private Set<Integer> headerPosition = new HashSet<>();
 
     private static final int header = 1;
     private static final int list = 2;
 
-    public SaycoDynamicRecyclerAdapter(List<ListOrder> listOrder){
+    public QueueAndFinishedAdapter(List<ListOrder> listOrder){
         this.listOrder = listOrder;
     }
 
-    private class HeaderHolder extends ViewHolder{
+    private class HeaderHolder extends QueueAndFinishedHolder {
         private HeaderHolder (View view){
             super(view);
         }
     }
 
-    private class ListHolder extends ViewHolder{
+    private class ListHolder extends QueueAndFinishedHolder {
         private ListHolder (View view){
             super(view);
         }
     }
 
-    private class CardHolder extends ViewHolder{
+    private class CardHolder extends QueueAndFinishedHolder {
         private CardHolder (View view){
             super(view);
         }
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public QueueAndFinishedHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType){
             case header:
-                v = inflater.inflate(R.layout.sample_header,parent,false);
+                v = inflater.inflate(R.layout.queue_finished_header,parent,false);
                 HeaderHolder headerHolder = new HeaderHolder(v);
                 return headerHolder;
             case list:
-                v = inflater.inflate(R.layout.sample_list,parent,false);
+                v = inflater.inflate(R.layout.queue_finished_list,parent,false);
                 ListHolder listHolder = new ListHolder(v);
                 return listHolder;
             default:
@@ -71,7 +68,7 @@ public class SaycoDynamicRecyclerAdapter extends RecyclerView.Adapter<ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(QueueAndFinishedHolder holder, int position) {
         try{
             if (holder instanceof HeaderHolder){
                 HeaderHolder headerHolder = (HeaderHolder) holder;

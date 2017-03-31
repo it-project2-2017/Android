@@ -1,6 +1,6 @@
 package slu.com.pandora.fragment;
 /**
- * Created by Pro Game on 3/8/2017.
+ * Created by matt on 3/8/2017.
  */
 
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
-import slu.com.pandora.adapter.SaycoDynamicRecyclerAdapter;
+import slu.com.pandora.adapter.QueueAndFinishedAdapter;
 import slu.com.pandora.model.ListOrder;
 import slu.com.pandora.model.Orders;
 import slu.com.pandora.rest.ApiClient;
@@ -25,7 +25,6 @@ import slu.com.pandora.rest.ApiInterface;
 
 public class FinishedOrdersFragment extends Fragment {
     private final static String orderStatus = "finished";
-    List<ListOrder> listOrders;
     public FinishedOrdersFragment() {
 
     }
@@ -50,7 +49,7 @@ public class FinishedOrdersFragment extends Fragment {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
                 List<ListOrder> listOrder = response.body().getOrderList().getListOrder();
-                rv.setAdapter(new SaycoDynamicRecyclerAdapter(listOrder));
+                rv.setAdapter(new QueueAndFinishedAdapter(listOrder));
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 rv.setLayoutManager(llm);
             }
@@ -62,21 +61,5 @@ public class FinishedOrdersFragment extends Fragment {
         });
         rv.setHasFixedSize(true);
         return rootView;
-    }
-
-    private void getUnpaidOrders(){
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<Orders> call = apiService.getOrders(orderStatus);
-        call.enqueue(new Callback<Orders>() {
-            @Override
-            public void onResponse(Call<Orders> call, Response<Orders> response) {
-                listOrders = response.body().getOrderList().getListOrder();
-            }
-
-            @Override
-            public void onFailure(Call<Orders> call, Throwable t) {
-
-            }
-        });
     }
 }

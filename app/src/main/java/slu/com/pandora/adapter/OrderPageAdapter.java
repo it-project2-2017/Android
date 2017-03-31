@@ -31,9 +31,6 @@ public class OrderPageAdapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[]{"Queue Orders", "Current Orders", "Finished Orders"};
     private Context context;
 
-    private List<ListOrder> listOrders;
-    private String orderStatus;
-
     public OrderPageAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);
         this.context = context;

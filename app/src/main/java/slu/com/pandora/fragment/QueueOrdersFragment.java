@@ -14,7 +14,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
-import slu.com.pandora.adapter.SaycoDynamicRecyclerAdapter;
+import slu.com.pandora.adapter.QueueAndFinishedAdapter;
 import slu.com.pandora.model.ItemObject;
 import slu.com.pandora.model.ListOrder;
 import slu.com.pandora.model.Orders;
@@ -52,10 +52,9 @@ public class QueueOrdersFragment extends Fragment {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
                 List<ListOrder> listOrder = response.body().getOrderList().getListOrder();
-                rv.setAdapter(new SaycoDynamicRecyclerAdapter(listOrder));
+                rv.setAdapter(new QueueAndFinishedAdapter(listOrder));
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 rv.setLayoutManager(llm);
-
 
             }
 

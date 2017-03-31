@@ -53,8 +53,6 @@ import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
 
 public class MainActivity extends AppCompatActivity{
-    LinearLayoutManager lLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,11 +102,6 @@ public class MainActivity extends AppCompatActivity{
 
     public void goToOrder(View view){
         Intent intent = new Intent(this, OrderActivity.class);
-        startActivity(intent);
-    }
-
-    public void goToTestView(){
-        Intent intent = new Intent(this, sampleXML.class);
         startActivity(intent);
     }
 
