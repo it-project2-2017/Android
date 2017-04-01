@@ -22,10 +22,6 @@ public interface ApiInterface {
 
     @POST("login")
     @FormUrlEncoded
-    @Headers({
-            "Accept: application/json",
-            "User-Agent: Cofmat"
-    })
     Call<UserResponse> login(@Field("name") String name, @Field("password") String password);
 
     @GET("products/food/")

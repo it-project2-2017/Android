@@ -4,34 +4,50 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/current_prod"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="10dp"
-            android:textSize="24sp"
-            android:gravity="start"
-            android:text="TextView" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <TextView
-            android:id="@+id/current_qty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="100dp"
-            android:layout_marginTop="10dp"
-            android:textSize="24sp"
-            android:gravity="end"
-            android:text="TextView" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/current_prod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="TextView"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/current_qty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="TextView"
+                android:textSize="24sp" />
+
+            <CheckBox
+                android:id="@+id/checkBox4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="100dp"
+                android:layout_marginTop="10dp"
+                android:text="Done"
+                android:textSize="24sp" />
+
+        </TableRow>
+
+    </TableLayout>
 
     <TextView
         android:id="@+id/line"

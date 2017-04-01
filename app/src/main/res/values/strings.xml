@@ -18,7 +18,7 @@
     <string name="logo">Pandora</string>
     <string name="orderListHeader">Order List</string>
     <string name="action_favorite">favorite</string>
-    <string name="action_settings">Settings</string>
+    <string name="logout">Logout</string>
     <string name="login_text">Login</string>
     <string name="queue_title">Queue Orders</string>
     <string name="currentOrder_title">Current Orders</string>

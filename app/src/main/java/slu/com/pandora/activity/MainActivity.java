@@ -56,13 +56,15 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.login);
+        setContentView(R.layout.login);
         //goToOrderActivity();
-        goToKitchenActivity();
+        //goToKitchenActivity();
     }
 
-    public void userLogin(){
-        Button loginBtn = (Button)findViewById(R.id.loginBtn);
+        public void userLogin(View view){
+          Button loginBtn = (Button)findViewById(R.id.loginBtn);
+
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,11 +81,14 @@ public class MainActivity extends AppCompatActivity{
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                         if (response.isSuccessful()){
-                            if (response.body().getUser().getId() == 1) {
+                            if (response.body().getUser().getPosition().toString().equalsIgnoreCase("cashier")) {
                                 Toast.makeText(MainActivity.this, " Welcome " + response.body().getUser().getName() + "!", Toast.LENGTH_LONG).show();
                                 goToOrderActivity();
-                            } else {
-                                Toast.makeText(MainActivity.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
+                            } else if (response.body().getUser().getPosition().toString().equalsIgnoreCase("barista") || response.body().getUser().getPosition().toString().equalsIgnoreCase("cook")) {
+                                Toast.makeText(MainActivity.this, response.body().getUser().getPosition().toString(), Toast.LENGTH_LONG).show();
+                                goToKitchenActivity();
+                            }else{
+                                Toast.makeText(MainActivity.this, "Incorrect Credentials", Toast.LENGTH_LONG).show();
                             }
                         } else {
                             Toast.makeText(MainActivity.this, + response.code() + " Failed to login !" + response.errorBody().toString(), Toast.LENGTH_LONG).show();
@@ -102,15 +107,18 @@ public class MainActivity extends AppCompatActivity{
     public void goToOrder(View view){
         Intent intent = new Intent(this, OrderActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void goToOrderActivity() {
         Intent intent = new Intent(this, OrderActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void goToKitchenActivity() {
         Intent intent = new Intent(this, KitchenActivity.class);
         startActivity(intent);
+        finish();
     }
 }
