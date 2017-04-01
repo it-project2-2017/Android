@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
+import slu.com.pandora.activity.MainActivity;
 import slu.com.pandora.adapter.QueueAndFinishedAdapter;
 import slu.com.pandora.model.ItemObject;
 import slu.com.pandora.model.ListOrder;
@@ -42,16 +45,21 @@ public class QueueOrdersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
+
+        // Progress Bar
+        final ProgressBar pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        pb.setVisibility(ProgressBar.VISIBLE);
 
         final RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
-
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Orders> call = apiService.getOrders(orderStatus);
         call.enqueue(new Callback<Orders>() {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
+
                 List<ListOrder> listOrder = response.body().getOrderList().getListOrder();
+                pb.setVisibility(ProgressBar.INVISIBLE);
                 rv.setAdapter(new QueueAndFinishedAdapter(listOrder));
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 rv.setLayoutManager(llm);
@@ -60,7 +68,8 @@ public class QueueOrdersFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Orders> call, Throwable t) {
-
+                //Toast.makeText(MainActivity.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
+                Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
             }
         });
         rv.setHasFixedSize(true);

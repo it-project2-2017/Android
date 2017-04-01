@@ -21,6 +21,7 @@ public class QueueAndFinishedHolder extends RecyclerView.ViewHolder {
     private TextView qty;
     private TextView tableNo;
 
+    // Get the id of the layout which will be used in displaying the product name, quantity and table no.
     public QueueAndFinishedHolder(View itemView) {
         super(itemView);
 

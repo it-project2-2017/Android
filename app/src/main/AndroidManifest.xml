@@ -14,19 +14,27 @@
 
 
         <activity
-            android:name=".activity.MainActivity"
-            android:screenOrientation="landscape">
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/SplashTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
         <activity
             android:name=".activity.OrderActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".activity.KitchenActivity"/>
+
+        <activity android:name=".activity.KitchenActivity"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="landscape"/>
+
 
     </application>
 

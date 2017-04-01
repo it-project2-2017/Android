@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -41,6 +42,10 @@ public class FinishedOrdersFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
 
+        // Progress Bar
+        final ProgressBar pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        pb.setVisibility(ProgressBar.VISIBLE);
+
         final RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
@@ -49,6 +54,7 @@ public class FinishedOrdersFragment extends Fragment {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
                 List<ListOrder> listOrder = response.body().getOrderList().getListOrder();
+                pb.setVisibility(ProgressBar.INVISIBLE);
                 rv.setAdapter(new QueueAndFinishedAdapter(listOrder));
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 rv.setLayoutManager(llm);
