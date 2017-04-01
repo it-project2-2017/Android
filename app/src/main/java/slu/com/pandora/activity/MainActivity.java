@@ -103,54 +103,6 @@ public class MainActivity extends AppCompatActivity{
                 }
             });
 
-          //Button loginBtn = (Button)findViewById(R.id.loginBtn);
-
-
-
-        /*loginBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
-
-                    final EditText usernameET = (EditText)findViewById(R.id.usernameET);
-                    final EditText passwordET = (EditText)findViewById(R.id.passwordET);
-                    final String username = usernameET.getText().toString();
-                    final String password = passwordET.getText().toString();
-
-                    Call<UserResponse> call = webServiceInterface.login(username, password);
-                    call.enqueue(new Callback<UserResponse>() {
-                        @Override
-                        public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                            if (response.isSuccessful()){
-                                if(username.equals("")&& password.equals("")){
-                                    usernameET.setError("Please Enter a Username");
-                                    passwordET.setError("Please Enter a Password");
-                                }else if(username.isEmpty())
-                                    usernameET.setError("Please Enter a Username");
-                                else if(password.isEmpty())
-                                    passwordET.setError("Please Enter a Password");
-
-                                if (response.body().getUser().getPosition().toString().equalsIgnoreCase("cashier")) {
-                                    Toast.makeText(MainActivity.this, " Welcome " + response.body().getUser().getName() + "!", Toast.LENGTH_LONG).show();
-                                    goToOrderActivity();
-                                } else if (response.body().getUser().getPosition().toString().equalsIgnoreCase("barista") || response.body().getUser().getPosition().toString().equalsIgnoreCase("cook")) {
-                                    Toast.makeText(MainActivity.this, response.body().getUser().getPosition().toString(), Toast.LENGTH_LONG).show();
-                                    goToKitchenActivity();
-                                }else{
-                                    Toast.makeText(MainActivity.this, "Incorrect Credentials", Toast.LENGTH_LONG).show();
-                                }
-                            } else {
-                                Toast.makeText(MainActivity.this, + response.code() + " Failed to login !" + response.errorBody().toString(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<UserResponse> call, Throwable t) {
-                            Toast.makeText(MainActivity.this, t.getMessage() + " Failed to connect !", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            });*/
     }
 
     public void goToOrder(View view){
