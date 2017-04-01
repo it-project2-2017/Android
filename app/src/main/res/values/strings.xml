@@ -4,6 +4,10 @@
     <string name="password_hint_text">Password</string>
     <string name="login_btn_text">Sign In</string>
     <string name="cofmat_icon_desc" />
+
+    <string name="empty_user">Please Enter a Username</string>
+    <string name="empty_pass">Please Enter a Password</string>
+
     <string name="categories">Categories</string>
     <string name="quantity">Quantity</string>
     <string name="name">Name</string>
