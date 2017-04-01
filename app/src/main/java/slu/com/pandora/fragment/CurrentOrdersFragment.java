@@ -21,6 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
+import slu.com.pandora.adapter.CurrentOrderAdapter;
 import slu.com.pandora.adapter.QueueAndFinishedAdapter;
 import slu.com.pandora.model.ItemObject;
 import slu.com.pandora.model.ListOrder;
@@ -29,7 +30,7 @@ import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
 
 public class CurrentOrdersFragment extends Fragment {
-    private final static String orderStatus = "finished";
+    private final static String orderStatus = "pending";
     public CurrentOrdersFragment(){
 
     }
@@ -60,7 +61,7 @@ public class CurrentOrdersFragment extends Fragment {
 
                 List<ListOrder> listOrder = response.body().getOrderList().getListOrder();
                 pb.setVisibility(ProgressBar.INVISIBLE);
-                rv.setAdapter(new QueueAndFinishedAdapter(listOrder));
+                rv.setAdapter(new CurrentOrderAdapter(listOrder));
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 rv.setLayoutManager(llm);
 
