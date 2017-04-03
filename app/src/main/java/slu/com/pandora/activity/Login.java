@@ -1,23 +1,10 @@
 package slu.com.pandora.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 //para sa finished products
@@ -36,23 +23,18 @@ import java.util.List;
 import slu.com.pandora.model.ItemObject;
 import slu.com.pandora.adapter.RecyclerViewAdapter;*/
 
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
 import slu.com.pandora.fragment.CurrentOrdersFragment;
-import slu.com.pandora.fragment.FinishedOrdersFragment;
-import slu.com.pandora.fragment.QueueOrdersFragment;
-import slu.com.pandora.model.ItemObject;
-import slu.com.pandora.model.Order;
 import slu.com.pandora.model.UserResponse;
 import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
 
-public class MainActivity extends AppCompatActivity{
+public class Login extends AppCompatActivity{
+    public String userName;
+    public static final String getUser = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,42 +66,60 @@ public class MainActivity extends AppCompatActivity{
                             passwordET.setError("Please Enter a Password");
 
                         if (response.body().getUser().getPosition().toString().equalsIgnoreCase("cashier")) {
-                            Toast.makeText(MainActivity.this, " Welcome " + response.body().getUser().getName() + "!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, " Welcome " + response.body().getUser().getName() + "!", Toast.LENGTH_LONG).show();
+                            userName = response.body().getUser().getName();
                             goToOrderActivity();
                         } else if (response.body().getUser().getPosition().toString().equalsIgnoreCase("barista") || response.body().getUser().getPosition().toString().equalsIgnoreCase("cook")) {
-                            Toast.makeText(MainActivity.this, response.body().getUser().getPosition().toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, " Welcome " + response.body().getUser().getName() + "!", Toast.LENGTH_LONG).show();
+
+                            getCurUser(response.body().getUser().getName());
+                            userName = response.body().getUser().getName();
+
                             goToKitchenActivity();
                         }else{
-                            Toast.makeText(MainActivity.this, "Incorrect Credentials", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, "Incorrect Credentials", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(MainActivity.this, + response.code() + " Failed to login !" + response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login.this, + response.code() + " Failed to login !" + response.errorBody().toString(), Toast.LENGTH_LONG).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<UserResponse> call, Throwable t) {
-                    Toast.makeText(MainActivity.this, t.getMessage() + " Failed to connect !", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Login.this, t.getMessage() + " Failed to connect !", Toast.LENGTH_LONG).show();
                 }
             });
 
     }
 
-    public void goToOrder(View view){
+    public void goToSample(View view){
         Intent intent = new Intent(this, OrderActivity.class);
+        intent.putExtra(getUser, userName);
         startActivity(intent);
         finish();
     }
 
     public void goToOrderActivity() {
         Intent intent = new Intent(this, OrderActivity.class);
+        intent.putExtra(getUser, userName);
         startActivity(intent);
         finish();
     }
 
     public void goToKitchenActivity() {
         Intent intent = new Intent(this, KitchenActivity.class);
+        intent.putExtra(getUser, userName);
         startActivity(intent);
         finish();
     }
+
+    public void getCurUser(String curUser){
+        Bundle bundler = new Bundle();
+        bundler.putString("user", curUser);
+
+        //passes the string curUser to a fragment
+        CurrentOrdersFragment currentOrder = new CurrentOrdersFragment();
+        currentOrder.setArguments(bundler);
+    }
+
 }

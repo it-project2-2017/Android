@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,8 +22,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
 import slu.com.pandora.adapter.CurrentOrderAdapter;
-import slu.com.pandora.adapter.QueueAndFinishedAdapter;
-import slu.com.pandora.model.ItemObject;
 import slu.com.pandora.model.ListOrder;
 import slu.com.pandora.model.Orders;
 import slu.com.pandora.rest.ApiClient;
@@ -39,11 +37,12 @@ public class CurrentOrdersFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        final Bundle bundle = this.getArguments();
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
@@ -52,12 +51,18 @@ public class CurrentOrdersFragment extends Fragment {
         final ProgressBar pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
         pb.setVisibility(ProgressBar.VISIBLE);
 
+        final Bundle bundle = this.getArguments();
+
         final RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Orders> call = apiService.getOrders(orderStatus);
         call.enqueue(new Callback<Orders>() {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
+
+                /*String curUser = bundle.getString("user");*/
+                String curUser = "try";
+                Toast.makeText(inflater.getContext(), curUser,Toast.LENGTH_LONG).show();
 
                 List<ListOrder> listOrder = response.body().getOrderList().getListOrder();
                 pb.setVisibility(ProgressBar.INVISIBLE);
@@ -69,7 +74,7 @@ public class CurrentOrdersFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Orders> call, Throwable t) {
-                //Toast.makeText(MainActivity.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
+                //Toast.makeText(Login.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
                 Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
             }
         });
@@ -79,16 +84,7 @@ public class CurrentOrdersFragment extends Fragment {
         return rootView;
     }
 
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.current_order, container, false);
 
-
-
-        return rootView;
-    }*/
 
 
 }

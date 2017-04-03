@@ -16,7 +16,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
-import slu.com.pandora.activity.MainActivity;
 import slu.com.pandora.adapter.QueueAndFinishedAdapter;
 import slu.com.pandora.model.ItemObject;
 import slu.com.pandora.model.ListOrder;
@@ -68,7 +67,7 @@ public class QueueOrdersFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Orders> call, Throwable t) {
-                //Toast.makeText(MainActivity.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
+                //Toast.makeText(Login.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
                 Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
             }
         });

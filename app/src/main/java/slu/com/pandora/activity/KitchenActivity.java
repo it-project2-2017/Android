@@ -1,21 +1,13 @@
 package slu.com.pandora.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 //para sa finished products
 /*import android.support.v7.app.ActionBarActivity;
@@ -33,79 +25,17 @@ import java.util.List;
 import slu.com.pandora.model.ItemObject;
 import slu.com.pandora.adapter.RecyclerViewAdapter;*/
 
-import java.util.ArrayList;
-import java.util.List;
-
 import slu.com.pandora.R;
 import slu.com.pandora.adapter.OrderPageAdapter;
-import slu.com.pandora.fragment.CurrentOrdersFragment;
-import slu.com.pandora.fragment.FinishedOrdersFragment;
-import slu.com.pandora.fragment.QueueOrdersFragment;
-import slu.com.pandora.model.ItemObject;
 
 public class KitchenActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Login
-        //setContentView(R.layout.login);
-
-        //OrderLayout
-        //setContentView(R.layout.order_layout);
-
-        //AppBar
-        /*Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
-
-        //Current Order
-        /*setContentView(R.layout.current_order);
-        setTitle("Current Oders");
-        //AppBar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
-
-        //Finished Order
-        /*setContentView(R.layout.finished_order);
-        setTitle("Finished Orders");
-        //AppBar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //Objects
-        List<ItemObject> rowListItem = getAllItemList();
-        lLayout = new LinearLayoutManager(this);
-
-        //Recycle View Main Display
-        RecyclerView rView = (RecyclerView)findViewById(R.id.recycler_view);
-        rView.setLayoutManager(lLayout);
-
-        //puting the cardview inside the recyle view
-        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(this, rowListItem);
-        rView.setAdapter(rcAdapter);*/
-
-        //Queue Order
-       /* setContentView(R.layout.queue_orders);
-        setTitle("Queue Orders");
-        //AppBar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //Objects
-        List<ItemObject> rowListItem = getAllItemList();
-        lLayout = new LinearLayoutManager(this);
-
-        //Recycle View Main Display
-        RecyclerView rView = (RecyclerView)findViewById(R.id.recycler_view);
-        rView.setLayoutManager(lLayout);
-
-        //puting the cardview inside the recyle view
-        RecyclerViewAdapter rcAdapter = new RecyclerViewAdapter(this, rowListItem);
-        rView.setAdapter(rcAdapter);*/
-
-        //trial for viewpager
+        //viewpager
         setContentView(R.layout.viewpager_adapter);
+        Intent intent = getIntent();
+        String curUser = intent.getStringExtra(Login.getUser);
         setTitle("Pandora");
         //AppBar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -114,7 +44,7 @@ public class KitchenActivity extends AppCompatActivity{
 
         //ViewPager
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        OrderPageAdapter pagerAdapter = new OrderPageAdapter(getSupportFragmentManager(), KitchenActivity.this);
+        OrderPageAdapter pagerAdapter = new OrderPageAdapter(getSupportFragmentManager(), KitchenActivity.this, curUser);
         viewPager.setAdapter(pagerAdapter);
 
         //Give the TabLayout to ViewPager
@@ -146,7 +76,7 @@ public class KitchenActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, Login.class);
                 startActivity(intent);
                 finish();
                 return true;
