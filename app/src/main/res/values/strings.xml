@@ -8,6 +8,8 @@
     <string name="empty_user">Please Enter a Username</string>
     <string name="empty_pass">Please Enter a Password</string>
 
+    <string name="showOrders">Show Orders</string>
+
     <string name="categories">Categories</string>
     <string name="quantity">Quantity</string>
     <string name="name">Name</string>

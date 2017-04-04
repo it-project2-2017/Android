@@ -34,8 +34,6 @@ public class KitchenActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         //viewpager
         setContentView(R.layout.viewpager_adapter);
-        Intent intent = getIntent();
-        String curUser = intent.getStringExtra(Login.getUser);
         setTitle("Pandora");
         //AppBar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -44,7 +42,7 @@ public class KitchenActivity extends AppCompatActivity{
 
         //ViewPager
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        OrderPageAdapter pagerAdapter = new OrderPageAdapter(getSupportFragmentManager(), KitchenActivity.this, curUser);
+        OrderPageAdapter pagerAdapter = new OrderPageAdapter(getSupportFragmentManager(), KitchenActivity.this);
         viewPager.setAdapter(pagerAdapter);
 
         //Give the TabLayout to ViewPager

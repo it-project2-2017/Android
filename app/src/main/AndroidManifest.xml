@@ -29,6 +29,9 @@
             android:name=".activity.OrderActivity"
             android:screenOrientation="landscape"/>
 
+        <activity android:name=".activity.ShowOrderMenuActivity"
+            android:screenOrientation="landscape"/>
+
         <activity android:name=".activity.KitchenActivity"
             android:screenOrientation="landscape"/>
 

@@ -31,12 +31,10 @@ public class OrderPageAdapter extends FragmentPagerAdapter {
     //Name of fragments
     private String tabTitles[] = new String[]{"Queue Orders", "Current Orders", "Finished Orders"};
     private Context context;
-    private String curUser;
 
-    public OrderPageAdapter(FragmentManager fragmentManager, Context context, String curUser) {
+    public OrderPageAdapter(FragmentManager fragmentManager, Context context) {
         super(fragmentManager);
         this.context = context;
-        this.curUser = curUser;
     }
 
     //Fragments to be fetch
@@ -47,7 +45,6 @@ public class OrderPageAdapter extends FragmentPagerAdapter {
             case 0:
                 return new QueueOrdersFragment();
             case 1:
-                getCurUser(curUser);
                 return new CurrentOrdersFragment();
             case 2:
                 return new FinishedOrdersFragment();
@@ -72,14 +69,6 @@ public class OrderPageAdapter extends FragmentPagerAdapter {
         TextView tv = (TextView) tab.findViewById(R.id.custom_text);
         tv.setText(tabTitles[position]);
         return tab;
-    }
-    public void getCurUser(String curUser){
-        Bundle bundler = new Bundle();
-        bundler.putString("user", curUser);
-
-        //passes the string curUser to a fragment
-        CurrentOrdersFragment currentOrder = new CurrentOrdersFragment();
-        currentOrder.setArguments(bundler);
     }
 
 

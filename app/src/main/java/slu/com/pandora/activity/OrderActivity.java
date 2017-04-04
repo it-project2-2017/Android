@@ -316,7 +316,7 @@ public class OrderActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.appbar_menu, menu);
+        getMenuInflater().inflate(R.menu.appbar_order, menu);
         return true;
     }
 
@@ -324,10 +324,14 @@ public class OrderActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_logout:
                 Intent intent = new Intent(this, Login.class);
                 startActivity(intent);
                 finish();
+                return true;
+            case R.id.action_show_orders:
+                Intent intentOrder = new Intent(this, ShowOrderMenuActivity.class);
+                startActivity(intentOrder);
                 return true;
 
             default:

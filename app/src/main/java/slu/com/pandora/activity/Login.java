@@ -71,10 +71,6 @@ public class Login extends AppCompatActivity{
                             goToOrderActivity();
                         } else if (response.body().getUser().getPosition().toString().equalsIgnoreCase("barista") || response.body().getUser().getPosition().toString().equalsIgnoreCase("cook")) {
                             Toast.makeText(Login.this, " Welcome " + response.body().getUser().getName() + "!", Toast.LENGTH_LONG).show();
-
-                            getCurUser(response.body().getUser().getName());
-                            userName = response.body().getUser().getName();
-
                             goToKitchenActivity();
                         }else{
                             Toast.makeText(Login.this, "Incorrect Credentials", Toast.LENGTH_LONG).show();
@@ -108,18 +104,8 @@ public class Login extends AppCompatActivity{
 
     public void goToKitchenActivity() {
         Intent intent = new Intent(this, KitchenActivity.class);
-        intent.putExtra(getUser, userName);
         startActivity(intent);
         finish();
-    }
-
-    public void getCurUser(String curUser){
-        Bundle bundler = new Bundle();
-        bundler.putString("user", curUser);
-
-        //passes the string curUser to a fragment
-        CurrentOrdersFragment currentOrder = new CurrentOrdersFragment();
-        currentOrder.setArguments(bundler);
     }
 
 }
