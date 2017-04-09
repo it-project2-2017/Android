@@ -3,17 +3,24 @@ package slu.com.pandora.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class List {
+import java.util.*;
+import java.util.List;
 
+public class ListOrder {
+
+    //@SerializedName("prodlist")
+    @SerializedName("list")
+    @Expose
+    private List<ProdList> prodlist = null;
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("prodlist")
-    @Expose
-    private java.util.List<ProdList> prodlist = null;
     @SerializedName("total")
     @Expose
     private Double total;
+    @SerializedName("tablenum")
+    @Expose
+    private int tablenum;
 
     public Integer getId() {
         return id;
@@ -23,11 +30,11 @@ public class List {
         this.id = id;
     }
 
-    public java.util.List<ProdList> getProdlist() {
+    public List<ProdList> getProdlist() {
         return prodlist;
     }
 
-    public void setProdlist(java.util.List<ProdList> prodlist) {
+    public void setProdlist(List<ProdList> prodlist) {
         this.prodlist = prodlist;
     }
 
@@ -37,6 +44,14 @@ public class List {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public int getTablenum() {
+        return tablenum;
+    }
+
+    public void setTablenum(int tablenum) {
+        this.tablenum = tablenum;
     }
 
 }

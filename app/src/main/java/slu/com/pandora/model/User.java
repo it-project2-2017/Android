@@ -14,18 +14,10 @@ public class User {
     @SerializedName("password")
     @Expose
     private String password;
-    @SerializedName("admin")
+    @SerializedName("position")
     @Expose
-    private Boolean admin;
-    @SerializedName("barista")
-    @Expose
-    private Boolean barista;
-    @SerializedName("cashier")
-    @Expose
-    private Boolean cashier;
-    @SerializedName("cook")
-    @Expose
-    private Boolean cook;
+    private String position;
+
 
     public Integer getId() {
         return id;
@@ -51,36 +43,11 @@ public class User {
         this.password = password;
     }
 
-    public Boolean getAdmin() {
-        return admin;
+    public String getPosition() {
+        return position;
     }
 
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
+    public void setPosition(String position) {
+        this.position = position;
     }
-
-    public Boolean getBarista() {
-        return barista;
-    }
-
-    public void setBarista(Boolean barista) {
-        this.barista = barista;
-    }
-
-    public Boolean getCashier() {
-        return cashier;
-    }
-
-    public void setCashier(Boolean cashier) {
-        this.cashier = cashier;
-    }
-
-    public Boolean getCook() {
-        return cook;
-    }
-
-    public void setCook(Boolean cook) {
-        this.cook = cook;
-    }
-
 }

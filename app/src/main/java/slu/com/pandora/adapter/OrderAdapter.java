@@ -6,19 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.logging.Handler;
 
 import slu.com.pandora.R;
-import slu.com.pandora.activity.MainActivity;
 import slu.com.pandora.model.Product;
-import slu.com.pandora.model.ProductResponse;
 
 /**
  * Created by vince on 2/5/2017.

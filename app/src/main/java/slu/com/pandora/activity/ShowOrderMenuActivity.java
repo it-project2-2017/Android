@@ -1,19 +1,12 @@
-package slu.com.pandora.fragment;
-
-/**
- * Created by matt on 3/8/2017.
- */
+package slu.com.pandora.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.widget.Toolbar;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 
 import java.util.List;
 
@@ -22,65 +15,56 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
 import slu.com.pandora.adapter.CurrentOrderAdapter;
+import slu.com.pandora.adapter.QueueAndFinishedAdapter;
 import slu.com.pandora.model.ListOrder;
 import slu.com.pandora.model.Orders;
 import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
 
-public class CurrentOrdersFragment extends Fragment {
-    private final static String orderStatus = "pending";
-    public CurrentOrdersFragment(){
+/**
+ * Created by Pro Game on 4/4/2017.
+ */
 
-    }
-
+public class ShowOrderMenuActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private final static String orderStatus ="unpaid";
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.menu_showorders);
 
-        final Bundle bundle = this.getArguments();
+        //Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
-    }
+        //RecyclerView
+        recyclerView = (RecyclerView) findViewById(R.id.showOrdersRecycler);
 
-    @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
-        final View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
-
-        // Progress Bar
-        final ProgressBar pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        //ProgressBar
+        final ProgressBar pb = (ProgressBar) findViewById(R.id.progressBarForMenu);
         pb.setVisibility(ProgressBar.VISIBLE);
 
-        final RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+        //Get the orders from the webservice
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Orders> call = apiService.getOrders(orderStatus);
         call.enqueue(new Callback<Orders>() {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
 
-
-
                 List<ListOrder> listOrder = response.body().getOrderList().getListOrder();
                 pb.setVisibility(ProgressBar.INVISIBLE);
-                rv.setAdapter(new CurrentOrderAdapter(listOrder));
-                LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-                rv.setLayoutManager(llm);
+                recyclerView.setAdapter(new QueueAndFinishedAdapter(listOrder));
+                LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(llm);
 
             }
 
             @Override
             public void onFailure(Call<Orders> call, Throwable t) {
                 //Toast.makeText(Login.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
-                Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
+                Toast.makeText(ShowOrderMenuActivity.this,"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
             }
         });
-        rv.setHasFixedSize(true);
-
-
-        return rootView;
+        recyclerView.setHasFixedSize(true);
     }
-
-
-
-
 }
