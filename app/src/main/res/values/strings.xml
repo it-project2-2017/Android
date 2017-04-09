@@ -14,7 +14,7 @@
     <string name="archery_desc">Archery category</string>
     <string name="totalPrice">Total:</string>
     <string name="sendOrder">Send</string>
-    <string name="cancelOrder">Cancel</string>
+    <string name="cancelOrder">Clear</string>
     <string name="logo">Pandora</string>
     <string name="orderListHeader">Order List</string>
     <string name="action_favorite">favorite</string>
@@ -23,6 +23,8 @@
     <string name="queue_title">Queue Orders</string>
     <string name="currentOrder_title">Current Orders</string>
     <string name="finishedOrder_title">Finished Orders</string>
+    <string name="popup_cancel_text">Cancel</string>
+    <string name="popup_confirm_text">Confirm</string>
 
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>

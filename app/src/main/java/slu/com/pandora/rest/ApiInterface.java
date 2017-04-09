@@ -9,6 +9,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import slu.com.pandora.model.OrderResponse;
+import slu.com.pandora.model.Orders;
 import slu.com.pandora.model.ProductResponse;
 import slu.com.pandora.model.UserResponse;
 
@@ -26,9 +27,6 @@ public interface ApiInterface {
     })
     Call<UserResponse> login(@Field("name") String name, @Field("password") String password);
 
-    @GET("products/food/")
-    Call<ProductResponse> getProduct();
-
     @GET("products/{category}/")
     Call<ProductResponse> getProducts(@Path("category") String category);
 
@@ -36,9 +34,12 @@ public interface ApiInterface {
     @Headers({
             "Content-Type: application/json"
     })
-    Call<String> sendOrder(@Body OrderResponse orderResponse);
+    Call<OrderResponse> sendOrder(@Body OrderResponse orderResponse);
 
     @GET("orders/unpaid")
     Call<OrderResponse> getQueue();
+
+    @GET("orders/{status}")
+    Call<Orders> getOrders(@Path("status") String status);
 
 }

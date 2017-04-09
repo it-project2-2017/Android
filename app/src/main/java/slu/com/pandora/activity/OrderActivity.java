@@ -54,26 +54,36 @@ public class OrderActivity extends AppCompatActivity{
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getOrder();
 
+        Button foodBtn = (Button)findViewById(R.id.foodButton);
+        Button beverageBtn = (Button)findViewById(R.id.beverageButton);
+
+        foodBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getOrder("food");
+            }
+        });
+
+        beverageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getOrder("beverage");
+            }
+        });
+
+        getOrder("emptyCat");
     }
 
-    private String getCategory(String category) {
-        String cat = "";
 
-        
-        return cat;
-    }
+    public void getOrder(String cat){
 
-    public void getOrder(){
         ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
-
-        Call<ProductResponse> call = webServiceInterface .getProducts("food");
+        Call<ProductResponse> call = webServiceInterface.getProducts(cat);
         call.enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(Call<ProductResponse> call, final Response<ProductResponse> response) {
                 if (response.isSuccessful()){
-
                     GridView productListGV = (GridView)findViewById(R.id.productListGV);
                     List<Product> product = response.body().getProductList().getList();
                     final ProductAdapter adapter = new ProductAdapter(OrderActivity.this, R.layout.product_list_grid_row, product);
@@ -103,11 +113,11 @@ public class OrderActivity extends AppCompatActivity{
                                 }
                             }
 
-
-                            ListView orderListLV = (ListView) findViewById(R.id.orderListLV);
+                            final ListView orderListLV = (ListView) findViewById(R.id.orderListLV);
                             final OrderAdapter adapter = new OrderAdapter(OrderActivity.this, R.layout.order_list_view_row, orders);
                             orderListLV.setAdapter(adapter);
                             orderListLV.refreshDrawableState();
+
 
                             Button clear = (Button)findViewById(R.id.clearOrderBtn);
 
@@ -119,11 +129,12 @@ public class OrderActivity extends AppCompatActivity{
                                 }
                             });
 
-                            Button sendOrder = (Button)findViewById(R.id.sendOrderBtn);
+                            final Button sendOrder = (Button)findViewById(R.id.sendOrderBtn);
                             sendOrder.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     popUpConfirmOrder();
+
                                 }
                             });
                         }
@@ -131,20 +142,20 @@ public class OrderActivity extends AppCompatActivity{
 
 
                 } else {
-                    Toast.makeText(OrderActivity.this, + response.code() + " Failed to retrieve products !" + response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(OrderActivity.this, + response.code() + " Failed to retrieve products!" + response.errorBody().toString(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
-                Toast.makeText(OrderActivity.this, t.getMessage() + " Failed to Connect !", Toast.LENGTH_LONG).show();
+                Toast.makeText(OrderActivity.this, t.getMessage() + " Failed to Connect!", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void popUpConfirmOrder(){
         LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.popup_send_order, null);
+        final View customView = inflater.inflate(R.layout.popup_send_order, null);
 
         final PopupWindow popupWindow = new PopupWindow(customView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT, true);
         popupWindow.setHeight(1200);
@@ -152,7 +163,7 @@ public class OrderActivity extends AppCompatActivity{
         popupWindow.setOutsideTouchable(false);
 
         ListView popUpList = (ListView) customView.findViewById(R.id.confirmOrderLV);
-        ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(OrderActivity.this, R.layout.confirm_order_list_view_row, orders);
+        final ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(OrderActivity.this, R.layout.confirm_order_list_view_row, orders);
         popUpList.setAdapter(adapter);
 
         TextView orderTotalPrice = (TextView)customView.findViewById(R.id.totalTV);
@@ -163,7 +174,7 @@ public class OrderActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 sendOrders();
-
+                popupWindow.dismiss();
             }
 
         });
@@ -206,26 +217,27 @@ public class OrderActivity extends AppCompatActivity{
         }
 
         Order order = new Order();
-        order.setOrderProdList(orderProdListList);
+        order.setList(orderProdListList);
         orderResponse.setOrder(order);
 
-        Call<String> call = webServiceInterface.sendOrder(orderResponse);
-        call.enqueue(new Callback<String>() {
+        Call<OrderResponse> call = webServiceInterface.sendOrder(orderResponse);
+        call.enqueue(new Callback<OrderResponse>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(OrderActivity.this, " Welcome " + response.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(OrderActivity.this, "Order sent!", Toast.LENGTH_LONG).show();
                     System.out.println(response.toString());
                 } else {
-                    Toast.makeText(OrderActivity.this, " Woah mali " + response.message() + response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(OrderActivity.this, "Ooops! there's something wrong." + response.message() + response.errorBody().toString(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(OrderActivity.this, t.getMessage() + " Failed to connect !", Toast.LENGTH_LONG).show();
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
+                Toast.makeText(OrderActivity.this, t.getMessage() + " Failed to connect!", Toast.LENGTH_LONG).show();
             }
         });
+
     }
 
     //Adds res/menu/appbar_menu

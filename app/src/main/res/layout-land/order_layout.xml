@@ -69,10 +69,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/summaryTab"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/my_toolbar"
-        android:layout_margin="10dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/ordersTab"
+        android:layout_alignParentEnd="true">
 
         <Button
             android:text="@string/orderListHeader"
@@ -96,16 +96,16 @@
             android:id="@+id/subSummaryTab">
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/productTab"
                 android:layout_width="342dp"
                 android:layout_height="match_parent"
-                android:id="@+id/productTab"
-                android:background="@color/centerOfOrderList">
+                android:background="@color/centerOfOrderList"
+                android:orientation="vertical">
 
                 <ListView
+                    android:id="@+id/orderListLV"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/orderListLV" />
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
             <LinearLayout
@@ -115,7 +115,9 @@
                 android:layout_weight="1"
                 android:id="@+id/archeryTab"
                 android:background="@color/bottomOfOrderList"
-                android:layout_marginTop="5dp"></LinearLayout>
+                android:layout_marginTop="5dp">
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -125,19 +127,18 @@
             android:id="@+id/buttonSummaryTab">
 
             <Button
-                android:text="@string/cancelOrder"
+                android:id="@+id/clearOrderBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/clearOrderBtn"
                 android:layout_weight="1"
-                tools:text="Clear" />
+                android:text="@string/cancelOrder" />
 
             <Button
-                android:text="@string/sendOrder"
+                android:id="@+id/sendOrderBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/sendOrderBtn"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:text="@string/sendOrder" />
         </LinearLayout>
 
     </LinearLayout>
