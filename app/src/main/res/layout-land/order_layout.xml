@@ -38,11 +38,6 @@
             android:id="@+id/beverageButton"
             android:background="@drawable/bvrg" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/archeryButton"
-            android:background="@drawable/arch" />
     </LinearLayout>
 
     <LinearLayout
@@ -69,16 +64,15 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/summaryTab"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/my_toolbar"
-        android:layout_margin="10dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/ordersTab"
+        android:layout_alignParentEnd="true">
 
         <Button
             android:text="@string/orderListHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/orderList"
             android:textSize="36sp"
             android:background="@color/headingOrderList"
             android:textColor="@color/fontOrderList"
@@ -92,20 +86,18 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/subSummaryTab">
+            android:layout_weight="1">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="342dp"
                 android:layout_height="match_parent"
-                android:id="@+id/productTab"
-                android:background="@color/centerOfOrderList">
+                android:background="@color/centerOfOrderList"
+                android:orientation="vertical">
 
                 <ListView
+                    android:id="@+id/orderListLV"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/orderListLV" />
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
             <LinearLayout
@@ -113,31 +105,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/archeryTab"
                 android:background="@color/bottomOfOrderList"
-                android:layout_marginTop="5dp"></LinearLayout>
+                android:layout_marginTop="5dp">
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonSummaryTab">
+            android:layout_height="wrap_content">
 
             <Button
-                android:text="@string/cancelOrder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/clearOrderBtn"
-                android:layout_weight="1"
-                tools:text="Clear" />
-
-            <Button
-                android:text="@string/sendOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancelOrder" />
+
+            <Button
                 android:id="@+id/sendOrderBtn"
-                android:layout_weight="1" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sendOrder" />
         </LinearLayout>
 
     </LinearLayout>

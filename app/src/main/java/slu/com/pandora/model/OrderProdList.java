@@ -13,24 +13,24 @@ public class OrderProdList {
     private Integer value;
 
     public String getKey() {
-    return key;
+        return key;
     }
 
     public void setKey(String key) {
-    this.key = key;
+        this.key = key;
     }
 
     public Integer getValue() {
-    return value;
+        return value;
     }
 
     public void setValue(Integer value) {
-    this.value = value;
+        this.value = value;
     }
 
     @Override
     public String toString() {
-        return
+        return "OrderProdList{" +
                 "key='" + key + '\'' +
                 ", value=" + value +
                 '}';

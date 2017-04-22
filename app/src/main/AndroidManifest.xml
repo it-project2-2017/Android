@@ -13,7 +13,7 @@
         android:hardwareAccelerated="true">
 
 
-        <activity
+        <!--<activity
             android:name=".activity.MainActivity"
             android:screenOrientation="landscape">
 
@@ -22,12 +22,25 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>-->
+        <activity
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/SplashTheme">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
+
         <activity
             android:name=".activity.OrderActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".activity.sampleXML" />
         <activity android:name=".activity.KitchenActivity"/>
+        <activity android:name=".activity.Login"/>
+        <activity android:name=".activity.ShowOrderMenuActivity"/>
 
     </application>
 

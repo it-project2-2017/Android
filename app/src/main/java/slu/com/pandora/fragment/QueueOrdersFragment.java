@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,9 +17,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import slu.com.pandora.R;
-import slu.com.pandora.adapter.UseThisRecyclerViewAdapter;
+import slu.com.pandora.adapter.QueueAndFinishedAdapter;
 import slu.com.pandora.model.ItemObject;
-import slu.com.pandora.model.OrderResponse;
+import slu.com.pandora.model.ListOrder;
+import slu.com.pandora.model.Orders;
+import slu.com.pandora.model.ProdList;
 import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
 
@@ -27,6 +30,13 @@ import slu.com.pandora.rest.ApiInterface;
  */
 
 public class QueueOrdersFragment extends Fragment {
+    private final static String queueStatus = "paid";
+    private final static String currentStatus = "pending";
+    private List<ItemObject> rowListItem;
+
+    List<ListOrder> queueOrder = new ArrayList<ListOrder>();
+    List<ListOrder> currentOrder = new ArrayList<ListOrder>();
+
     public QueueOrdersFragment(){
 
     }
@@ -37,32 +47,85 @@ public class QueueOrdersFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
 
-        RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+        // Progress Bar
+        final ProgressBar pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        pb.setVisibility(ProgressBar.VISIBLE);
+
+        final RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+        final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<String> call2 = apiService.pendingStatus(28);
+        Call<Orders> call = apiService.getOrders(currentStatus);
+        call.enqueue(new Callback<Orders>() {
+            @Override
+            public void onResponse(Call<Orders> call, Response<Orders> response) {
+                currentOrder = response.body().getOrderList().getListOrder();
+                Call<Orders> called = apiService.getOrders(queueStatus);
+                called.enqueue(new Callback<Orders>() {
+                    @Override
+                    public void onResponse(Call<Orders> call, final Response<Orders> response) {
+                        queueOrder = response.body().getOrderList().getListOrder();
+                        ArrayList<ListOrder> returnQueueOrder = new ArrayList<ListOrder>();
+                        //check if current orders has 4 items
+                        for(int i = 0; i < queueOrder.size(); i++){
+                            if(currentOrder.size() < 4){
+                                currentOrder.add(queueOrder.get(i));
+                            }
+                        }
+                        //change the status
+                        for (int i = 0; i < currentOrder.size(); i++){
+                            int id = currentOrder.get(i).getId();
+                            Call<String> changeStatus = apiService.pendingStatus(id);
+                            changeStatus.enqueue(new Callback<String>() {
+                                @Override
+                                public void onResponse(Call<String> call, Response<String> response) {
+                                    response.body().toString();
+                                }
+
+                                @Override
+                                public void onFailure(Call<String> call, Throwable t) {
+                                    response.body().toString();
+                                }
+                            });
+
+                        }
+
+                        //get the remaining queueorder
+                        for (int i = 0; i < queueOrder.size(); i++){
+
+                            if (!currentOrder.contains(queueOrder.get(i))){
+                                returnQueueOrder.add(queueOrder.get(i));
+                            }
+                        }
+                        pb.setVisibility(ProgressBar.INVISIBLE);
+                        rv.setAdapter(new QueueAndFinishedAdapter(returnQueueOrder));
+                        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+                        rv.setLayoutManager(llm);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Orders> call, Throwable t) {
+                        //Toast.makeText(Login.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<Orders> call, Throwable t) {
+                //Toast.makeText(Login.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
+                Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
+            }
+        });
         rv.setHasFixedSize(true);
-        List<ItemObject> rowListItem = getAllItemList();
-        UseThisRecyclerViewAdapter adapter = new UseThisRecyclerViewAdapter(rowListItem);
-        rv.setAdapter(adapter);
 
-
-
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(llm);
 
         return rootView;
     }
-    //Change according to the webservice
-    private List<ItemObject> getAllItemList(){
-        List<ItemObject> allItems = new ArrayList<ItemObject>();
-        allItems.add(new ItemObject("Table No.1","Product Name","Quantity"));
-        allItems.add(new ItemObject("Table No.2","Product Name","Quantity"));
-        allItems.add(new ItemObject("Table No.3","Product Name","Quantity"));
-        allItems.add(new ItemObject("Table No.4","Product Name","Quantity"));
 
-        return allItems;
-    }
+
 }

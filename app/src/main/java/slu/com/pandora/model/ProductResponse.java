@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProductResponse {
 
-    @SerializedName("productList")
+    @SerializedName("prodList")//prodList
     @Expose
     private ProductList productList;
 

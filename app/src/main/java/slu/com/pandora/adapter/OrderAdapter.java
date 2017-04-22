@@ -51,6 +51,8 @@ public class OrderAdapter extends ArrayAdapter<Product> {
             holder.productPriceTV = (TextView) view.findViewById(R.id.orderPrice);
             holder.productQtyTV = (TextView) view.findViewById(R.id.orderQty);
             holder.deleteBtn = (Button)view.findViewById(R.id.deleteBtn);
+            holder.addBtn = (Button)view.findViewById(R.id.addBtn);
+            holder.orderList = (ListView)view.findViewById(R.id.orderListLV);
 
             view.setTag(holder);
 
@@ -74,8 +76,19 @@ public class OrderAdapter extends ArrayAdapter<Product> {
                 } else if (productOrder.get(position).getQty() > 0){
                     order.setQty(order.getQty() - 1);
                     notifyDataSetChanged();
+                } else if (productOrder.isEmpty()){
+                    notifyDataSetChanged();
                 }
 
+            }
+        });
+
+        holder.addBtn.setTag(position);
+        holder.addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    order.setQty(order.getQty() + 1);
+                    notifyDataSetChanged();
             }
         });
 
@@ -92,6 +105,8 @@ public class OrderAdapter extends ArrayAdapter<Product> {
         TextView productPriceTV;
         TextView productQtyTV;
         Button deleteBtn;
+        Button addBtn;
+        ListView orderList;
     }
 
 }
