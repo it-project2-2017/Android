@@ -31,7 +31,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
     //change url to your url.
     //String url = "http://192.168.1.19:28080/PanBox/img/";
-    String url = "http://192.168.1.11:8080/PanBox/img/";
+    String url = "http://192.168.36.2:8010/PanBox/img/";
     private Context context;
     private List<Product> productRes;
 

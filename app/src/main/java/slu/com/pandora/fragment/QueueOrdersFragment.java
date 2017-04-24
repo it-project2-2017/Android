@@ -2,6 +2,7 @@ package slu.com.pandora.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,6 +38,12 @@ public class QueueOrdersFragment extends Fragment {
     List<ListOrder> queueOrder = new ArrayList<ListOrder>();
     List<ListOrder> currentOrder = new ArrayList<ListOrder>();
 
+    private SwipeRefreshLayout refreshLayout;
+    private RecyclerView rv;
+    private View rootView;
+    private ProgressBar pb;
+    private ApiInterface apiService;
+
     public QueueOrdersFragment(){
 
     }
@@ -50,15 +57,33 @@ public class QueueOrdersFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
+        rootView = inflater.inflate(R.layout.fragment_blank, container, false);
 
         // Progress Bar
-        final ProgressBar pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
         pb.setVisibility(ProgressBar.VISIBLE);
 
-        final RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
-        final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<String> call2 = apiService.pendingStatus(28);
+        rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+        apiService = ApiClient.getClient().create(ApiInterface.class);
+
+        //Refresh
+        refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                callWebService();
+                refreshLayout.setRefreshing(false);
+            }
+        });
+
+        callWebService();
+        rv.setHasFixedSize(true);
+
+
+        return rootView;
+    }
+
+    private void callWebService(){
         Call<Orders> call = apiService.getOrders(currentStatus);
         call.enqueue(new Callback<Orders>() {
             @Override
@@ -121,10 +146,6 @@ public class QueueOrdersFragment extends Fragment {
                 Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
             }
         });
-        rv.setHasFixedSize(true);
-
-
-        return rootView;
     }
 
 
