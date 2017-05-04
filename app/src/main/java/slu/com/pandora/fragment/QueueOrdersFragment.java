@@ -33,7 +33,6 @@ import slu.com.pandora.rest.ApiInterface;
 public class QueueOrdersFragment extends Fragment {
     private final static String queueStatus = "paid";
     private final static String currentStatus = "pending";
-    private List<ItemObject> rowListItem;
 
     List<ListOrder> queueOrder = new ArrayList<ListOrder>();
     List<ListOrder> currentOrder = new ArrayList<ListOrder>();
