@@ -84,6 +84,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
 
                     if(checkbox.isChecked()){
                         checkerList.add(pos);
+                        //sorting of position
                         List<Integer> listPostion = new ArrayList<>();
                         for(int eachInteger : headerPosition)
                         listPostion.add(eachInteger);
@@ -286,5 +287,10 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
             viewType = header;
 
         return viewType;
+    }
+
+    //remove recycler
+    public void removeItem(int position){
+
     }
 }
