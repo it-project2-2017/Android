@@ -38,10 +38,17 @@ import slu.com.pandora.rest.ApiInterface;
 public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder> {
     private List<ListOrder> listOrder;
     private List<Employee>  employeeList = null;
+    //contains the position of all headers
     private Set<Integer> headerPosition = new HashSet<>();
     private List<Integer> checkerList = new ArrayList<>();
 
     private int pos = 0;
+
+    //used for checking items
+    private int checker;
+    private int posOfOrders;
+    private int posOfSelectedHeader;
+    private int posOfSelectedListOrder;
     private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
     private Spinner cookSpinner;
@@ -49,6 +56,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
 
     private static final int header = 1;
     private static final int list = 2;
+
 
     public CurrentOrderAdapter(List<ListOrder> listOrder, List<Employee> employeeList ){
         this.listOrder = listOrder;
@@ -76,13 +84,15 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
             checkbox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int posOfOrders = 0;
-                    int checker = 0;
+                    posOfOrders = 0;
+                    checker = 0;
                     pos = getAdapterPosition();
-                    int posOfSelectedListOrder = 0;
+                    posOfSelectedListOrder = 0;
                     ArrayList<Product> orders = new ArrayList<Product>();
 
                     if(checkbox.isChecked()){
+
+                        //checkerList gets all the pos of checkedbox
                         checkerList.add(pos);
                         //sorting of position
                         List<Integer> listPostion = new ArrayList<>();
@@ -91,15 +101,19 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                         Collections.sort(listPostion);
                         listPostion.remove(listPostion.size()-1);
 
+                        //get the header postion
                         for(int ctrl = 0 ; ctrl < listPostion.size(); ctrl++){
                             if(pos > listPostion.get(ctrl)){
                                 posOfSelectedListOrder = ctrl;
-                                //gets header position
+                                //posOfOrders header position
                                 posOfOrders = listPostion.get(ctrl);
+                                posOfSelectedHeader = listPostion.get(ctrl);
                                 //checker for list position
                                 checker = 0;
+                                //getting the body position or order position
                                 for(int i = 0; i < listOrder.get(ctrl).getProdlist().size(); i++ ){
                                     posOfOrders++;
+                                    //checks if the order is checked.
                                     if(checkerList.contains(posOfOrders)){
                                         checker++;
                                     }
@@ -109,7 +123,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                         }
 
 
-
+                        //checks if the selected order is equal to the number of checked box
                         if (listOrder.get(posOfSelectedListOrder).getProdlist().size() == checker){
                             //Toast.makeText(view.getContext(), " Success boy" + orders, Toast.LENGTH_LONG).show();
 
@@ -151,12 +165,13 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                             final FinishOrderAdapter adapter = new FinishOrderAdapter(customView.getContext(), R.layout.popup_finish_order_row, orders);
                             list.setAdapter(adapter);
 
-                            Button cancel = (Button)customView.findViewById(R.id.cancelBtn);
-
-                            cancel.setOnClickListener(new View.OnClickListener() {
+                            Button cancle = (Button)customView.findViewById(R.id.cancelBtn);
+                            //clicked cancle
+                            cancle.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     checkbox.setChecked(false);
+
                                     int removePos = 0;
                                     for (int i = 0; i < checkerList.size(); i++){
                                         if(checkerList.get(i) == pos){
@@ -170,6 +185,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
 
                             Button done = (Button)customView.findViewById(R.id.doneBtn);
                             final int finalPosOfListOrder = posOfSelectedListOrder;
+                            //clicked done
                             done.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -187,10 +203,17 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                                             System.out.println("Error");
                                         }
                                     });
+
+
                                     //Toast.makeText(view.getContext(), ""+id, Toast.LENGTH_LONG).show();
+
+                                    //remove orders
+                                    removeDoneItem(posOfSelectedHeader,checker,posOfSelectedListOrder,checkerList ,view);
+
                                     popupWindow.dismiss();
                                     String cookName = (String) cookSpinner.getSelectedItem();
                                     String baristaName = (String) baristaSpinner.getSelectedItem();
+
                                 }
                             });
 
@@ -289,8 +312,21 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
         return viewType;
     }
 
-    //remove recycler
-    public void removeItem(int position){
+    //remove header recycler
+    public void removeDoneItem(int headerPos, int numOfOrders,int posOfOrderInArray,List<Integer> checkerList, View view){
+        Toast.makeText(view.getContext(), " "+headerPos+" "+numOfOrders, Toast.LENGTH_LONG).show();
+        listOrder.remove(posOfOrderInArray);
+        int orderPos = headerPos + numOfOrders;
+        for(int i = headerPos;i <= orderPos;i++){
+            notifyItemRemoved(i);
+            notifyDataSetChanged();
+
+            if(i != headerPos)
+                checkerList.remove(i);
+            //checkerList.remove(i);
+            //Toast.makeText(view.getContext(),i, Toast.LENGTH_LONG).show();
+        }
 
     }
+
 }
