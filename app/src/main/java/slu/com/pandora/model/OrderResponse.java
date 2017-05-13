@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class OrderResponse {
 
-    @SerializedName("orderList")//orderList
+    @SerializedName("order")
     @Expose
     private Order order;
 

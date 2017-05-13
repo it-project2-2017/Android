@@ -14,7 +14,7 @@ public class Order {
     private Integer id;
     @SerializedName("total")
     @Expose
-    private Double total;
+    private Integer total;
     @SerializedName("tablenum")
     @Expose
     private Integer tablenum;
@@ -35,11 +35,11 @@ public class Order {
         this.id = id;
     }
 
-    public Double getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 

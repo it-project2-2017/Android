@@ -27,9 +27,8 @@ import slu.com.pandora.model.Orders;
 import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
 
-public class CurrentOrdersFragment extends Fragment{
+public class CurrentOrdersFragment extends Fragment {
     private final static String orderStatus = "pending";
-
     public CurrentOrdersFragment(){
 
     }
@@ -40,29 +39,26 @@ public class CurrentOrdersFragment extends Fragment{
 
         final Bundle bundle = this.getArguments();
 
-
     }
+
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
 
-
-
         // Progress Bar
         final ProgressBar pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
         pb.setVisibility(ProgressBar.VISIBLE);
 
         final RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
-
-
-
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Orders> call = apiService.getOrders(orderStatus);
         call.enqueue(new Callback<Orders>() {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
+
+
 
                 List<ListOrder> listOrder = response.body().getOrderList().getListOrder();
                 pb.setVisibility(ProgressBar.INVISIBLE);
@@ -70,19 +66,21 @@ public class CurrentOrdersFragment extends Fragment{
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 rv.setLayoutManager(llm);
 
-                rv.getLayoutManager().findContainingItemView(getView());
-
-
             }
 
-        @Override
-        public void onFailure(Call<Orders> call, Throwable t) {
-            Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
-        }
-    });
+            @Override
+            public void onFailure(Call<Orders> call, Throwable t) {
+                //Toast.makeText(Login.this, " Invalid username or password! ", Toast.LENGTH_LONG).show();
+                Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
+            }
+        });
         rv.setHasFixedSize(true);
+
 
         return rootView;
     }
+
+
+
 
 }

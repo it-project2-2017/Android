@@ -16,10 +16,10 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/orderQty"
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:textColor="#fff"
+                android:id="@+id/orderQty"
                 android:layout_width="20dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
