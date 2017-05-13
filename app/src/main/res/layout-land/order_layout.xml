@@ -38,11 +38,6 @@
             android:id="@+id/beverageButton"
             android:background="@drawable/bvrg" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/archeryButton"
-            android:background="@drawable/arch" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,7 +73,6 @@
             android:text="@string/orderListHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/orderList"
             android:textSize="36sp"
             android:background="@color/headingOrderList"
             android:textColor="@color/fontOrderList"
@@ -92,11 +86,9 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/subSummaryTab">
+            android:layout_weight="1">
 
             <LinearLayout
-                android:id="@+id/productTab"
                 android:layout_width="342dp"
                 android:layout_height="match_parent"
                 android:background="@color/centerOfOrderList"
@@ -113,7 +105,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/archeryTab"
                 android:background="@color/bottomOfOrderList"
                 android:layout_marginTop="5dp">
 
@@ -123,8 +114,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonSummaryTab">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/clearOrderBtn"

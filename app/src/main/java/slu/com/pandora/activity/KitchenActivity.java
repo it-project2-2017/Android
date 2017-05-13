@@ -9,22 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-//para sa finished products
-/*import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import slu.com.pandora.model.ItemObject;
-import slu.com.pandora.adapter.RecyclerViewAdapter;*/
-
 import slu.com.pandora.R;
 import slu.com.pandora.adapter.OrderPageAdapter;
 
@@ -73,7 +57,7 @@ public class KitchenActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_menu_logout:
                 Intent intent = new Intent(this, Login.class);
                 startActivity(intent);
                 finish();

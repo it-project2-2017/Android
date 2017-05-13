@@ -1,7 +1,6 @@
 package slu.com.pandora.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +30,8 @@ import slu.com.pandora.rest.ApiInterface;
 public class ProductAdapter extends ArrayAdapter<Product> {
 
     //change url to your url.
-    //String url = "http://192.168.1.4:8010/PanBox/img/";
-    String url = "http://10.0.3.2:8080/PanBox/img/";
-
+    //String url = "http://192.168.1.19:28080/PanBox/img/";
+    String url = "http://192.168.36.2:8010/PanBox/img/";
     private Context context;
     private List<Product> productRes;
 
@@ -44,7 +42,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     }
 
     @Override
-     public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = convertView;
         ViewHolder holder;
@@ -68,13 +66,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         holder.productNameTV.setText(product.getName().toString());
         holder.productPriceTV.setText(product.getPrice().toString());
 
-        if (view.isClickable()){
-            return view;
-        } else {
-            view.setBackgroundColor(Color.GRAY);
-            return view;
-        }
-        //return view;
+        return view;
     }
 
     @Override
@@ -85,11 +77,26 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     @Override
     public boolean isEnabled(final int position){
 
-        if (productRes.get(position).getAvailable() == true){
-            return true;
-        }else {
-            return false;
-        }
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<String> call = apiInterface.isAvailable(productRes.get(position).getId());
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    //Toast.makeText(context, "Available Siya?" + response.body().toString(), Toast.LENGTH_LONG).show();
+                }else{
+                    //Toast.makeText(context, "Nareserve na ba?..... Hindi pa" + productRes.get(position).getId(), Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(context, t.getMessage() + " Failed to Connect!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        return true;
     }
 
     static class ViewHolder{

@@ -5,6 +5,7 @@ package slu.com.pandora.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,12 @@ import slu.com.pandora.rest.ApiInterface;
 
 public class FinishedOrdersFragment extends Fragment {
     private final static String orderStatus = "finished";
+
+    private View rootView;
+    private ProgressBar pb;
+    private RecyclerView rv;
+    private ApiInterface apiService;
+    private SwipeRefreshLayout refreshLayout;
     public FinishedOrdersFragment() {
 
     }
@@ -40,15 +47,32 @@ public class FinishedOrdersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_blank, container, false);
+        rootView = inflater.inflate(R.layout.fragment_blank, container, false);
 
         // Progress Bar
-        final ProgressBar pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        pb = (ProgressBar) rootView.findViewById(R.id.progressBar);
         pb.setVisibility(ProgressBar.VISIBLE);
 
-        final RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+        rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        apiService = ApiClient.getClient().create(ApiInterface.class);
+
+        //Refresh
+        refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.refresh);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                callWebService();
+                refreshLayout.setRefreshing(false);
+            }
+        });
+
+        callWebService();
+        rv.setHasFixedSize(true);
+        return rootView;
+    }
+
+    private void callWebService(){
         Call<Orders> call = apiService.getOrders(orderStatus);
         call.enqueue(new Callback<Orders>() {
             @Override
@@ -65,7 +89,5 @@ public class FinishedOrdersFragment extends Fragment {
 
             }
         });
-        rv.setHasFixedSize(true);
-        return rootView;
     }
 }

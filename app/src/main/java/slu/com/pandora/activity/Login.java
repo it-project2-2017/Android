@@ -39,12 +39,8 @@ public class Login extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        //goToOrderActivity();
-        //goToKitchenActivity();
     }
-
         public void userLogin(View view){
-
             ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
 
             final EditText usernameET = (EditText)findViewById(R.id.usernameET);
@@ -86,13 +82,6 @@ public class Login extends AppCompatActivity{
                 }
             });
 
-    }
-
-    public void goToSample(View view){
-        Intent intent = new Intent(this, OrderActivity.class);
-        intent.putExtra(getUser, userName);
-        startActivity(intent);
-        finish();
     }
 
     public void goToOrderActivity() {

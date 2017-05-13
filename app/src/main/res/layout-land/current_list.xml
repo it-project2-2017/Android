@@ -50,7 +50,6 @@
     </TableLayout>
 
     <TextView
-        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
