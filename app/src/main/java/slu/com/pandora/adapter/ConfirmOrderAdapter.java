@@ -44,6 +44,8 @@ public class ConfirmOrderAdapter extends ArrayAdapter<Product> {
             holder.productNameTV = (TextView) view.findViewById(R.id.orderName);
             holder.productPriceTV = (TextView) view.findViewById(R.id.orderPrice);
             holder.productQtyTV = (TextView) view.findViewById(R.id.orderQty);
+            
+            
 
             view.setTag(holder);
 

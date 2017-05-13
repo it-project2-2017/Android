@@ -6,46 +6,58 @@ import com.google.gson.annotations.SerializedName;
 
 public class Order {
 
-@SerializedName("id")
-@Expose
-private Integer id;
-@SerializedName("prodlist")
-@Expose
-private List<OrderProdList> orderProdList;
-@SerializedName("total")
-@Expose
-private Integer total;
+    @SerializedName("list")
+    @Expose
+    private List<OrderProdList> list = null;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("total")
+    @Expose
+    private Double total;
+    @SerializedName("tablenum")
+    @Expose
+    private Integer tablenum;
 
-public Integer getId() {
-return id;
-}
+    public List<OrderProdList> getList() {
+        return list;
+    }
 
-public void setId(Integer id) {
-this.id = id;
-}
+    public void setList(List<OrderProdList> list) {
+        this.list = list;
+    }
 
-public List<OrderProdList> getOrderProdList() {
-return orderProdList;
-}
+    public Integer getId() {
+        return id;
+    }
 
-public void setOrderProdList(List<OrderProdList> orderProdList) {
-this.orderProdList = orderProdList;
-}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-public Integer getTotal() {
-return total;
-}
+    public Double getTotal() {
+        return total;
+    }
 
-public void setTotal(Integer total) {
-this.total = total;
-}
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
+    public Integer getTablenum() {
+        return tablenum;
+    }
+
+    public void setTablenum(Integer tablenum) {
+        this.tablenum = tablenum;
+    }
 
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
-                ", orderProdList=" + orderProdList +
+                "list=" + list +
+                ", id=" + id +
                 ", total=" + total +
+                ", tablenum=" + tablenum +
                 '}';
     }
 }

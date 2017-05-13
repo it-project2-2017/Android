@@ -9,7 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/tryy"
-        android:id="@+id/imageView17"
         android:layout_weight="1" />
 
     <LinearLayout
@@ -27,7 +26,6 @@
             android:text="@string/login_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/login_textview"
             android:textSize="30sp"
             android:textAlignment="center"
             android:textStyle="normal|bold"
@@ -66,12 +64,11 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/loginBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="sans-serif-medium"
-            android:onClick="goToOrder"
+            android:onClick="userLogin"
             android:padding="20dp"
             android:text="@string/login_text" />
 

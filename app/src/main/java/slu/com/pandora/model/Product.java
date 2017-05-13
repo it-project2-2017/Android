@@ -20,45 +20,56 @@ public class Product {
     @SerializedName("empid")
     @Expose
     private Integer empid;
+    @SerializedName("available")
+    @Expose
+    private Boolean available;
 
     public Integer getId() {
-    return id;
+        return id;
     }
 
     public void setId(Integer id) {
-    this.id = id;
+        this.id = id;
     }
 
     public String getName() {
-    return name;
+        return name;
     }
 
     public void setName(String name) {
-    this.name = name;
+        this.name = name;
     }
 
     public Integer getPrice() {
-    return price;
+        return price;
     }
 
     public void setPrice(Integer price) {
-    this.price = price;
+        this.price = price;
     }
 
     public Integer getQty() {
-    return qty;
+        return qty;
     }
 
     public void setQty(Integer qty) {
-    this.qty = qty;
+        this.qty = qty;
     }
 
     public Integer getEmpid() {
-    return empid;
+        return empid;
     }
 
     public void setEmpid(Integer empid) {
-    this.empid = empid;
+        this.empid = empid;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 
     @Override
@@ -69,6 +80,7 @@ public class Product {
                 ", price=" + price +
                 ", qty=" + qty +
                 ", empid=" + empid +
+                ", available=" + available +
                 '}';
     }
 
