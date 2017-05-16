@@ -27,7 +27,7 @@ public class CurrentOrderHolder extends RecyclerView.ViewHolder implements View.
     private TextView tableNo;
     private TextView tableid;
     private Button finishBtn;
-    private CheckBox checkBox;
+    public CheckBox checkBox;
     private List<ListOrder> listOrders;
     // Get the id of the layout which will be used in displaying the product name, quantity and table no.
     public CurrentOrderHolder (final View itemView) {
@@ -36,7 +36,6 @@ public class CurrentOrderHolder extends RecyclerView.ViewHolder implements View.
         prodName = (TextView) itemView.findViewById(R.id.current_prod);
         qty = (TextView) itemView.findViewById(R.id.current_qty);
         tableNo = (TextView) itemView.findViewById(R.id.current_header);
-
         checkBox = (CheckBox) itemView.findViewById(R.id.checkBox4);
 
     }

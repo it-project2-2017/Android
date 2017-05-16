@@ -2,6 +2,7 @@ package slu.com.pandora.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArraySet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
     private int posOfOrders;
     private int posOfSelectedHeader;
     private int posOfSelectedListOrder;
+    private List<Integer> listPostion;
     private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
     private Spinner cookSpinner;
@@ -95,7 +97,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                         //checkerList gets all the pos of checkedbox
                         checkerList.add(pos);
                         //sorting of position
-                        List<Integer> listPostion = new ArrayList<>();
+                        listPostion = new ArrayList<>();
                         for(int eachInteger : headerPosition)
                         listPostion.add(eachInteger);
                         Collections.sort(listPostion);
@@ -152,7 +154,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                             //set List<String> for the names of the barista and the cook
                             List<String> cookList = new ArrayList<String>();
                             List<String> baristaList = new ArrayList<String>();
-
+                            Toast.makeText(view.getContext(), " "+checkerList.size(), Toast.LENGTH_LONG).show();
                             //Add content for List
                             for(Employee emp : employeeList) {
                                 if (emp.getPosition().equalsIgnoreCase("cook")) {
@@ -208,7 +210,11 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                                     //Toast.makeText(view.getContext(), ""+id, Toast.LENGTH_LONG).show();
 
                                     //remove orders
-                                    removeDoneItem(posOfSelectedHeader,checker,posOfSelectedListOrder,checkerList ,view);
+                                    checkerList = removeSelectedOrderInArray(posOfSelectedHeader, checker, checkerList);
+                                    headerPosition = removeHeaderPosInArray(posOfSelectedHeader,checker, headerPosition);
+
+                                    removeDoneItem(posOfSelectedHeader,checker,posOfSelectedListOrder,view);
+                                    Toast.makeText(view.getContext(), " "+checkerList.size(), Toast.LENGTH_LONG).show();
 
                                     popupWindow.dismiss();
                                     String cookName = (String) cookSpinner.getSelectedItem();
@@ -283,6 +289,9 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                 ListHolder listHolder = (ListHolder) holder;
                 listHolder.bindViewList(position,listOrder,headerPosition);
             }
+            
+            holder.checkBox.setOnCheckedChangeListener(null);
+            holder.checkBox.setChecked(checkerList.contains(position));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -313,20 +322,93 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
     }
 
     //remove header recycler
-    public void removeDoneItem(int headerPos, int numOfOrders,int posOfOrderInArray,List<Integer> checkerList, View view){
+    public void removeDoneItem(int headerPos, int numOfOrders,int posOfOrderInArray, View view){
         Toast.makeText(view.getContext(), " "+headerPos+" "+numOfOrders, Toast.LENGTH_LONG).show();
         listOrder.remove(posOfOrderInArray);
         int orderPos = headerPos + numOfOrders;
-        for(int i = headerPos;i <= orderPos;i++){
-            notifyItemRemoved(i);
-            notifyDataSetChanged();
+        notifyItemRangeRemoved(headerPos,orderPos);
+        notifyDataSetChanged();
+        /*for(int i = headerPos;i <= orderPos;i++){
+            //notifyItemRemoved(headerPos);
 
-            if(i != headerPos)
-                checkerList.remove(i);
+
+            if(i != headerPos){
+                //Toast.makeText(view.getContext(), " "+headerPos+" "+numOfOrders, Toast.LENGTH_LONG).show();
+                //checkerList.remove(i);
+
+            }
+
+
+
             //checkerList.remove(i);
-            //Toast.makeText(view.getContext(),i, Toast.LENGTH_LONG).show();
-        }
+            //Toast.makeText(view.getContext(), " "+i, Toast.LENGTH_LONG).show();
+        }*/
 
     }
 
+    public Set<Integer> removeHeaderPosInArray(int headerPos,int numOfOrders, Set<Integer> headerPosList){
+        List<String> removeStringList = new ArrayList<>();
+        List<String> updateStringList = new ArrayList<>();
+        Set<Integer> cleanHeaderPosSet = new HashSet<>();
+        int numOfElement = numOfOrders+1;
+
+        //store values to string list
+        for(int eachInt : headerPosList)
+            removeStringList.add(String.valueOf(eachInt));
+
+        //remove the selected header
+        removeStringList.remove(String.valueOf(headerPos));
+
+        //update all headers
+        for(int ctrl = 0; ctrl < removeStringList.size(); ctrl++){
+            int eachPosElement = Integer.parseInt(removeStringList.get(ctrl));
+            if(eachPosElement > numOfElement){
+                eachPosElement = eachPosElement - numOfElement;
+                updateStringList.add(String.valueOf(eachPosElement));
+            }else{
+                updateStringList.add(String.valueOf(eachPosElement));
+            }
+        }
+
+        //store in set
+        for(String eachString : updateStringList)
+            cleanHeaderPosSet.add(Integer.parseInt(eachString));
+
+        return cleanHeaderPosSet;
+    }
+
+    public List<Integer> removeSelectedOrderInArray(int headerPos, int numOfOrders,List<Integer> checkerList ){
+        int posOfLastOrder = headerPos+numOfOrders;
+        int numOfElements = numOfOrders+1;
+        List <Integer> cleanCheckerList = new ArrayList<>();
+        List<String> removeStringList = new ArrayList<>();
+        List<String> updateStringList = new ArrayList<>();
+
+        for(int eachInt : checkerList)
+            removeStringList.add(String.valueOf(eachInt));
+
+        //remove the position of marked done orders
+        for(int ctrl = headerPos; ctrl <= posOfLastOrder; ctrl++){
+            String num = String.valueOf(ctrl);//(char)ctrl;
+            if(removeStringList.contains(num))
+                removeStringList.remove(num);
+        }
+
+        //update all the position
+        for(int ctrl = 0; ctrl < removeStringList.size(); ctrl++){
+            int eachPosElement = Integer.parseInt(removeStringList.get(ctrl));
+            if(eachPosElement > posOfLastOrder){
+                eachPosElement = eachPosElement - numOfElements;
+                updateStringList.add(String.valueOf(eachPosElement));
+            }else{
+                updateStringList.add(String.valueOf(eachPosElement));
+            }
+        }
+
+        //updating the position of marked items
+        for(String eachString : updateStringList)
+            cleanCheckerList.add(Integer.parseInt(eachString));
+
+        return cleanCheckerList;
+    }
 }
