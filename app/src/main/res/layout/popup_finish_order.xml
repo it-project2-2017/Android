@@ -5,23 +5,15 @@
     android:background="@color/headingOrderList"
     android:padding="20dp">
 
-    <Button
-        android:id="@+id/doneBtn"
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/popup_finish_lv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Done"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/baristaSpinner" />
-
-    <Button
-        android:id="@+id/cancelBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/doneBtn"
-        android:layout_alignBottom="@+id/doneBtn"
-        android:layout_marginEnd="23dp"
-        android:layout_toStartOf="@+id/doneBtn"
-        android:text="Cancel" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/centerOfOrderList" />
 
     <TextView
         android:id="@+id/cookTV"
@@ -50,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/cookTV"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="34dp" />
+        android:spinnerMode="dialog" />
 
     <Spinner
         android:id="@+id/baristaSpinner"
@@ -58,15 +50,24 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/baristaTV"
         android:layout_alignStart="@+id/cookSpinner"
-        android:layout_alignTop="@+id/baristaTV" />
+        android:spinnerMode="dialog" />
 
-    <ListView
-        android:id="@+id/popup_finish_lv"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/cancelBtn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/centerOfOrderList" />
+        android:layout_alignBaseline="@+id/doneBtn"
+        android:layout_alignBottom="@+id/doneBtn"
+        android:layout_marginEnd="23dp"
+        android:layout_toStartOf="@+id/doneBtn"
+        android:text="Cancel" />
+
+    <Button
+        android:id="@+id/doneBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/baristaSpinner"
+        android:layout_alignParentBottom="true"
+        android:text="Done" />
+
 </RelativeLayout>

@@ -2,11 +2,12 @@ package slu.com.pandora.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.ArraySet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -42,6 +43,9 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
     //contains the position of all headers
     private Set<Integer> headerPosition = new HashSet<>();
     private List<Integer> checkerList = new ArrayList<>();
+    //Employees  spinner
+    private List<String> cookList = new ArrayList<String>();
+    private List<String> baristaList = new ArrayList<String>();
 
     private int pos = 0;
 
@@ -53,8 +57,10 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
     private List<Integer> listPostion;
     private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
+    //For combobox
     private Spinner cookSpinner;
     private Spinner baristaSpinner;
+
 
     private static final int header = 1;
     private static final int list = 2;
@@ -63,6 +69,15 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
     public CurrentOrderAdapter(List<ListOrder> listOrder, List<Employee> employeeList ){
         this.listOrder = listOrder;
         this.employeeList = employeeList;
+
+        for(Employee emp : employeeList) {
+            if (emp.getPosition().equalsIgnoreCase("cook")) {
+                cookList.add(emp.getName());
+            } else if (emp.getPosition().equalsIgnoreCase("barista")) {
+                baristaList.add(emp.getName());
+            }
+        }
+
     }
 
     private class HeaderHolder extends CurrentOrderHolder implements View.OnClickListener {
@@ -136,6 +151,9 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                             cookSpinner = (Spinner)customView.findViewById(R.id.cookSpinner);
                             baristaSpinner = (Spinner)customView.findViewById(R.id.baristaSpinner);
 
+                            //spinner click listener
+
+
                             for(int i = 0; i < listOrder.get(posOfSelectedListOrder).getProdlist().size(); i++){
                                 Product product = new Product();
                                 product.setName(listOrder.get(posOfSelectedListOrder).getProdlist().get(i).getKey());
@@ -151,19 +169,16 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
 
                             ListView list = (ListView) customView.findViewById(R.id.popup_finish_lv);
 
-                            //set List<String> for the names of the barista and the cook
-                            List<String> cookList = new ArrayList<String>();
-                            List<String> baristaList = new ArrayList<String>();
-                            Toast.makeText(view.getContext(), " "+checkerList.size(), Toast.LENGTH_LONG).show();
-                            //Add content for List
-                            for(Employee emp : employeeList) {
-                                if (emp.getPosition().equalsIgnoreCase("cook")) {
-                                    cookList.add(emp.getName());
-                                } else if (emp.getPosition().equalsIgnoreCase("barista")) {
-                                    baristaList.add(emp.getName());
-                                }
-                            }
 
+                            //Adding elements to Spinner
+                            final ArrayAdapter<String> spinnerArrayAdapterCook = new ArrayAdapter<String>(customView.getContext(),R.layout.spinner_item, cookList);
+                            final ArrayAdapter<String> spinnerArrayAdapterBarista = new ArrayAdapter<String>(customView.getContext(),R.layout.spinner_item, baristaList);
+                            spinnerArrayAdapterCook.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinnerArrayAdapterBarista.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            cookSpinner.setAdapter(spinnerArrayAdapterCook);
+                            baristaSpinner.setAdapter(spinnerArrayAdapterBarista);
+
+                            Toast.makeText(view.getContext(), "Cook: "+cookList.get(0)+"Barista: "+baristaList.get(0), Toast.LENGTH_LONG).show();
                             final FinishOrderAdapter adapter = new FinishOrderAdapter(customView.getContext(), R.layout.popup_finish_order_row, orders);
                             list.setAdapter(adapter);
 
@@ -192,7 +207,6 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                                 @Override
                                 public void onClick(View view) {
                                     int id = listOrder.get(finalPosOfListOrder).getId();
-                                    /*String orderid = String.valueOf(listOrder.get(finalPosOfListOrder).getId());*/
                                     Call<String> call = apiService.finishStatus(id);
                                     call.enqueue(new Callback<String>() {
                                         @Override
@@ -212,13 +226,13 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                                     //remove orders
                                     checkerList = removeSelectedOrderInArray(posOfSelectedHeader, checker, checkerList);
                                     headerPosition = removeHeaderPosInArray(posOfSelectedHeader,checker, headerPosition);
-
                                     removeDoneItem(posOfSelectedHeader,checker,posOfSelectedListOrder,view);
-                                    Toast.makeText(view.getContext(), " "+checkerList.size(), Toast.LENGTH_LONG).show();
 
-                                    popupWindow.dismiss();
                                     String cookName = (String) cookSpinner.getSelectedItem();
                                     String baristaName = (String) baristaSpinner.getSelectedItem();
+
+                                    popupWindow.dismiss();
+
 
                                 }
                             });
@@ -289,7 +303,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                 ListHolder listHolder = (ListHolder) holder;
                 listHolder.bindViewList(position,listOrder,headerPosition);
             }
-            
+
             holder.checkBox.setOnCheckedChangeListener(null);
             holder.checkBox.setChecked(checkerList.contains(position));
 
@@ -307,6 +321,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
             variable = variable + listOrder.get(ctrl).getProdlist().size();
             headerPosition.add(variable);
         }
+
         return variable;
     }
 
@@ -322,31 +337,16 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
     }
 
     //remove header recycler
-    public void removeDoneItem(int headerPos, int numOfOrders,int posOfOrderInArray, View view){
+    private void removeDoneItem(int headerPos, int numOfOrders,int posOfOrderInArray, View view){
         Toast.makeText(view.getContext(), " "+headerPos+" "+numOfOrders, Toast.LENGTH_LONG).show();
         listOrder.remove(posOfOrderInArray);
         int orderPos = headerPos + numOfOrders;
         notifyItemRangeRemoved(headerPos,orderPos);
         notifyDataSetChanged();
-        /*for(int i = headerPos;i <= orderPos;i++){
-            //notifyItemRemoved(headerPos);
-
-
-            if(i != headerPos){
-                //Toast.makeText(view.getContext(), " "+headerPos+" "+numOfOrders, Toast.LENGTH_LONG).show();
-                //checkerList.remove(i);
-
-            }
-
-
-
-            //checkerList.remove(i);
-            //Toast.makeText(view.getContext(), " "+i, Toast.LENGTH_LONG).show();
-        }*/
-
     }
 
-    public Set<Integer> removeHeaderPosInArray(int headerPos,int numOfOrders, Set<Integer> headerPosList){
+    //clean headerPos
+    private Set<Integer> removeHeaderPosInArray(int headerPos,int numOfOrders, Set<Integer> headerPosList){
         List<String> removeStringList = new ArrayList<>();
         List<String> updateStringList = new ArrayList<>();
         Set<Integer> cleanHeaderPosSet = new HashSet<>();
@@ -362,7 +362,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
         //update all headers
         for(int ctrl = 0; ctrl < removeStringList.size(); ctrl++){
             int eachPosElement = Integer.parseInt(removeStringList.get(ctrl));
-            if(eachPosElement > numOfElement){
+            if(eachPosElement >= numOfElement){
                 eachPosElement = eachPosElement - numOfElement;
                 updateStringList.add(String.valueOf(eachPosElement));
             }else{
@@ -377,7 +377,8 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
         return cleanHeaderPosSet;
     }
 
-    public List<Integer> removeSelectedOrderInArray(int headerPos, int numOfOrders,List<Integer> checkerList ){
+    //clean checkedArray
+    private List<Integer> removeSelectedOrderInArray(int headerPos, int numOfOrders,List<Integer> checkerList ){
         int posOfLastOrder = headerPos+numOfOrders;
         int numOfElements = numOfOrders+1;
         List <Integer> cleanCheckerList = new ArrayList<>();
@@ -411,4 +412,5 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
 
         return cleanCheckerList;
     }
+
 }
