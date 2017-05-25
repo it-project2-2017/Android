@@ -6,14 +6,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
+import java.util.logging.Handler;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import slu.com.pandora.R;
+import slu.com.pandora.activity.MainActivity;
+import slu.com.pandora.activity.OrderActivity;
 import slu.com.pandora.model.Product;
+import slu.com.pandora.model.ProductResponse;
+import slu.com.pandora.rest.ApiClient;
+import slu.com.pandora.rest.ApiInterface;
 
 /**
  * Created by vince on 2/5/2017.
@@ -66,10 +78,12 @@ public class OrderAdapter extends ArrayAdapter<Product> {
             public void onClick(View view) {
 
                 if (productOrder.get(position).getQty() == 1) {
+                    decReservedProd(productOrder.get(position).getName());
                     productOrder.remove(position);
                     notifyDataSetChanged();
                 } else if (productOrder.get(position).getQty() > 0){
                     order.setQty(order.getQty() - 1);
+                    decReservedProd(productOrder.get(position).getName());
                     notifyDataSetChanged();
                 } else if (productOrder.isEmpty()){
                     notifyDataSetChanged();
@@ -82,8 +96,13 @@ public class OrderAdapter extends ArrayAdapter<Product> {
         holder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    order.setQty(order.getQty() + 1);
-                    notifyDataSetChanged();
+                    if(order.getAvailable()){
+                        order.setQty(order.getQty() + 1);
+                        reserveProduct(order.getId());
+                        notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(view.getContext(),"Not Available", Toast.LENGTH_LONG).show();
+                    }
             }
         });
 
@@ -102,6 +121,50 @@ public class OrderAdapter extends ArrayAdapter<Product> {
         Button deleteBtn;
         Button addBtn;
         ListView orderList;
+    }
+
+    public void decReservedProd(String name){
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<String> call = apiInterface.decReservation(name);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    ((OrderActivity)context).getOrder("food");
+                    //Toast.makeText(getContext(), "Decreased 1 order qty", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getContext(), "Failed to decrease qty", Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getContext(),"Server Connection Lost", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void reserveProduct(final int id){
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<String> call = apiInterface.reserveProduct(id);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    ((OrderActivity)context).getOrder("food");
+                    //Toast.makeText(getContext(), "Order Reserved" + id, Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getContext(), "Failed to reserve order", Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage() + "Server Connection Lost", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

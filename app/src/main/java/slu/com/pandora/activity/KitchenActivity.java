@@ -57,7 +57,7 @@ public class KitchenActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_menu_logout:
+            case R.id.action_settings:
                 Intent intent = new Intent(this, Login.class);
                 startActivity(intent);
                 finish();

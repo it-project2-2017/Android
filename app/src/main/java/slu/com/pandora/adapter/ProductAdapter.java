@@ -4,24 +4,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import slu.com.pandora.R;
 import slu.com.pandora.model.Product;
-import slu.com.pandora.rest.ApiClient;
-import slu.com.pandora.rest.ApiInterface;
 
 /**
  * Created by vince on 2/15/2017.
@@ -29,9 +21,6 @@ import slu.com.pandora.rest.ApiInterface;
 
 public class ProductAdapter extends ArrayAdapter<Product> {
 
-    //change url to your url.
-    //String url = "http://192.168.1.19:28080/PanBox/img/";
-    String url = "http://192.168.36.2:8010/PanBox/img/";
     private Context context;
     private List<Product> productRes;
 
@@ -42,7 +31,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = convertView;
         ViewHolder holder;
@@ -62,11 +51,19 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             holder = (ViewHolder) view.getTag();
         }
         final Product product = productRes.get(position);
+        String url = "http://10.0.3.2:8080/PanBox/img/";
         Picasso.with(getContext()).load(url + product.getId()).resize(150,150).into(holder.productImageIV);
-        holder.productNameTV.setText(product.getName().toString());
+        holder.productNameTV.setText(product.getName());
         holder.productPriceTV.setText(product.getPrice().toString());
 
-        return view;
+        if(productRes.get(position).getAvailable()){
+            return view;
+        } else {
+            view.setAlpha((float) 0.4);
+            return view;
+        }
+
+
     }
 
     @Override
@@ -77,29 +74,14 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     @Override
     public boolean isEnabled(final int position){
 
-        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<String> call = apiInterface.isAvailable(productRes.get(position).getId());
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()){
-                    //Toast.makeText(context, "Available Siya?" + response.body().toString(), Toast.LENGTH_LONG).show();
-                }else{
-                    //Toast.makeText(context, "Nareserve na ba?..... Hindi pa" + productRes.get(position).getId(), Toast.LENGTH_LONG).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(context, t.getMessage() + " Failed to Connect!", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        return true;
+        if (productRes.get(position).getAvailable()){
+            return true;
+        }else {
+            return false;
+        }
     }
 
-    static class ViewHolder{
+    private static class ViewHolder{
         ImageView productImageIV;
         TextView productNameTV;
         TextView productPriceTV;

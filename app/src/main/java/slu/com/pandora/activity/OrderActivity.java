@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -18,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,7 @@ import slu.com.pandora.R;
 import slu.com.pandora.adapter.ConfirmOrderAdapter;
 import slu.com.pandora.adapter.OrderAdapter;
 import slu.com.pandora.adapter.ProductAdapter;
+import slu.com.pandora.model.Category;
 import slu.com.pandora.model.Order;
 import slu.com.pandora.model.OrderProdList;
 import slu.com.pandora.model.OrderResponse;
@@ -42,13 +45,17 @@ import slu.com.pandora.rest.ApiInterface;
  */
 
 public class OrderActivity extends AppCompatActivity{
-
     ArrayList<Product> orders = new ArrayList<Product>();
+    Category category = new Category();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_layout);
+
+        Intent intent= getIntent();
+        Bundle bundle = intent.getExtras();
+        String empName = (String) bundle.get("getUser");
 
         //AppBar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -58,10 +65,12 @@ public class OrderActivity extends AppCompatActivity{
         Button foodBtn = (Button)findViewById(R.id.foodButton);
         Button beverageBtn = (Button)findViewById(R.id.beverageButton);
 
+
         foodBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getOrder("food");
+                category.setCategory("food");
             }
         });
 
@@ -69,6 +78,7 @@ public class OrderActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 getOrder("beverage");
+                category.setCategory("beverage");
             }
         });
 
@@ -97,16 +107,17 @@ public class OrderActivity extends AppCompatActivity{
                             product.setPrice(response.body().getProductList().getList().get(i).getPrice());
                             product.setQty(response.body().getProductList().getList().get(i).getQty());
                             product.setEmpid(response.body().getProductList().getList().get(i).getEmpid());
-
-                            //reserveProduct(product.getId());
+                            product.setAvailable(response.body().getProductList().getList().get(i).getAvailable());
 
                             if (!orders.contains(product)) {
                                 orders.add(product);
                                 product.setQty(1);
+                                reserveProduct(product.getId());
                             } else {
                                 for (int z = 0; z < orders.size(); z++) {
                                     if (orders.get(z).getId() == product.getId()) {
                                         orders.get(z).setQty(orders.get(z).getQty() + 1);
+                                        reserveProduct(product.getId());
 
                                     }
                                 }
@@ -122,8 +133,13 @@ public class OrderActivity extends AppCompatActivity{
                             clear.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    orders.clear();
-                                    adapter.notifyDataSetChanged();
+                                    for(int i = 0; i < orders.size(); i++) {
+                                        String name = orders.get(i).getName();
+                                        int qty = orders.get(i).getQty();
+                                        clearReservedProd(name, qty);
+                                    }
+                                        orders.clear();
+                                        adapter.notifyDataSetChanged();
 
                                 }
                             });
@@ -132,7 +148,11 @@ public class OrderActivity extends AppCompatActivity{
                             sendOrder.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    popUpConfirmOrder();
+                                    if(orders.isEmpty()){
+                                        Toast.makeText(OrderActivity.this, "No selected order", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        popUpConfirmOrder();
+                                    }
 
                                 }
                             });
@@ -151,7 +171,7 @@ public class OrderActivity extends AppCompatActivity{
             }
         });
     }
-
+    Order order = new Order();
     public void sendOrders(){
 
         ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
@@ -165,7 +185,6 @@ public class OrderActivity extends AppCompatActivity{
             orderProdListList.add(orderProdList);
         }
 
-        Order order = new Order();
         order.setList(orderProdListList);
         orderResponse.setOrder(order);
 
@@ -183,31 +202,10 @@ public class OrderActivity extends AppCompatActivity{
 
             @Override
             public void onFailure(Call<OrderResponse> call, Throwable t) {
-                Toast.makeText(OrderActivity.this, t.getMessage() + " Failed to connect!", Toast.LENGTH_LONG).show();
+                Toast.makeText(OrderActivity.this, t.getMessage() + "Server Connection Lost", Toast.LENGTH_LONG).show();
             }
         });
 
-    }
-
-    public void isAvailable(final int id){
-        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<String> call = apiInterface.isAvailable(id);
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()){
-                    //Toast.makeText(OrderActivity.this, "Nareserve na ba?" + id, Toast.LENGTH_LONG).show();
-                }else{
-                    //Toast.makeText(OrderActivity.this, "Nareserve na ba?..... Hindi pa" + id, Toast.LENGTH_LONG).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(OrderActivity.this, t.getMessage() + " Failed to Connect!", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     public void reserveProduct(final int id){
@@ -217,16 +215,39 @@ public class OrderActivity extends AppCompatActivity{
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()){
-                    //Toast.makeText(OrderActivity.this, "Nareserve na ba?" + id, Toast.LENGTH_LONG).show();
+                    getOrder(category.getCategory());
+                    //Toast.makeText(OrderActivity.this, "Order Reserved" + id, Toast.LENGTH_LONG).show();
                 }else{
-                    //Toast.makeText(OrderActivity.this, "Nareserve na ba?..... Hindi pa" + id, Toast.LENGTH_LONG).show();
+                    Toast.makeText(OrderActivity.this, "Failed to reserve order" + id, Toast.LENGTH_LONG).show();
 
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(OrderActivity.this, t.getMessage() + " Failed to Connect!", Toast.LENGTH_LONG).show();
+                Toast.makeText(OrderActivity.this, t.getMessage() + "Server Connection Lost", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void clearReservedProd(String name, int qty){
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<String> call = apiInterface.clearRes(name, qty);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()){
+                    getOrder(category.getCategory());
+                    //Toast.makeText(OrderActivity.this, "Cleared", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(OrderActivity.this, "Failed to clear reserved orders", Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(OrderActivity.this, t.getMessage() + "Server Connection Lost", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -245,17 +266,30 @@ public class OrderActivity extends AppCompatActivity{
         final ConfirmOrderAdapter adapter = new ConfirmOrderAdapter(OrderActivity.this, R.layout.confirm_order_list_view_row, orders);
         popUpList.setAdapter(adapter);
 
+        DecimalFormat formatter = new DecimalFormat("#,###,###.00");
+        String formatted = formatter.format(sum(orders));
+
         TextView orderTotalPrice = (TextView)customView.findViewById(R.id.totalTV);
-        orderTotalPrice.setText(sum(orders) + "");
+        orderTotalPrice.setText("Php " + formatted);
+
+        EditText tableNumET = (EditText)findViewById(R.id.TableNum_ET);
+        final String tableNumber = tableNumET.getText().toString();
+        final TextView tableNum = (TextView)customView.findViewById(R.id.TableNo_TV);
+        tableNum.setText(tableNumber);
 
         Button confirmOrder = (Button)customView.findViewById(R.id.confirmOrderBtn);
         confirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendOrders();
-                orders.clear();
-                getOrder("food");
-                popupWindow.dismiss();
+                /*if(order.getTablenum() == null){
+                    Toast.makeText(OrderActivity.this, "Enter Table Number", Toast.LENGTH_LONG).show();
+                } else {*/
+                    order.setTablenum(Integer.valueOf(tableNumber));
+                    sendOrders();
+                    orders.clear();
+                    goToOrderActivity();
+                    popupWindow.dismiss();
+               // }
             }
 
         });
@@ -264,6 +298,7 @@ public class OrderActivity extends AppCompatActivity{
         cancelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //order.setTablenum(0);
                 popupWindow.dismiss();
             }
         });
@@ -272,7 +307,7 @@ public class OrderActivity extends AppCompatActivity{
     }
 
     private double sum (List<Product> list) {
-        double sum = 0;
+        double sum = 0.00;
         for (int i = 0; i < list.size(); i++){
             sum += list.get(i).getPrice() * list.get(i).getQty();
         }
@@ -291,16 +326,10 @@ public class OrderActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_logout:
-                Intent intent = new Intent(this, Login.class);
-                startActivity(intent);
-                finish();
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
                 return true;
-
             case R.id.action_show_orders:
-                Intent showOrders = new Intent(this, ShowOrderMenuActivity.class);
-                startActivity(showOrders);
-                return true;
 
 
             default:
@@ -309,5 +338,10 @@ public class OrderActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    public void goToOrderActivity() {
+        Intent intent = new Intent(this, OrderActivity.class);
+        startActivity(intent);
     }
 }

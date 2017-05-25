@@ -67,7 +67,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_alignTop="@+id/ordersTab"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="51dp">
 
         <Button
             android:text="@string/orderListHeader"
@@ -131,6 +132,39 @@
                 android:text="@string/sendOrder" />
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/centerOfOrderList"
+        android:id="@+id/TableNum_LL"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/summaryTab"
+        android:layout_alignTop="@+id/ordersTab"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_alignEnd="@+id/summaryTab">
+
+        <TextView
+            android:textColor="#fff"
+            android:id="@+id/TableNo_TV"
+            android:layout_width="167dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingLeft="7dp"
+            android:text="Table No."
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <EditText
+            android:id="@+id/TableNum_ET"
+            android:layout_width="173dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.08"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:inputType="number"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:visibility="visible" />
     </LinearLayout>
 
 </RelativeLayout>

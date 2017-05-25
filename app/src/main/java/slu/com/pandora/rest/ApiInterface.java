@@ -57,12 +57,6 @@ public interface ApiInterface {
     })
     Call<String> pendingStatus(@Field("orderid") int orderid);
 
-    @GET("isavailable/{id}")
-    @Headers({
-            "Accept: text/plain"
-    })
-    Call<String> isAvailable(@Path("id") int id);
-
     @POST("reserveproduct")
     @FormUrlEncoded
     @Headers({
@@ -77,7 +71,7 @@ public interface ApiInterface {
             "Content-Type:application/x-www-form-urlencoded",
             "Accept: text/plain"
     })
-    Call<String> decReservation(@Field("id") int id);
+    Call<String> decReservation(@Field("pname") String name);
 
     @POST("clearres")
     @FormUrlEncoded
@@ -85,6 +79,6 @@ public interface ApiInterface {
             "Content-Type:application/x-www-form-urlencoded",
             "Accept: text/plain"
     })
-    Call<String> clearRes(@Field("name") String name, @Field("qty") int qty);
+    Call<String> clearRes(@Field("pname") String name, @Field("qty") int qty);
 
 }

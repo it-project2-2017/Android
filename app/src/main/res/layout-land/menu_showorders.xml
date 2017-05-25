@@ -11,25 +11,19 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/showOrder_refresh"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/my_toolbar">
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/my_toolbar"
+        android:scrollbarThumbVertical="@color/lighterviolet">
 
-        <ScrollView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/showOrdersRecycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/my_toolbar"
-            android:scrollbarThumbVertical="@color/lighterviolet">
+            android:layout_height="wrap_content" />
+    </ScrollView>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/showOrdersRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

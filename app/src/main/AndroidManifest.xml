@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/icon_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Pandora_main"
@@ -14,30 +14,20 @@
 
 
         <activity
-            android:name=".activity.SplashActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/SplashTheme">
+            android:name=".activity.MainActivity"
+            android:screenOrientation="landscape">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".activity.OrderActivity"
             android:screenOrientation="landscape"/>
-
-        <activity android:name=".activity.ShowOrderMenuActivity"
-            android:screenOrientation="landscape"/>
-
-        <activity android:name=".activity.KitchenActivity"
-            android:screenOrientation="landscape"/>
-
-        <activity android:name=".activity.Login"
-            android:screenOrientation="landscape"/>
-
+        <activity android:name=".activity.KitchenActivity"/>
+        <activity android:name=".activity.Login"/>
 
     </application>
 

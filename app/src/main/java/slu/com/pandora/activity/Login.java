@@ -35,6 +35,7 @@ import slu.com.pandora.rest.ApiInterface;
 public class Login extends AppCompatActivity{
     public String userName;
     public static final String getUser = "";
+    public  int empid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +65,16 @@ public class Login extends AppCompatActivity{
                         if (response.body().getUser().getPosition().toString().equalsIgnoreCase("cashier")) {
                             Toast.makeText(Login.this, " Welcome " + response.body().getUser().getName() + "!", Toast.LENGTH_LONG).show();
                             userName = response.body().getUser().getName();
+                            empid = response.body().getUser().getId();
                             goToOrderActivity();
                         } else if (response.body().getUser().getPosition().toString().equalsIgnoreCase("barista") || response.body().getUser().getPosition().toString().equalsIgnoreCase("cook")) {
                             Toast.makeText(Login.this, " Welcome " + response.body().getUser().getName() + "!", Toast.LENGTH_LONG).show();
+                            userName = response.body().getUser().getName();
+                            empid = response.body().getUser().getId();
                             goToKitchenActivity();
                         }else{
                             Toast.makeText(Login.this, "Incorrect Credentials", Toast.LENGTH_LONG).show();
+
                         }
                     } else {
                         Toast.makeText(Login.this, + response.code() + " Failed to login !" + response.errorBody().toString(), Toast.LENGTH_LONG).show();
