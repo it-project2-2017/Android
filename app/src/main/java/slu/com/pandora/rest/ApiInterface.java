@@ -60,6 +60,14 @@ public interface ApiInterface {
             "Accept: text/plain"
     })
     Call<String> pendingStatus(@Field("orderid") int orderid);
+/*
+    @POST("finishstatus")
+    @FormUrlEncoded
+    @Headers({
+            "Content-Type:application/x-www-form-urlencoded",
+            "Accept: text/plain"
+    })
+    Call<String> finishStatus(@Field("orderid") int orderid);*/
 
     @POST("finishstatus")
     @FormUrlEncoded
@@ -67,7 +75,7 @@ public interface ApiInterface {
             "Content-Type:application/x-www-form-urlencoded",
             "Accept: text/plain"
     })
-    Call<String> finishStatus(@Field("orderid") int orderid);
+    Call<String> finishStatus(@Field("orderid") int orderid, @Field("baristaid") int baristaid, @Field("cookid") int cookid);
 
     @GET("isavailable/{id}")
     @Headers({

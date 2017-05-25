@@ -206,8 +206,17 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                             done.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    int id = listOrder.get(finalPosOfListOrder).getId();
-                                    Call<String> call = apiService.finishStatus(id);
+                                    String cookName = (String) cookSpinner.getSelectedItem();
+                                    String baristaName = (String) baristaSpinner.getSelectedItem();
+                                    int posCook = cookSpinner.getSelectedItemPosition();
+                                    int posBarista = baristaSpinner.getSelectedItemPosition();
+
+                                    //get ID
+                                    int orderId = listOrder.get(finalPosOfListOrder).getId();
+                                    int baristaId = employeeList.get(posBarista).getId();
+                                    int cookId = employeeList.get(posCook).getId();
+
+                                    Call<String> call = apiService.finishStatus(orderId,baristaId,cookId);
                                     call.enqueue(new Callback<String>() {
                                         @Override
                                         public void onResponse(Call<String> call, Response<String> response) {
@@ -228,8 +237,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                                     headerPosition = removeHeaderPosInArray(posOfSelectedHeader,checker, headerPosition);
                                     removeDoneItem(posOfSelectedHeader,checker,posOfSelectedListOrder,view);
 
-                                    String cookName = (String) cookSpinner.getSelectedItem();
-                                    String baristaName = (String) baristaSpinner.getSelectedItem();
+
 
                                     popupWindow.dismiss();
 
