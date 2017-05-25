@@ -366,7 +366,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
         for(int elem : headerPosList)
             if(elem > highest)
                 highest = elem;
-        lastHeader = highest;
+        //lastHeader = highest;
         headerPosList.remove(highest);
 
         //store values to string list
@@ -387,9 +387,17 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
             }
         }
 
+
+
         //store in set
         for(String eachString : updateStringList)
             cleanHeaderPosSet.add(Integer.parseInt(eachString));
+
+        highest = 0;
+        for(int elem : cleanHeaderPosSet)
+            if(elem > highest)
+                highest = elem;
+        lastHeader = highest;
 
         return cleanHeaderPosSet;
     }
