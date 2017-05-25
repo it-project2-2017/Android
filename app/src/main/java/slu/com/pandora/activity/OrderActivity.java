@@ -53,9 +53,9 @@ public class OrderActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_layout);
 
-        Intent intent= getIntent();
+        /*Intent intent= getIntent();
         Bundle bundle = intent.getExtras();
-        String empName = (String) bundle.get("getUser");
+        String empName = (String) bundle.get("getUser");*/
 
         //AppBar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -81,8 +81,9 @@ public class OrderActivity extends AppCompatActivity{
                 category.setCategory("beverage");
             }
         });
+        category.setCategory("food");
 
-        getOrder("food");
+        getOrder(category.getCategory());
     }
 
     public void getOrder(String cat){
@@ -281,15 +282,15 @@ public class OrderActivity extends AppCompatActivity{
         confirmOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if(order.getTablenum() == null){
-                    Toast.makeText(OrderActivity.this, "Enter Table Number", Toast.LENGTH_LONG).show();
-                } else {*/
+                if (tableNumber.isEmpty()){
+                    order.setTablenum(0);
+                } else {
                     order.setTablenum(Integer.valueOf(tableNumber));
-                    sendOrders();
-                    orders.clear();
-                    goToOrderActivity();
-                    popupWindow.dismiss();
-               // }
+                }
+                sendOrders();
+                orders.clear();
+                goToOrderActivity();
+                popupWindow.dismiss();
             }
 
         });
