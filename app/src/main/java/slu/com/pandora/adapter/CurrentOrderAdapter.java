@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +30,7 @@ import slu.com.pandora.R;
 import slu.com.pandora.holder.CurrentOrderHolder;
 import slu.com.pandora.model.Employee;
 import slu.com.pandora.model.ListOrder;
+import slu.com.pandora.model.Orders;
 import slu.com.pandora.model.Product;
 import slu.com.pandora.rest.ApiClient;
 import slu.com.pandora.rest.ApiInterface;
@@ -54,7 +56,13 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
     private int posOfOrders;
     private int posOfSelectedHeader;
     private int posOfSelectedListOrder;
+
+    //used for getting the position of last header
+    private int lastHeader;
+
+    //used for checking items
     private List<Integer> listPostion;
+    private static String queueStatus = "paid";
     private final ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
     //For combobox
@@ -80,17 +88,13 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
 
     }
 
-    private class HeaderHolder extends CurrentOrderHolder implements View.OnClickListener {
+    private class HeaderHolder extends CurrentOrderHolder {
 
         private HeaderHolder (View view){
             super(view);
 
         }
 
-        @Override
-        public void onClick(View view) {
-            //Toast.makeText(view.getContext(), "" + getAdapterPosition() , Toast.LENGTH_LONG).show();
-        }
     }
 
     private class ListHolder extends CurrentOrderHolder {
@@ -151,9 +155,6 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                             cookSpinner = (Spinner)customView.findViewById(R.id.cookSpinner);
                             baristaSpinner = (Spinner)customView.findViewById(R.id.baristaSpinner);
 
-                            //spinner click listener
-
-
                             for(int i = 0; i < listOrder.get(posOfSelectedListOrder).getProdlist().size(); i++){
                                 Product product = new Product();
                                 product.setName(listOrder.get(posOfSelectedListOrder).getProdlist().get(i).getKey());
@@ -178,7 +179,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                             cookSpinner.setAdapter(spinnerArrayAdapterCook);
                             baristaSpinner.setAdapter(spinnerArrayAdapterBarista);
 
-                            Toast.makeText(view.getContext(), "Cook: "+cookList.get(0)+"Barista: "+baristaList.get(0), Toast.LENGTH_LONG).show();
+
                             final FinishOrderAdapter adapter = new FinishOrderAdapter(customView.getContext(), R.layout.popup_finish_order_row, orders);
                             list.setAdapter(adapter);
 
@@ -206,8 +207,8 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                             done.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    String cookName = (String) cookSpinner.getSelectedItem();
-                                    String baristaName = (String) baristaSpinner.getSelectedItem();
+                                    /*String cookName = (String) cookSpinner.getSelectedItem();
+                                    String baristaName = (String) baristaSpinner.getSelectedItem();*/
                                     int posCook = cookSpinner.getSelectedItemPosition();
                                     int posBarista = baristaSpinner.getSelectedItemPosition();
 
@@ -216,6 +217,22 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                                     int baristaId = employeeList.get(posBarista).getId();
                                     int cookId = employeeList.get(posCook).getId();
 
+                                    //remove orders
+                                    checkerList = removeSelectedOrderInArray(posOfSelectedHeader, checker, checkerList);
+                                    headerPosition = removeHeaderPosInArray(posOfSelectedHeader,checker, headerPosition);
+                                    removeDoneItem(posOfSelectedHeader,checker,posOfSelectedListOrder,view);
+
+                                    //update orders
+                                    if(listOrder.size() < 4){
+                                        updateOrders(view);
+                                        headerPosition = updateHeaderPosInArray(headerPosition, listOrder);
+                                    }
+
+
+
+
+
+                                    //changeStatus to finish
                                     Call<String> call = apiService.finishStatus(orderId,baristaId,cookId);
                                     call.enqueue(new Callback<String>() {
                                         @Override
@@ -229,28 +246,14 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                                         }
                                     });
 
-
-                                    //Toast.makeText(view.getContext(), ""+id, Toast.LENGTH_LONG).show();
-
-                                    //remove orders
-                                    checkerList = removeSelectedOrderInArray(posOfSelectedHeader, checker, checkerList);
-                                    headerPosition = removeHeaderPosInArray(posOfSelectedHeader,checker, headerPosition);
-                                    removeDoneItem(posOfSelectedHeader,checker,posOfSelectedListOrder,view);
-
-
-
                                     popupWindow.dismiss();
 
 
                                 }
                             });
-
-
                             popupWindow.showAtLocation(customView.findViewById(R.id.popup_finish_lv), Gravity.CENTER, 0,0);
                         }
-
-
-                        //Toast.makeText(view.getContext(), " "+checkerList.toString(), Toast.LENGTH_LONG).show();
+                        // /Toast.makeText(view.getContext(), " "+checkerList.toString(), Toast.LENGTH_LONG).show();
                     }else{
                         int removePos = 0;
                         for (int i = 0; i < checkerList.size(); i++){
@@ -329,7 +332,6 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
             variable = variable + listOrder.get(ctrl).getProdlist().size();
             headerPosition.add(variable);
         }
-
         return variable;
     }
 
@@ -346,7 +348,6 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
 
     //remove header recycler
     private void removeDoneItem(int headerPos, int numOfOrders,int posOfOrderInArray, View view){
-        Toast.makeText(view.getContext(), " "+headerPos+" "+numOfOrders, Toast.LENGTH_LONG).show();
         listOrder.remove(posOfOrderInArray);
         int orderPos = headerPos + numOfOrders;
         notifyItemRangeRemoved(headerPos,orderPos);
@@ -359,6 +360,14 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
         List<String> updateStringList = new ArrayList<>();
         Set<Integer> cleanHeaderPosSet = new HashSet<>();
         int numOfElement = numOfOrders+1;
+
+        int highest = 0;
+
+        for(int elem : headerPosList)
+            if(elem > highest)
+                highest = elem;
+        lastHeader = highest;
+        headerPosList.remove(highest);
 
         //store values to string list
         for(int eachInt : headerPosList)
@@ -419,6 +428,64 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
             cleanCheckerList.add(Integer.parseInt(eachString));
 
         return cleanCheckerList;
+    }
+
+    //update orders
+    private void updateOrders (final View view){
+        Call<Orders> call = apiService.getOrders(queueStatus);
+        call.enqueue(new Callback<Orders>() {
+            @Override
+            public void onResponse(Call<Orders> call, Response<Orders> response) {
+                List<ListOrder> queueOrderList = response.body().getOrderList().getListOrder();
+                try{
+                    for(int i = 0; i < queueOrderList.size(); i++){
+                        if(listOrder.size() < 4){
+                            listOrder.add(queueOrderList.get(i));
+                        }
+                    }
+
+                    //change the status
+                    for (int i = 0; i < listOrder.size(); i++){
+                        int id = listOrder.get(i).getId();
+                        Call<String> changeStatus = apiService.pendingStatus(id);
+                        changeStatus.enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                //response.body().toString();
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+                                //response.body().toString();
+                            }
+                        });
+
+                    }
+
+                }catch(NullPointerException e){
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Orders> call, Throwable t) {
+                Toast.makeText(view.getContext(), "Could Not Connect To The Server", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    //update headerPos
+    private Set<Integer> updateHeaderPosInArray(Set<Integer> headerPos,List<ListOrder> listOfOrders){
+        headerPos.add(lastHeader);
+        try{
+            int numOfElement = listOfOrders.get(listOfOrders.size()-1).getProdlist().size();
+            notifyItemRangeInserted(lastHeader,numOfElement);
+            notifyDataSetChanged();
+        }catch(Exception e){
+
+        }
+
+        return headerPos;
     }
 
 }

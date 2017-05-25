@@ -94,37 +94,45 @@ public class QueueOrdersFragment extends Fragment {
                     public void onResponse(Call<Orders> call, final Response<Orders> response) {
                         queueOrder = response.body().getOrderList().getListOrder();
                         ArrayList<ListOrder> returnQueueOrder = new ArrayList<ListOrder>();
-                        //check if current orders has 4 items
-                        for(int i = 0; i < queueOrder.size(); i++){
-                            if(currentOrder.size() < 4){
-                                currentOrder.add(queueOrder.get(i));
-                            }
-                        }
-                        //change the status
-                        for (int i = 0; i < currentOrder.size(); i++){
-                            int id = currentOrder.get(i).getId();
-                            Call<String> changeStatus = apiService.pendingStatus(id);
-                            changeStatus.enqueue(new Callback<String>() {
-                                @Override
-                                public void onResponse(Call<String> call, Response<String> response) {
-                                    response.body().toString();
+
+                        try{
+                            //check if current orders has 4 items
+                            for(int i = 0; i < queueOrder.size(); i++){
+                                if(currentOrder.size() < 4){
+                                    currentOrder.add(queueOrder.get(i));
                                 }
-
-                                @Override
-                                public void onFailure(Call<String> call, Throwable t) {
-                                    response.body().toString();
-                                }
-                            });
-
-                        }
-
-                        //get the remaining queueorder
-                        for (int i = 0; i < queueOrder.size(); i++){
-
-                            if (!currentOrder.contains(queueOrder.get(i))){
-                                returnQueueOrder.add(queueOrder.get(i));
                             }
+                            //change the status
+                            for (int i = 0; i < currentOrder.size(); i++){
+                                int id = currentOrder.get(i).getId();
+                                Call<String> changeStatus = apiService.pendingStatus(id);
+                                changeStatus.enqueue(new Callback<String>() {
+                                    @Override
+                                    public void onResponse(Call<String> call, Response<String> response) {
+                                        response.body().toString();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<String> call, Throwable t) {
+                                        response.body().toString();
+                                    }
+                                });
+
+                            }
+
+                            //get the remaining queueorder
+                            for (int i = 0; i < queueOrder.size(); i++){
+
+                                if (!currentOrder.contains(queueOrder.get(i))){
+                                    returnQueueOrder.add(queueOrder.get(i));
+                                }
+                            }
+                        }catch(NullPointerException e){
+                            //Toast.makeText(rootView.getContext()," "+e,Toast.LENGTH_LONG).show();
+                            //Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
                         }
+
+
                         pb.setVisibility(ProgressBar.INVISIBLE);
                         rv.setAdapter(new QueueAndFinishedAdapter(returnQueueOrder));
                         LinearLayoutManager llm = new LinearLayoutManager(getActivity());

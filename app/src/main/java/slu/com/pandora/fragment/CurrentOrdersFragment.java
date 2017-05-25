@@ -142,39 +142,43 @@ public class CurrentOrdersFragment extends Fragment{
                 queueOrderList = response.body().getOrderList().getListOrder();
                 returnQueueOrder = new ArrayList<ListOrder>();
                 //check if current orders has 4 items
-                for(int i = 0; i < queueOrderList.size(); i++){
-                    if(currentOrder.size() < 4){
-                        currentOrder.add(queueOrderList.get(i));
-                    }
-                }
-
-                //change the status
-                for (int i = 0; i < currentOrder.size(); i++){
-                    int id = currentOrder.get(i).getId();
-                    Call<String> changeStatus = apiService.pendingStatus(id);
-                    changeStatus.enqueue(new Callback<String>() {
-                        @Override
-                        public void onResponse(Call<String> call, Response<String> response) {
-                            //response.body().toString();
+                try{
+                    for(int i = 0; i < queueOrderList.size(); i++){
+                        if(currentOrder.size() < 4){
+                            currentOrder.add(queueOrderList.get(i));
                         }
-
-                        @Override
-                        public void onFailure(Call<String> call, Throwable t) {
-                            //response.body().toString();
-                        }
-                    });
-
-                }
-
-                //get the remaining queueorder
-                for (int i = 0; i < queueOrderList.size(); i++){
-
-                    if (!currentOrder.contains(queueOrderList.get(i))){
-                        returnQueueOrder.add(queueOrderList.get(i));
                     }
+
+                    //change the status
+                    for (int i = 0; i < currentOrder.size(); i++){
+                        int id = currentOrder.get(i).getId();
+                        Call<String> changeStatus = apiService.pendingStatus(id);
+                        changeStatus.enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                //response.body().toString();
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+                                //response.body().toString();
+                            }
+                        });
+
+                    }
+
+                    //get the remaining queueorder
+                    /*for (int i = 0; i < queueOrderList.size(); i++){
+
+                        if (!currentOrder.contains(queueOrderList.get(i))){
+                            returnQueueOrder.add(queueOrderList.get(i));
+                        }
+                    }*/
+
+                }catch(NullPointerException e){
+                    //Toast.makeText(rootView.getContext()," "+ ,Toast.LENGTH_LONG).show();
+                    //Toast.makeText(rootView.getContext(),"Could Not Connect To The Server",Toast.LENGTH_LONG).show();
                 }
-
-
             }
 
             @Override
