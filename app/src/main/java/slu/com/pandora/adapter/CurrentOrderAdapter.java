@@ -206,7 +206,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                             //clicked done
                             done.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(View view) {
+                                public void onClick(final View view) {
                                     /*String cookName = (String) cookSpinner.getSelectedItem();
                                     String baristaName = (String) baristaSpinner.getSelectedItem();*/
                                     int posCook = cookSpinner.getSelectedItemPosition();
@@ -225,7 +225,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                                     //update orders
                                     if(listOrder.size() < 4){
                                         updateOrders(view);
-                                        headerPosition = updateHeaderPosInArray(headerPosition, listOrder);
+                                        //headerPosition = updateHeaderPosInArray(headerPosition, listOrder);
                                     }
 
 
@@ -237,7 +237,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                                     call.enqueue(new Callback<String>() {
                                         @Override
                                         public void onResponse(Call<String> call, Response<String> response) {
-                                            response.body().toString();
+
                                         }
 
                                         @Override
@@ -379,7 +379,8 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
         //update all headers
         for(int ctrl = 0; ctrl < removeStringList.size(); ctrl++){
             int eachPosElement = Integer.parseInt(removeStringList.get(ctrl));
-            if(eachPosElement >= numOfElement){
+            //if(eachPosElement >= numOfElement){
+            if(eachPosElement >= headerPos){
                 eachPosElement = eachPosElement - numOfElement;
                 updateStringList.add(String.valueOf(eachPosElement));
             }else{
@@ -459,7 +460,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                         changeStatus.enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
-                                //response.body().toString();
+                                headerPosition = updateHeaderPosInArray(headerPosition, listOrder);
                             }
 
                             @Override
@@ -469,6 +470,8 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                         });
 
                     }
+
+
 
                 }catch(NullPointerException e){
 
@@ -484,14 +487,36 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
 
     //update headerPos
     private Set<Integer> updateHeaderPosInArray(Set<Integer> headerPos,List<ListOrder> listOfOrders){
-        headerPos.add(lastHeader);
+        List<Integer> sortHeaderPos = new ArrayList<>();
+        int lastElement = 0;
+        int lastPos = 0;
+
+        //sortheader
+        for(int elem : headerPos)
+            sortHeaderPos.add(elem);
+        Collections.sort(sortHeaderPos);
+
+        //get the element
+        for (int ctrl =  0; ctrl < sortHeaderPos.size(); ctrl ++){
+            if (lastHeader == sortHeaderPos.get(ctrl))
+                lastElement = ctrl;
+        }
+
+
+
         try{
+            lastPos = lastHeader+(listOfOrders.get(lastElement).getProdlist().size());
+            sortHeaderPos.add(lastPos+1);
+
             int numOfElement = listOfOrders.get(listOfOrders.size()-1).getProdlist().size();
-            notifyItemRangeInserted(lastHeader,numOfElement);
+            //notifyItemRangeInserted(lastHeader,numOfElement);
+            notifyItemRangeInserted(lastPos,numOfElement);
             notifyDataSetChanged();
         }catch(Exception e){
 
         }
+        for (int elem : sortHeaderPos)
+            headerPos.add(elem);
 
         return headerPos;
     }
