@@ -1,6 +1,7 @@
 package slu.com.pandora.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,12 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
 
@@ -22,6 +25,7 @@ import retrofit2.Response;
 import slu.com.pandora.R;
 import slu.com.pandora.activity.MainActivity;
 import slu.com.pandora.activity.OrderActivity;
+import slu.com.pandora.model.Category;
 import slu.com.pandora.model.Product;
 import slu.com.pandora.model.ProductResponse;
 import slu.com.pandora.rest.ApiClient;
@@ -96,13 +100,24 @@ public class OrderAdapter extends ArrayAdapter<Product> {
         holder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    if(order.getAvailable()){
-                        order.setQty(order.getQty() + 1);
-                        reserveProduct(order.getId());
-                        notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(view.getContext(),"Not Available", Toast.LENGTH_LONG).show();
+                allProds();
+
+                for (int i = 0; i < comProd.size(); i++){
+                    if (productOrder.get(position).getId() == comProd.get(i).getId()){
+                        productOrder.get(position).setAvailable(comProd.get(i).getAvailable());
                     }
+                }
+
+                if (productOrder.get(position).getAvailable()){
+                    order.setQty(order.getQty() + 1);
+                    reserveProduct(order.getId());
+                    notifyDataSetChanged();
+                    comProd.clear();
+                } else {
+                    Toast.makeText(view.getContext(), "Not Available" , Toast.LENGTH_LONG).show();
+                    comProd.clear();
+                }
+
             }
         });
 
@@ -112,6 +127,32 @@ public class OrderAdapter extends ArrayAdapter<Product> {
         view.startAnimation(animation);
 
         return view;
+    }
+
+    Category category = new Category();
+    List<Product> comProd = new ArrayList<Product>();
+
+    public void allProds(){
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<ProductResponse> call = apiInterface.getAllProducts();
+        call.enqueue(new Callback<ProductResponse>() {
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                List<Product> products = response.body().getProductList().getList();
+
+                for (Product prod : products) {
+                    if (!comProd.contains(prod)){
+                        comProd.add(prod);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+                Toast.makeText(getContext(),"Server Connection Lost", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     private class ViewHolder{
@@ -130,6 +171,7 @@ public class OrderAdapter extends ArrayAdapter<Product> {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()){
+                    //Category category = new Category();
                     ((OrderActivity)context).getOrder("food");
                     //Toast.makeText(getContext(), "Decreased 1 order qty", Toast.LENGTH_LONG).show();
                 }else{

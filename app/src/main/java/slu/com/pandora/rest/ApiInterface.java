@@ -81,4 +81,7 @@ public interface ApiInterface {
     })
     Call<String> clearRes(@Field("pname") String name, @Field("qty") int qty);
 
+    @GET("allproducts")
+    Call<ProductResponse> getAllProducts();
+
 }

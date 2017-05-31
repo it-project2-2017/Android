@@ -7,6 +7,10 @@ package slu.com.pandora.model;
 public class Category {
     private String category;
 
+    public Category() {
+        category = "food";
+    }
+
     public String getCategory() {
         return category;
     }
@@ -14,5 +18,4 @@ public class Category {
     public void setCategory(String category) {
         this.category = category;
     }
-
 }

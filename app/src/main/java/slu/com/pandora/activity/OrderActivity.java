@@ -1,10 +1,13 @@
 package slu.com.pandora.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,6 +89,24 @@ public class OrderActivity extends AppCompatActivity{
         getOrder(category.getCategory());
     }
 
+    /*public void chuchu(){
+        LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View view = inflater.inflate(R.layout.order_list_view_row, null);
+
+        final Button but = (Button)view.findViewById(R.id.addBtn);
+        but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int i = 0; i < products.size(); i++){
+                    if (!products.get(i).getAvailable()){
+                        //but.setEnabled(false);
+                        Toast.makeText(view.getContext(),"Not Available", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+    }*/
+
     public void getOrder(String cat){
         ApiInterface webServiceInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<ProductResponse> call = webServiceInterface.getProducts(cat);
@@ -94,8 +115,8 @@ public class OrderActivity extends AppCompatActivity{
             public void onResponse(Call<ProductResponse> call, final Response<ProductResponse> response) {
                 if (response.isSuccessful()){
                     final GridView productListGV = (GridView)findViewById(R.id.productListGV);
-                    final List<Product> product = response.body().getProductList().getList();
-                    final ProductAdapter adapter = new ProductAdapter(OrderActivity.this, R.layout.product_list_grid_row, product);
+                    List<Product> products = response.body().getProductList().getList();
+                    final ProductAdapter adapter = new ProductAdapter(OrderActivity.this, R.layout.product_list_grid_row, products);
                     productListGV.setAdapter(adapter);
 
                     productListGV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -123,6 +144,8 @@ public class OrderActivity extends AppCompatActivity{
                                     }
                                 }
                             }
+
+                            //chuchu();
 
                             ListView orderListLV = (ListView) findViewById(R.id.orderListLV);
                             final OrderAdapter adapter = new OrderAdapter(OrderActivity.this, R.layout.order_list_view_row, orders);
@@ -283,14 +306,15 @@ public class OrderActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 if (tableNumber.isEmpty()){
-                    order.setTablenum(0);
+                    //order.setTablenum(0);
+                    Toast.makeText(OrderActivity.this, "No Table No.", Toast.LENGTH_LONG).show();
                 } else {
                     order.setTablenum(Integer.valueOf(tableNumber));
+                    sendOrders();
+                    orders.clear();
+                    goToOrderActivity();
+                    popupWindow.dismiss();
                 }
-                sendOrders();
-                orders.clear();
-                goToOrderActivity();
-                popupWindow.dismiss();
             }
 
         });
@@ -344,5 +368,32 @@ public class OrderActivity extends AppCompatActivity{
     public void goToOrderActivity() {
         Intent intent = new Intent(this, OrderActivity.class);
         startActivity(intent);
+        finish();
     }
+
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this, R.style.MyDialogStyle)
+                .setTitle(R.string.title)
+                .setMessage(R.string.description)
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for(int j = 0; j < orders.size(); j++) {
+                            String name = orders.get(j).getName();
+                            int qty = orders.get(j).getQty();
+                            clearReservedProd(name, qty);
+                        }
+                        orders.clear();
+
+                        if (orders.isEmpty()){
+                            finish();
+                            OrderActivity.super.onBackPressed();
+                        }
+                    }
+                }).create().show();
+    }
+
 }

@@ -15,4 +15,9 @@
 
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="title">Information</string>
+    <string name="description">Are you sure you want to exit?</string>
 </resources>
