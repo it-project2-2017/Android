@@ -87,10 +87,14 @@ public class QueueAndFinishedAdapter extends RecyclerView.Adapter<QueueAndFinish
     public int getItemCount() {
         int variable = 0;
         headerPosition.add(variable);
-        for (int ctrl = 0; ctrl < listOrder.size();ctrl++){
-            variable++;
-            variable = variable + listOrder.get(ctrl).getProdlist().size();
-            headerPosition.add(variable);
+        try {
+            for (int ctrl = 0; ctrl < listOrder.size();ctrl++){
+                variable++;
+                variable = variable + listOrder.get(ctrl).getProdlist().size();
+                headerPosition.add(variable);
+            }
+        }catch (Exception e){
+
         }
         return variable;
     }

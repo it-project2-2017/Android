@@ -69,6 +69,9 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
     private Spinner cookSpinner;
     private Spinner baristaSpinner;
 
+    //For checking the number of new orders
+    private int numNewOrders;
+
 
     private static final int header = 1;
     private static final int list = 2;
@@ -327,11 +330,16 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
     public int getItemCount() {
         int variable = 0;
         headerPosition.add(variable);
-        for (int ctrl = 0; ctrl < listOrder.size();ctrl++){
-            variable++;
-            variable = variable + listOrder.get(ctrl).getProdlist().size();
-            headerPosition.add(variable);
+        try{
+            for (int ctrl = 0; ctrl < listOrder.size();ctrl++){
+                variable++;
+                variable = variable + listOrder.get(ctrl).getProdlist().size();
+                headerPosition.add(variable);
+            }
+        }catch (Exception e){
+
         }
+
         return variable;
     }
 
@@ -446,9 +454,11 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
                 List<ListOrder> queueOrderList = response.body().getOrderList().getListOrder();
+                numNewOrders = 0;
                 try{
                     for(int i = 0; i < queueOrderList.size(); i++){
                         if(listOrder.size() < 4){
+                            numNewOrders++;
                             listOrder.add(queueOrderList.get(i));
                         }
                     }
@@ -460,7 +470,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                         changeStatus.enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
-                                headerPosition = updateHeaderPosInArray(headerPosition, listOrder);
+                                headerPosition = updateHeaderPosInArray(headerPosition, listOrder, numNewOrders);
                             }
 
                             @Override
@@ -486,15 +496,18 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
     }
 
     //update headerPos
-    private Set<Integer> updateHeaderPosInArray(Set<Integer> headerPos,List<ListOrder> listOfOrders){
+    private Set<Integer> updateHeaderPosInArray(Set<Integer> headerPos, List<ListOrder> listOfOrders, int numNewOrders){
         List<Integer> sortHeaderPos = new ArrayList<>();
         int lastElement = 0;
         int lastPos = 0;
+        int sizeOfElem = 0;
+        int numOfElement = 0;
 
         //sortheader
         for(int elem : headerPos)
             sortHeaderPos.add(elem);
         Collections.sort(sortHeaderPos);
+        sizeOfElem = sortHeaderPos.size();
 
         //get the element
         for (int ctrl =  0; ctrl < sortHeaderPos.size(); ctrl ++){
@@ -502,13 +515,19 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                 lastElement = ctrl;
         }
 
-
-
+        
         try{
             lastPos = lastHeader+(listOfOrders.get(lastElement).getProdlist().size());
             sortHeaderPos.add(lastPos+1);
+            int posOfHeader = lastPos+1;
+            for(int ctrl = sizeOfElem; ctrl < 4; ctrl++){
+                numOfElement = numOfElement + (listOfOrders.get(ctrl-1).getProdlist().size()) + 1;
+                posOfHeader = posOfHeader + numOfElement + 1;
+            }
 
-            int numOfElement = listOfOrders.get(listOfOrders.size()-1).getProdlist().size();
+
+
+
             //notifyItemRangeInserted(lastHeader,numOfElement);
             notifyItemRangeInserted(lastPos,numOfElement);
             notifyDataSetChanged();
