@@ -515,7 +515,7 @@ public class CurrentOrderAdapter extends RecyclerView.Adapter<CurrentOrderHolder
                 lastElement = ctrl;
         }
 
-        
+
         try{
             lastPos = lastHeader+(listOfOrders.get(lastElement).getProdlist().size());
             sortHeaderPos.add(lastPos+1);

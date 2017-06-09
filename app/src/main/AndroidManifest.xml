@@ -40,7 +40,8 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".activity.KitchenActivity"/>
         <activity android:name=".activity.Login"/>
-        <activity android:name=".activity.ShowOrderMenuActivity"/>
+        <activity android:name=".activity.ShowQueueOrderMenuActivity"/>
+        <activity android:name=".activity.ShowCurrentOrderMenuActivity"/>
 
     </application>
 

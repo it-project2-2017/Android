@@ -4,6 +4,8 @@
     <string name="password_hint_text">Password</string>
 
     <string name="showOrders">Show Orders</string>
+    <string name="showQueueOrders">Show Queued Orders</string>
+    <string name="showCurrentOrders">Show Current Orders</string>
 
     <string name="sendOrder">Send</string>
     <string name="cancelOrder">Clear</string>
@@ -15,4 +17,8 @@
 
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
+
+    <string name="title">Information</string>
+    <string name="description">Are you sure you want to exit?</string>
+
 </resources>

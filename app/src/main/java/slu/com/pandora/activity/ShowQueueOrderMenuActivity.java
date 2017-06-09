@@ -28,7 +28,7 @@ import slu.com.pandora.rest.ApiInterface;
  * Created by Pro Game on 4/4/2017.
  */
 
-public class ShowOrderMenuActivity extends AppCompatActivity {
+public class ShowQueueOrderMenuActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private final static String queueStatus = "paid";
     private final static String currentStatus = "pending";
@@ -39,6 +39,7 @@ public class ShowOrderMenuActivity extends AppCompatActivity {
     private SwipeRefreshLayout refreshLayout;
     private ProgressBar pb;
     private ApiInterface apiService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

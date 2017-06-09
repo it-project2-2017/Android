@@ -66,7 +66,12 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         holder.productNameTV.setText(product.getName().toString());
         holder.productPriceTV.setText(product.getPrice().toString());
 
-        return view;
+        if(productRes.get(position).getAvailable()){
+            return view;
+        } else {
+            view.setAlpha((float) 0.4);
+            return view;
+        }
     }
 
     @Override
@@ -77,29 +82,13 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     @Override
     public boolean isEnabled(final int position){
 
-        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<String> call = apiInterface.isAvailable(productRes.get(position).getId());
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()){
-                    //Toast.makeText(context, "Available Siya?" + response.body().toString(), Toast.LENGTH_LONG).show();
-                }else{
-                    //Toast.makeText(context, "Nareserve na ba?..... Hindi pa" + productRes.get(position).getId(), Toast.LENGTH_LONG).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(context, t.getMessage() + " Failed to Connect!", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        return true;
+        if (productRes.get(position).getAvailable()){
+            return true;
+        }else {
+            return false;
+        }
     }
-
-    static class ViewHolder{
+    private static class ViewHolder{
         ImageView productImageIV;
         TextView productNameTV;
         TextView productPriceTV;

@@ -42,4 +42,10 @@
         <item name="android:windowBackground">@drawable/brand_layout</item>
     </style>
 
+    <style name="MyDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#546E7A</item>
+        <item name="android:textColorPrimary">#37474F</item>
+        <item name="android:background">#B0BEC5</item>
+    </style>
+
 </resources>

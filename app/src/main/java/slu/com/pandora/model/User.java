@@ -11,13 +11,24 @@ public class User {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("password")
+    @SerializedName("address")
     @Expose
-    private String password;
+    private String address;
     @SerializedName("position")
     @Expose
     private String position;
-
+    @SerializedName("contact")
+    @Expose
+    private String contact;
+    @SerializedName("datehired")
+    @Expose
+    private String datehired;
+    @SerializedName("username")
+    @Expose
+    private String username;
+    @SerializedName("password")
+    @Expose
+    private String password;
 
     public Integer getId() {
         return id;
@@ -35,12 +46,12 @@ public class User {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPosition() {
@@ -49,5 +60,37 @@ public class User {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getDatehired() {
+        return datehired;
+    }
+
+    public void setDatehired(String datehired) {
+        this.datehired = datehired;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
